@@ -58,15 +58,52 @@ knitr:::kable(data.frame(Total_Runs=total_Run_folders,
 foldersFull <- dir(file.path(basedir,""),recursive=F,include.dirs=T,full.names=T)
 foldersFull_RelativePaths <- gsub(paste0(basedir,"\\/."),"",foldersFull)
 
+runParams <- vector("list",length=length(RunsComplete_Processing_To_Be_Demultiplexed))
+
+
 for(i in 1:length(RunsComplete_Processing_To_Be_Demultiplexed)){
   currentRun <- foldersFull[grepl(RunsComplete_Processing_To_Be_Demultiplexed,foldersFull_RelativePaths)]
-  
+  xmlFromPresentRunFolder <- xmlParse(file.path(currentRun,"runParameters.xml"))
+  currentRunParameters <- xmlToDataFrame(xmlFromPresentRunFolder)
+  currentRunParameters <- currentRunParameters[!is.na(currentRunParameters$ExperimentName),,drop=F]
+  sampleSheetName <- file.path(currentRun,paste0(currentRunParameters$Barcode,".csv"))
+  if(file.exists(sampleSheetName)){
+    ss <- read.delim(sampleSheetName,sep=",",quote=NULL,header=T,stringsAsFactors=F)
+    message("Read samplesheet ",basename(sampleSheetName)," discovered for run ",currentRun)
+    index1Lengths <- unlist(lapply(ss$Index,function(x)nchar(x)))
+    index2Lengths <- unlist(lapply(ss$Index2,function(x)nchar(x)))
+    index2NAs <- unlist(lapply(ss$Index2,function(x)is.na(x)))
+    index2Lengths[index2NAs] <- 0
+    allIndexTypes <- paste0(index1Lengths,"-",index2Lengths)
+    uniqueIndexTypes <- unique(allIndexTypes)
+    ss$SampleID <- gsub("^X","Sample_",validNames(ss$SampleID))
+    ss$SampleID <-gsub("\\?|\\(|\\)|\\[|\\]|\\\\|/|\\=|\\+|<|>|\\:|\\;|\"|\'|\\*|\\^|\\||\\&|\\.","_",ss$SampleID)
+    for(l in uniqueIndexTypes){
+      tempss <- ss[allIndexTypes %in% l,]
+      tempss[is.na(tempss)] <- ""
+      write.table(tempss,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T)
+      if(!dir.exists(gsub("\\.csv",paste0("_",l),sampleSheetName))){
+        dir.create(gsub("\\.csv",paste0("_",l),sampleSheetName),showWarnings = F)
+      }
+      runBCLcommand <- paste0(
+        as.vector(config[config$section == "programs" & config$name == "configureBclToFastq","value"]),
+        " --input-dir ",
+        file.path(currentRun,as.vector(config[config$section == "paths" & config$name == "inputdir","value"])),
+        " --sample-sheet ",
+        gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),
+        " --use-bases-mask ",
+        paste0("y*n","I",currentRunParameters$IndexRead1,"n","y*n"),
+        " --output-dir",
+        gsub("\\.csv",paste0("_",l),sampleSheetName),
+        "\n"
+        )
+      cat(runBCLcommand,file=gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName))
+    }
+  }else{
+    stop("No samplesheet ",basename(sampleSheetName)," discovered for run ",basename(currentRun))
+  }
 }
-xmlFromPresentRunFolder <- xmlParse("/home/pgellert/Desktop/genomicsTestFolder/run2/runParameters.xml")
-currentRunParameters <- xmlToDataFrame(xmlFromPresentRunFolder)
 
-
-#xmlParse("http://forecast.weather.gov/MapClick.php?lat=29.803&lon=-82.411&FcstType=digitalDWML")
 
 ```
 
