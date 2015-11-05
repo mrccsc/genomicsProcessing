@@ -78,8 +78,8 @@ for(i in 1:length(RunsComplete_Processing_To_Be_Demultiplexed)){
     index2Lengths[index2NAs] <- 0
     allIndexTypes <- paste0(index1Lengths,"-",index2Lengths)
     uniqueIndexTypes <- unique(allIndexTypes)
-    #ss$SampleID <- gsub("[[:punct:]]", " ", ss$SampleID).)
-    #ss$SampleID <- gsub("[^[:alnum:]]", " ", ss$SampleID).)
+    #ss$SampleID <- gsub("[[:punct:]]", "_", ss$SampleID).)
+    #ss$SampleID <- gsub("[^[:alnum:]]", "_", ss$SampleID).)
     ss$SampleID <- gsub("^X","Sample_",validNames(ss$SampleID))
     ss$SampleID <-gsub("\\?|\\(|\\)|\\[|\\]|\\\\|/|\\=|\\+|<|>|\\:|\\;|\"|\'|\\*|\\^|\\||\\&|\\.","_",ss$SampleID)
     for(l in uniqueIndexTypes){
