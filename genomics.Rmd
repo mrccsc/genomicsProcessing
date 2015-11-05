@@ -95,7 +95,7 @@ for(i in 1:length(RunsComplete_Processing_To_Be_Demultiplexed)){
         file.path(currentRun,as.vector(config[config$section == "paths" & config$name == "inputdir","value"])),
         " --sample-sheet ",
         gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),
-        " --use-bases-mask ",
+        " --fastq-cluster-count=0 --use-bases-mask ",
         paste0("y*n","I",currentRunParameters$IndexRead1,"n","y*n"),
         " --output-dir",
         gsub("\\.csv",paste0("_",l),sampleSheetName),
