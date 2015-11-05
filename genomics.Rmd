@@ -10,6 +10,8 @@ This report is generated as part of the Medical Research Council Clinical Scienc
 This report covers basic sequencing results including Illumina sequencing statistics, multiplexing numbers and FASTQC.
 
 
+Be nice to produce a sam header with this information..to add to aligned files later on.
+
 ```{r,echo=F,message=T,warning=F}
 
 split_path <- function(path) {
