@@ -1,0 +1,62 @@
+---
+title: "genomicsProcessingTools"
+output: html_document
+---
+
+This report is generated as part of the Medical Research Council Clinical Sciences Centre Bioinformatics Team's illumina sequencing pipeline.
+
+This report covers basic sequencing results including Illumina sequencing statistics, multiplexing numbers and FASTQC.
+
+
+Be nice to produce a sam header with this information..to add to aligned files later on.
+
+```{r,echo=F,message=T,warning=F}
+## Read in config file.
+## The config file contains paths to directories and programs.
+
+library(raster)
+library(XML)
+config = data.frame(readIniFile("config.ini"))
+
+## Now look in folders to identify Runs to be processed
+
+basedir <- as.vector(config[config$section == "paths" & config$name == "basedir","value"])
+
+if(dir.exists(basedir)){
+  message("Searching ",basedir," for unprocessed runs ..",appendLF = T)
+}else{
+  stop(basedir," does not exist.\n Stopping processing")
+}
+subFoldersFull <- dir(file.path(basedir,""),recursive=F,include.dirs=T,full.names=T)
+subFoldersFull_RelativePaths <- gsub(paste0(basedir,"\\/."),"",subFoldersFull)
+```
+
+
+path2d = "/Analyses/Basecall_2D_000/"
+path.t = "/Analyses/Basecall_1D_000/" 
+path.c = "/Analyses/Basecall_1D_000/"
+dir = "/Users/tcarroll/Downloads/H566_30_min_inc/ch1/"    
+f5files <- dir(path = dir, pattern = "\\.fast5", full.names = TRUE)
+myd <- t(sapply(f5files, get_fast5_info, path2d, path.t, 
+        path.c, simplify = TRUE))
+
+colnames(myd) <- c("aname", "atime", "len2d", "tlen", "clen", 
+        "tcevents", "tmq", "tnevents", "ccevents", "cmq", "cnevents", 
+        "mq2d", "sl2d", "channel", "asic_id", "asic_temp", "device_id", 
+        "exp_script", "exp_start", "flow_cell_id", "heatsink_temp", 
+        "run_id", "version_name", "read_start_time")
+        
+   myd <- as.data.frame(myd, stringsAsFactors = FALSE)
+    myd$atime <- strptime(myd$atime, format = "%Y-%b-%d %H:%M:%S")
+    for (n in c("tlen", "clen", "len2d", "tcevents", "tmq", "tnevents", 
+        "ccevents", "cmq", "cnevents", "mq2d", "sl2d", "channel", 
+        "asic_temp", "heatsink_temp", "exp_start", "read_start_time")) {
+        myd[, n] <- as.numeric(myd[, n])
+    }
+    for (n in c("tlen", "clen", "len2d", "tcevents", "tnevents", 
+        "ccevents", "cnevents", "sl2d")) {
+        myd[, n][is.na(myd[, n])] <- 0
+    }
+    
+    
+    
