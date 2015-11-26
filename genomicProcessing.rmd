@@ -36,10 +36,14 @@ subFoldersFull_RelativePaths <- gsub(paste0(basedir,"\\/."),"",subFoldersFull)
 #total_Run_folders <- length(unique(lapply(subFoldersFull_RelativePaths,function(x) split_path(x)[[length(split_path(x))]])))
 total_Run_folders <- length(subFoldersFull)
 Run_folders_WithRTA <- subFoldersFull_RelativePaths[file.exists(file.path(subFoldersFull,"RTAComplete.txt"))]
+
+
+
+
 Run_folders_WithUnaligned <- subFoldersFull_RelativePaths[dir.exists(file.path(subFoldersFull,"Unaligned"))
                                                           & dir.exists(subFoldersFull)
                                                             ]
-Run_folders_WithDemultiplexingComplete <- subFoldersFull[file.exists(file.path(subFoldersFull,"Unaligned","Demultiplexing\\.html"))]
+Run_folders_WithDemultiplexingComplete <- subFoldersFull[file.exists(file.path(subFoldersFull,paste0("Unaligned_",name),paste0("Basecall_Stats_",name),Demultiplex_Stats\\.htm"))]
 
 RunsComplete <- Run_folders_WithRTA
 RunsComplete_Processing <- intersect(Run_folders_WithRTA,Run_folders_WithUnaligned)
