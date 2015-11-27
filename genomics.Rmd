@@ -65,7 +65,7 @@ Run_folders_WithRTA <- subFoldersFull_RelativePaths[file.exists(file.path(subFol
 #foldersFull_RelativePaths <- gsub(paste0(basedir,"\\/."),"",foldersFull)
 
 runParams <- vector("list",length=length(Run_folders_WithRTA))
-
+shellBCLs <- vector()
 
 for(i in 1:length(Run_folders_WithRTA)){
   currentRun <- subFoldersFull[grepl(Run_folders_WithRTA[i],subFoldersFull)]
@@ -130,15 +130,13 @@ for(i in 1:length(Run_folders_WithRTA)){
         "\n"
         )
       cat(runBCLcommand,file=gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName))
+      shellBCLs <- c(shellBCLs,gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName))
     }
     }
   }else{
     stop("No samplesheet ",basename(sampleSheetName)," discovered for run ",basename(currentRun))
   }
 }
-
-
-
 
 
 ```
