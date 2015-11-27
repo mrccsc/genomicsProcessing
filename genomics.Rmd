@@ -36,42 +36,49 @@ if(dir.exists(basedir)){
   stop(basedir," does not exist.\n Stopping processing")
 }
 subFoldersFull <- dir(file.path(basedir,""),recursive=F,include.dirs=T,full.names=T)
-subFoldersFull_RelativePaths <- gsub(paste0(basedir,"\\/."),"",subFoldersFull)
 
+runsToExclude <- as.vector(read.delim(as.vector(config[config$section == "paths" & config$name == "runsToExclude","value"]),h=F)[,1])
+subFoldersFull <- subFoldersFull[!basename(subFoldersFull) %in% runsToExclude]
+subFoldersFull <- subFoldersFull[dir.exists(subFoldersFull)]
+subFoldersFull_RelativePaths <- gsub(paste0(basedir,"\\/."),"",subFoldersFull)
 
 ## Find folders containing RTAComplete.txt, Unaligned and Unaligned/Demultiplexing.html
 #total_Run_folders <- length(unique(lapply(subFoldersFull_RelativePaths,function(x) split_path(x)[[length(split_path(x))]])))
 total_Run_folders <- length(subFoldersFull)
 Run_folders_WithRTA <- subFoldersFull_RelativePaths[file.exists(file.path(subFoldersFull,"RTAComplete.txt"))]
-Run_folders_WithUnaligned <- subFoldersFull_RelativePaths[dir.exists(file.path(subFoldersFull,"Unaligned"))
-                                                          & dir.exists(subFoldersFull)
-                                                            ]
-Run_folders_WithDemultiplexingComplete <- subFoldersFull[file.exists(file.path(subFoldersFull,"Unaligned","Demultiplexing\\.html"))]
+# Run_folders_WithUnaligned <- subFoldersFull_RelativePaths[dir.exists(file.path(subFoldersFull,"Unaligned"))
+#                                                           & dir.exists(subFoldersFull)
+#                                                             ]
+# Run_folders_WithDemultiplexingComplete <- subFoldersFull[file.exists(file.path(subFoldersFull,"Unaligned","Demultiplexing\\.html"))]
 
-RunsComplete <- Run_folders_WithRTA
-RunsComplete_Processing <- intersect(Run_folders_WithRTA,Run_folders_WithUnaligned)
-RunsComplete_Processing_Demultiplexed <- intersect(RunsComplete_Processing,Run_folders_WithDemultiplexingComplete)
-RunsComplete_Processing_To_Be_Demultiplexed <- setdiff(RunsComplete_Processing,RunsComplete_Processing_Demultiplexed)
+# RunsComplete <- Run_folders_WithRTA
+# RunsComplete_Processing <- intersect(Run_folders_WithRTA,Run_folders_WithUnaligned)
+# RunsComplete_Processing_Demultiplexed <- intersect(RunsComplete_Processing,Run_folders_WithDemultiplexingComplete)
+# RunsComplete_Processing_To_Be_Demultiplexed <- setdiff(RunsComplete_Processing,RunsComplete_Processing_Demultiplexed)
+# 
+# knitr:::kable(data.frame(Total_Runs=total_Run_folders,
+#                          Total_Complete_Runs=length(RunsComplete),
+#            Total_Demuliplexed_Runs=length(RunsComplete_Processing_Demultiplexed),
+#            Total_Awaiting_Demultiplexing=length(RunsComplete_Processing_To_Be_Demultiplexed)))
 
-knitr:::kable(data.frame(Total_Runs=total_Run_folders,
-                         Total_Complete_Runs=length(RunsComplete),
-           Total_Demuliplexed_Runs=length(RunsComplete_Processing_Demultiplexed),
-           Total_Awaiting_Demultiplexing=length(RunsComplete_Processing_To_Be_Demultiplexed)))
+#foldersFull <- dir(file.path(basedir,""),recursive=F,include.dirs=T,full.names=T)
+#foldersFull_RelativePaths <- gsub(paste0(basedir,"\\/."),"",foldersFull)
 
-foldersFull <- dir(file.path(basedir,""),recursive=F,include.dirs=T,full.names=T)
-foldersFull_RelativePaths <- gsub(paste0(basedir,"\\/."),"",foldersFull)
-
-runParams <- vector("list",length=length(RunsComplete_Processing_To_Be_Demultiplexed))
+runParams <- vector("list",length=length(Run_folders_WithRTA))
 
 
-for(i in 1:length(RunsComplete_Processing_To_Be_Demultiplexed)){
-  currentRun <- foldersFull[grepl(RunsComplete_Processing_To_Be_Demultiplexed,foldersFull_RelativePaths)]
+for(i in 1:length(Run_folders_WithRTA)){
+  currentRun <- subFoldersFull[grepl(Run_folders_WithRTA[i],subFoldersFull)]
   xmlFromPresentRunFolder <- xmlParse(file.path(currentRun,"runParameters.xml"))
   currentRunParameters <- xmlToDataFrame(xmlFromPresentRunFolder)
   currentRunParameters <- currentRunParameters[!is.na(currentRunParameters$ExperimentName),,drop=F]
   sampleSheetName <- file.path(currentRun,paste0(currentRunParameters$Barcode,".csv"))
   if(file.exists(sampleSheetName)){
     ss <- read.delim(sampleSheetName,sep=",",quote=NULL,header=T,stringsAsFactors=F)
+    ss$SampleID <- gsub("^X","Sample_",validNames(ss$SampleID))
+    ss$SampleID <-gsub("\\?|\\(|\\)|\\[|\\]|\\\\|/|\\=|\\+|<|>|\\:|\\;|\"|\'|\\*|\\^|\\||\\&|\\.","_",ss$SampleID)    
+    ss$Index <- gsub(" ","",ss$Index)
+    ss$Index2 <- gsub(" ","",ss$Index2)
     message("Read samplesheet ",basename(sampleSheetName)," discovered for run ",currentRun)
     index1Lengths <- unlist(lapply(ss$Index,function(x)nchar(x)))
     index2Lengths <- unlist(lapply(ss$Index2,function(x)nchar(x)))
@@ -81,33 +88,55 @@ for(i in 1:length(RunsComplete_Processing_To_Be_Demultiplexed)){
     uniqueIndexTypes <- unique(allIndexTypes)
     #ss$SampleID <- gsub("[[:punct:]]", "_", ss$SampleID).)
     #ss$SampleID <- gsub("[^[:alnum:]]", "_", ss$SampleID).)
-    ss$SampleID <- gsub("^X","Sample_",validNames(ss$SampleID))
-    ss$SampleID <-gsub("\\?|\\(|\\)|\\[|\\]|\\\\|/|\\=|\\+|<|>|\\:|\\;|\"|\'|\\*|\\^|\\||\\&|\\.","_",ss$SampleID)
+
     for(l in uniqueIndexTypes){
       tempss <- ss[allIndexTypes %in% l,]
       tempss[is.na(tempss)] <- ""
-      write.table(tempss,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T)
+      if(!file.exists(gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName))){
+        write.table(tempss,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T)
+      }
       if(!dir.exists(gsub("\\.csv",paste0("_",l),sampleSheetName))){
         dir.create(gsub("\\.csv",paste0("_",l),sampleSheetName),showWarnings = F)
       }
+      if(!file.exists(gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName))){
+        indexLengths <- unlist(strsplit(l,"-"))
+        if(as.numeric(as.vector(currentRunParameters$IndexRead1)) != 0){
+          numberOfNs <- as.numeric(as.vector(currentRunParameters$IndexRead1)) - as.numeric(indexLengths[1])
+          if(indexLengths[1] == 0){ indexLengths[1] <- ""}
+          indexMask1 <-  paste0(",I",indexLengths[1],paste0(rep("N",numberOfNs),collapse=""))
+        }else{
+          indexMask1 <- ""
+        }
+        if(as.numeric(as.vector(currentRunParameters$IndexRead2)) != 0){
+          numberOfNs <- as.numeric(as.vector(currentRunParameters$IndexRead2)) - as.numeric(indexLengths[2])
+          if(indexLengths[2] == 0){ indexLengths[2] <- ""}
+          indexMask2 <-  paste0(",I",indexLengths[2],paste0(rep("N",numberOfNs),collapse=""))
+        }else{
+          indexMask2 <- ""
+        }
+        
+        usebasemask <- paste0("y*n",indexMask1,indexMask2,",y*n")
+        
       runBCLcommand <- paste0(
         as.vector(config[config$section == "programs" & config$name == "configureBclToFastq","value"]),
         " --input-dir ",
         file.path(currentRun,as.vector(config[config$section == "paths" & config$name == "inputdir","value"])),
         " --sample-sheet ",
         gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),
-        " --fastq-cluster-count=0 --use-bases-mask ",
-        paste0("y*n","I",currentRunParameters$IndexRead1,"n","y*n"),
+        " --fastq-cluster-count=0 --use-bases-mask ",usebasemask
+        ,
         " --output-dir",
         gsub("\\.csv",paste0("_",l),sampleSheetName),
         "\n"
         )
       cat(runBCLcommand,file=gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName))
     }
+    }
   }else{
     stop("No samplesheet ",basename(sampleSheetName)," discovered for run ",basename(currentRun))
   }
 }
+
 
 
 
