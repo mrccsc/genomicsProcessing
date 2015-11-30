@@ -96,9 +96,9 @@ for(i in 1:length(Run_folders_WithRTA)){
       if(!file.exists(gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName))){
         write.table(tempss,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T)
       }
-      if(!dir.exists(gsub("\\.csv",paste0("_",l),sampleSheetName))){
-        dir.create(gsub("\\.csv",paste0("_",l),sampleSheetName),showWarnings = F)
-      }
+      #if(!dir.exists(gsub("\\.csv",paste0("_",l),sampleSheetName))){
+      #  dir.create(gsub("\\.csv",paste0("_",l),sampleSheetName),showWarnings = F)
+      #}
       if(!file.exists(gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName))){
         indexLengths <- unlist(strsplit(l,"-"))
         if(as.numeric(as.vector(currentRunParameters$IndexRead1)) != 0){
@@ -140,6 +140,10 @@ for(i in 1:length(Run_folders_WithRTA)){
   }
 }
 
-
+blcOuts <- vector("character",length=length(shellBCLs))
+for(i in 1:length(shellBCLs)){
+  blcOuts[i] <- system(command=paste0("bash ",shellBCLs[i]),intern=T)
+  
+}
 ```
 
