@@ -36,9 +36,9 @@ if(dir.exists(basedir)){
   stop(basedir," does not exist.\n Stopping processing")
 }
 subFoldersFull <- dir(file.path(basedir,""),recursive=F,include.dirs=T,full.names=T)
-
+subFoldersFull <- gsub("/+","/",subFoldersFull)
 runsToExclude <- as.vector(read.delim(as.vector(config[config$section == "paths" & config$name == "runsToExclude","value"]),h=F)[,1])
-subFoldersFull <- subFoldersFull[!basename(subFoldersFull) %in% runsToExclude]
+subFoldersFull <- subFoldersFull[!basename(subFoldersFull) %in% basename(runsToExclude)]
 subFoldersFull <- subFoldersFull[dir.exists(subFoldersFull)]
 subFoldersFull_RelativePaths <- gsub(paste0(basedir,"\\/."),"",subFoldersFull)
 
@@ -66,6 +66,7 @@ Run_folders_WithRTA <- subFoldersFull_RelativePaths[file.exists(file.path(subFol
 
 runParams <- vector("list",length=length(Run_folders_WithRTA))
 shellBCLs <- vector()
+p <- 1
 
 for(i in 1:length(Run_folders_WithRTA)){
   currentRun <- subFoldersFull[grepl(Run_folders_WithRTA[i],subFoldersFull)]
@@ -125,12 +126,13 @@ for(i in 1:length(Run_folders_WithRTA)){
         gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),
         " --fastq-cluster-count=0 --use-bases-mask ",usebasemask
         ,
-        " --output-dir",
+        " --output-dir ",
         gsub("\\.csv",paste0("_",l),sampleSheetName),
         "\n"
         )
       cat(runBCLcommand,file=gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName))
-      shellBCLs <- c(shellBCLs,gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName))
+      shellBCLs[p] <- gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName)
+      p <- p+1
     }
     }
   }else{
