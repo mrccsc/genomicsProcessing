@@ -89,10 +89,12 @@ for(i in 1:length(Run_folders_WithRTA)){
     uniqueIndexTypes <- unique(allIndexTypes)
     #ss$SampleID <- gsub("[[:punct:]]", "_", ss$SampleID).)
     #ss$SampleID <- gsub("[^[:alnum:]]", "_", ss$SampleID).)
-
+    ss$Index <- gsub("-NA|-$|^-$","",paste(ss$Index,ss$Index2,sep="-"))
+    ss <- ss[,-grep("Index2",colnames(ss))]
     for(l in uniqueIndexTypes){
       tempss <- ss[allIndexTypes %in% l,]
       tempss[is.na(tempss)] <- ""
+      
       if(!file.exists(gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName))){
         write.table(tempss,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T)
       }
@@ -103,15 +105,21 @@ for(i in 1:length(Run_folders_WithRTA)){
         indexLengths <- unlist(strsplit(l,"-"))
         if(as.numeric(as.vector(currentRunParameters$IndexRead1)) != 0){
           numberOfNs <- as.numeric(as.vector(currentRunParameters$IndexRead1)) - as.numeric(indexLengths[1])
-          if(indexLengths[1] == 0){ indexLengths[1] <- ""}
-          indexMask1 <-  paste0(",I",indexLengths[1],paste0(rep("N",numberOfNs),collapse=""))
+          if(indexLengths[1] == 0){ 
+            indexMask1 <- ""
+          }else{
+            indexMask1 <-  paste0(",I",indexLengths[1],paste0(rep("n",numberOfNs),collapse=""))
+          }
         }else{
           indexMask1 <- ""
         }
         if(as.numeric(as.vector(currentRunParameters$IndexRead2)) != 0){
           numberOfNs <- as.numeric(as.vector(currentRunParameters$IndexRead2)) - as.numeric(indexLengths[2])
-          if(indexLengths[2] == 0){ indexLengths[2] <- ""}
-          indexMask2 <-  paste0(",I",indexLengths[2],paste0(rep("N",numberOfNs),collapse=""))
+          if(indexLengths[2] == 0){ 
+            indexMask2 <- ""
+          }else{
+          indexMask2 <-  paste0(",I",indexLengths[2],paste0(rep("n",numberOfNs),collapse=""))
+          }
         }else{
           indexMask2 <- ""
         }
@@ -145,5 +153,6 @@ for(i in 1:length(shellBCLs)){
   blcOuts[i] <- system(command=paste0("bash ",shellBCLs[i]),intern=T)
   
 }
+
 ```
 
