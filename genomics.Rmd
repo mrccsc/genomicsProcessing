@@ -148,11 +148,35 @@ for(i in 1:length(Run_folders_WithRTA)){
   }
 }
 
-blcOuts <- vector("character",length=length(shellBCLs))
+blcOuts <- vector("list",length=length(shellBCLs))
 for(i in 1:length(shellBCLs)){
-  blcOuts[i] <- system(command=paste0("bash ",shellBCLs[i]),intern=T)
-  
+  #blcOuts[[i]] <- system(command=paste0("bash ",shellBCLs[i]),intern=T)
+  blcOuts[[i]] <- system2("bash",shellBCLs[i],stdout=T,stderr=T)
 }
+
+makeQsubs <- vector("list",length=length(shellBCLs))
+for(i in 1:length(shellBCLs)){
+
+makeQsubs[i] <- paste0("qsub -v PATH -wd ",
+gsub("\\.sh","",shellBCLs[i]),
+" -o ",
+gsub("\\.sh","\\.out",shellBCLs[i]),
+" -e ", 
+gsub("\\.sh","\\.error",shellBCLs[i]),
+"-N ",
+basename(gsub("\\.sh","",shellBCLs[i])),
+" -pe make -40 /ifs/data/Bioinformatics/Scripts/Casava_demultiplex.sh"
+)
+}
+
+makeOuts <- vector("list",length=length(shellBCLs))
+for(i in 1:length(makeQsubs)){
+  #blcOuts[[i]] <- system(command=paste0("bash ",shellBCLs[i]),intern=T)
+  makeOuts[[i]] <- system(makeQsubs[i],intern=T)
+}
+
+
+qsub -wd /ifs/data/Hiseq/Runs/151113_D00467_0149_BC7T3UANXX/C7J3UANXX_8-8 -o /ifs/data/Hiseq/Runs/151113_D00467_0149_BC7T3UANXX/C7J3UANXX_8_8.out -e /ifs/data/Hiseq/Runs/151113_D00467_0149_BC7T3UANXX/C7J3UANXX_8_8.error -n C7J3UANXX_8-8  -pe make -4 /ifs/data/Bioinformatics/Scripts/Casava_demultiplex.sh
 
 ```
 
