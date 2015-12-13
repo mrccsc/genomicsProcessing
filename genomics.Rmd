@@ -163,7 +163,7 @@ gsub("\\.sh","",shellBCLs[i]),
 gsub("\\.sh","\\.out",shellBCLs[i]),
 " -e ", 
 gsub("\\.sh","\\.error",shellBCLs[i]),
-"-N ",
+" -N ",
 basename(gsub("\\.sh","",shellBCLs[i])),
 " -pe make -40 /ifs/data/Bioinformatics/Scripts/Casava_demultiplex.sh"
 )
@@ -172,7 +172,7 @@ basename(gsub("\\.sh","",shellBCLs[i])),
 makeOuts <- vector("list",length=length(shellBCLs))
 for(i in 1:length(makeQsubs)){
   #blcOuts[[i]] <- system(command=paste0("bash ",shellBCLs[i]),intern=T)
-  makeOuts[[i]] <- system(makeQsubs[i],intern=T)
+  makeOuts[[i]] <- system(makeQsubs[[i]],intern=T)
 }
 
 
