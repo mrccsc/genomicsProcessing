@@ -173,7 +173,7 @@ gsub("\\.sh","\\.out",shellBCLs[i]),
 gsub("\\.sh","\\.error",shellBCLs[i]),
 " -N ",
 basename(gsub("\\.sh","",shellBCLs[i])),
-" -pe make -40 /ifs/data/Bioinformatics/Scripts/Casava_demultiplex.sh"
+" -pe make -10 /ifs/data/Bioinformatics/Scripts/Casava_demultiplex.sh"
 )
 }
 
