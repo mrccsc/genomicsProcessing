@@ -181,6 +181,7 @@ makeOuts <- vector("list",length=length(shellBCLs))
 for(i in 1:length(makeQsubs)){
   #blcOuts[[i]] <- system(command=paste0("bash ",shellBCLs[i]),intern=T)
   makeOuts[[i]] <- system(makeQsubs[[i]],intern=T)
+  cat(makeQsubs[[i]],file=paste0(gsub(" ","_",Sys.time()),"_Qsubs.sh\n"),append=T)
 }
 
 
