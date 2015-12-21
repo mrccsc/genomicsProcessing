@@ -24,7 +24,7 @@ split_path <- function(path) {
 
 library(raster)
 library(XML)
-config = data.frame(readIniFile("config.ini"))
+config = data.frame(readIniFile("~/genomicsProcessing/config.ini"))
 
 ## Now look in folders to identify Runs to be processed
 
@@ -79,6 +79,11 @@ for(i in 1:length(Run_folders_WithRTA)){
     ss$SampleID <- gsub("^X","Sample_",validNames(ss$SampleID))
     ss$SampleID <-gsub("\\?|\\(|\\)|\\[|\\]|\\\\|/|\\=|\\+|<|>|\\:|\\;|\"|\'|\\*|\\^|\\||\\&|\\.","_",ss$SampleID)    
     ss$Index <- gsub(" ","",ss$Index)
+    toBeTrimmed <- which(lapply(ss$Index,nchar) > as.numeric(currentRunParameters$IndexRead1))
+    for(i in toBeTrimmed){
+      ss$Index[toBeTrimmed] <-  substr(ss$Index[toBeTrimmed],0,as.numeric(currentRunParameters$IndexRead1))
+    }
+    
     ss$Index2 <- gsub(" ","",ss$Index2)
     message("Read samplesheet ",basename(sampleSheetName)," discovered for run ",currentRun)
     index1Lengths <- unlist(lapply(ss$Index,function(x)nchar(x)))
@@ -91,6 +96,9 @@ for(i in 1:length(Run_folders_WithRTA)){
     #ss$SampleID <- gsub("[^[:alnum:]]", "_", ss$SampleID).)
     ss$Index <- gsub("-NA|-$|^-$","",paste(ss$Index,ss$Index2,sep="-"))
     ss <- ss[,-grep("Index2",colnames(ss))]
+    
+
+    
     for(l in uniqueIndexTypes){
       tempss <- ss[allIndexTypes %in% l,]
       tempss[is.na(tempss)] <- ""
@@ -158,7 +166,7 @@ makeQsubs <- vector("list",length=length(shellBCLs))
 for(i in 1:length(shellBCLs)){
 
 makeQsubs[i] <- paste0("qsub -v PATH -wd ",
-gsub("\\.sh","",shellBCLs[i]),
+gsub("\\.sh","/",shellBCLs[i]),
 " -o ",
 gsub("\\.sh","\\.out",shellBCLs[i]),
 " -e ", 
