@@ -184,7 +184,8 @@ for(i in 1:length(makeQsubs)){
   cat(makeQsubs[[i]],file=paste0(gsub(" ","_",Sys.time()),"_Qsubs.sh\n"),append=T)
 }
 
-
+nohup make -j 10 & -- Works
+  
 qsub -wd /ifs/data/Hiseq/Runs/151113_D00467_0149_BC7T3UANXX/C7J3UANXX_8-8 -o /ifs/data/Hiseq/Runs/151113_D00467_0149_BC7T3UANXX/C7J3UANXX_8_8.out -e /ifs/data/Hiseq/Runs/151113_D00467_0149_BC7T3UANXX/C7J3UANXX_8_8.error -n C7J3UANXX_8-8  -pe make -4 /ifs/data/Bioinformatics/Scripts/Casava_demultiplex.sh
 
 ```
