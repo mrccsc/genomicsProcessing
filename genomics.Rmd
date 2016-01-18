@@ -109,7 +109,10 @@ for(i in 1:length(Run_folders_WithRTA)){
       tempss <- ss[allIndexTypes %in% l,]
       tempss[is.na(tempss)] <- ""
       if(!ncol(tempss) > 9){
-        
+        diff <- 10-ncol(tempss)
+        addColumns <- matrix(nrow=nrow(tempss),ncol=diff)
+        colnames(addColumns) <- paste0("Dummy",seq(1,diff))
+        tempss <- cbind(tempss,addColumns)
       }
       if(!file.exists(gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName))){
         write.table(tempss,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T)
