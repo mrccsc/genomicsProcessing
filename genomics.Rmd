@@ -84,9 +84,11 @@ for(i in 1:length(Run_folders_WithRTA)){
       ss$Index[toBeTrimmed] <-  substr(ss$Index[toBeTrimmed],0,as.numeric(currentRunParameters$IndexRead1))
     }
     
-    ss$Index2 <- gsub(" ","",ss$Index2)
     message("Read samplesheet ",basename(sampleSheetName)," discovered for run ",currentRun)
     index1Lengths <- unlist(lapply(ss$Index,function(x)nchar(x)))
+    
+    if(any(colnames(ss) %in% "Index2")){
+    ss$Index2 <- gsub(" ","",ss$Index2)
     index2Lengths <- unlist(lapply(ss$Index2,function(x)nchar(x)))
     index2NAs <- unlist(lapply(ss$Index2,function(x)is.na(x)))
     index2Lengths[index2NAs] <- 0
@@ -96,13 +98,19 @@ for(i in 1:length(Run_folders_WithRTA)){
     #ss$SampleID <- gsub("[^[:alnum:]]", "_", ss$SampleID).)
     ss$Index <- gsub("-NA|-$|^-$","",paste(ss$Index,ss$Index2,sep="-"))
     ss <- ss[,-grep("Index2",colnames(ss))]
-    
-
-    
+    }else{
+      allIndexTypes <- paste0(index1Lengths)
+      uniqueIndexTypes <- unique(allIndexTypes)
+      #ss$SampleID <- gsub("[[:punct:]]", "_", ss$SampleID).)
+      #ss$SampleID <- gsub("[^[:alnum:]]", "_", ss$SampleID).)
+    }
+ 
     for(l in uniqueIndexTypes){
       tempss <- ss[allIndexTypes %in% l,]
       tempss[is.na(tempss)] <- ""
-      
+      if(!ncol(tempss) > 9){
+        
+      }
       if(!file.exists(gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName))){
         write.table(tempss,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T)
       }
@@ -155,6 +163,10 @@ for(i in 1:length(Run_folders_WithRTA)){
     stop("No samplesheet ",basename(sampleSheetName)," discovered for run ",basename(currentRun))
   }
 }
+
+
+####
+#### "FCID,Lane,SampleID,SampleRef,Index,Description,Control,Recipe,Operator,SampleProject\n";
 
 blcOuts <- vector("list",length=length(shellBCLs))
 for(i in 1:length(shellBCLs)){
