@@ -43,13 +43,16 @@ subFoldersFull <- subFoldersFull[dir.exists(subFoldersFull)]
 subFoldersFull_RelativePaths <- gsub(paste0(basedir,"\\/."),"",subFoldersFull)
 
 ## Find folders containing RTAComplete.txt, Unaligned and Unaligned/Demultiplexing.html
+
+## At present just identifies folders not in runsToExclude
+
 #total_Run_folders <- length(unique(lapply(subFoldersFull_RelativePaths,function(x) split_path(x)[[length(split_path(x))]])))
 total_Run_folders <- length(subFoldersFull)
 Run_folders_WithRTA <- subFoldersFull_RelativePaths[file.exists(file.path(subFoldersFull,"RTAComplete.txt"))]
 # Run_folders_WithUnaligned <- subFoldersFull_RelativePaths[dir.exists(file.path(subFoldersFull,"Unaligned"))
-#                                                           & dir.exists(subFoldersFull)
-#                                                             ]
-# Run_folders_WithDemultiplexingComplete <- subFoldersFull[file.exists(file.path(subFoldersFull,"Unaligned","Demultiplexing\\.html"))]
+#                                                            & dir.exists(subFoldersFull)
+#                                                              ]
+# Run_folders_WithDemultiplexingComplete <- subFoldersFull[file.exists(file.path(subFoldersFull,"Unaligned","Demultiplexing.html"))]
 
 # RunsComplete <- Run_folders_WithRTA
 # RunsComplete_Processing <- intersect(Run_folders_WithRTA,Run_folders_WithUnaligned)
@@ -64,9 +67,13 @@ Run_folders_WithRTA <- subFoldersFull_RelativePaths[file.exists(file.path(subFol
 #foldersFull <- dir(file.path(basedir,""),recursive=F,include.dirs=T,full.names=T)
 #foldersFull_RelativePaths <- gsub(paste0(basedir,"\\/."),"",foldersFull)
 
+## Nested RTA
 runParams <- vector("list",length=length(Run_folders_WithRTA))
 shellBCLs <- vector()
 p <- 1
+
+subFoldersFull <- "/ifs/data/Hiseq/Runs/TestRuns/Tombcl2/160622_D00467_0182_AC9BM5ANXX/"
+Run_folders_WithRTA <- "/ifs/data/Hiseq/Runs/TestRuns/Tombcl2/160622_D00467_0182_AC9BM5ANXX/"
 
 for(i in 1:length(Run_folders_WithRTA)){
   currentRun <- subFoldersFull[grepl(Run_folders_WithRTA[i],subFoldersFull)]
@@ -115,7 +122,24 @@ for(i in 1:length(Run_folders_WithRTA)){
         tempss <- cbind(tempss,addColumns)
       }
       if(!file.exists(gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName))){
-        write.table(tempss,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T)
+        if(bclVersion == "old"){
+          write.table(tempss,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T)
+        }else{
+          Sample_Project <- tempss$Project
+          Lane <- tempss$Lane
+          Sample_ID <- tempss$SampleID
+          Sample_Name <- tempss$SampleID
+          index <- tempss$Index
+          if(grepl("-",index)){
+            indexMat <- matrix(unlist(strsplit(tempss$Index,"-")),ncol=2,byrow=T)
+            index <- indexMat[,1]
+            index2 <- indexMat[,2]
+            tempss_New <- cbind(Sample_Project,Lane,Sample_ID,Sample_Name,index,index2)
+          }else{
+            tempss_New <- cbind(Sample_Project,Lane,Sample_ID,Sample_Name,index)            
+          }
+          write.table(tempss_New,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T)
+        }
       }
       #if(!dir.exists(gsub("\\.csv",paste0("_",l),sampleSheetName))){
       #  dir.create(gsub("\\.csv",paste0("_",l),sampleSheetName),showWarnings = F)
@@ -144,9 +168,14 @@ for(i in 1:length(Run_folders_WithRTA)){
         }
         
         usebasemask <- paste0("y*n",indexMask1,indexMask2,",y*n")
+        if(bclVersion == "Old"){
+                programToRun <- as.vector(config[config$section == "programs" & config$name == "configureBclToFastq","value"])
+        }else{
+                programToRun <- as.vector(config[config$section == "programs" & config$name == "BclToFastq2","value"])
+        }
         
       runBCLcommand <- paste0(
-        as.vector(config[config$section == "programs" & config$name == "configureBclToFastq","value"]),
+        programToRun,
         " --input-dir ",
         file.path(currentRun,as.vector(config[config$section == "paths" & config$name == "inputdir","value"])),
         " --sample-sheet ",
