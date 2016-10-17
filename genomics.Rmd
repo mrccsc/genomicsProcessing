@@ -173,7 +173,6 @@ for(i in 1:length(Run_folders_WithRTA)){
         }else{
                 programToRun <- as.vector(config[config$section == "programs" & config$name == "BclToFastq2","value"])
         }
-        
       runBCLcommand <- paste0(
         programToRun,
         " --input-dir ",
