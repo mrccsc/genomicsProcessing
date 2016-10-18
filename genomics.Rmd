@@ -111,7 +111,7 @@ for(i in 1:length(Run_folders_WithRTA)){
       #ss$SampleID <- gsub("[[:punct:]]", "_", ss$SampleID).)
       #ss$SampleID <- gsub("[^[:alnum:]]", "_", ss$SampleID).)
     }
- 
+    indexLoop <- 1
     for(l in uniqueIndexTypes){
       tempss <- ss[allIndexTypes %in% l,]
       tempss[is.na(tempss)] <- ""
@@ -130,7 +130,7 @@ for(i in 1:length(Run_folders_WithRTA)){
           Sample_ID <- tempss$SampleID
           Sample_Name <- tempss$SampleID
           index <- tempss$Index
-          if(grepl("-",index)){
+          if(any(grepl("-",index))){
             indexMat <- matrix(unlist(strsplit(tempss$Index,"-")),ncol=2,byrow=T)
             index <- indexMat[,1]
             index2 <- indexMat[,2]
@@ -138,7 +138,9 @@ for(i in 1:length(Run_folders_WithRTA)){
           }else{
             tempss_New <- cbind(Sample_Project,Lane,Sample_ID,Sample_Name,index)            
           }
-          write.table(tempss_New,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T)
+          dataSectionString <- "[Data]"
+          write.table(dataSectionString,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=F)
+          write.table(tempss_New,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T,append=T)
         }
       }
       #if(!dir.exists(gsub("\\.csv",paste0("_",l),sampleSheetName))){
@@ -170,22 +172,36 @@ for(i in 1:length(Run_folders_WithRTA)){
         usebasemask <- paste0("y*n",indexMask1,indexMask2,",y*n")
         if(bclVersion == "Old"){
                 programToRun <- as.vector(config[config$section == "programs" & config$name == "configureBclToFastq","value"])
+                      runBCLcommand <- paste0(
+                      programToRun,
+                      " --input-dir ",
+                      file.path(currentRun,as.vector(config[config$section == "paths" & config$name == "inputdir","value"])),
+                      " --sample-sheet ",
+                      gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),
+                      " --fastq-cluster-count=0 --use-bases-mask ",usebasemask
+                      ,
+                      " --output-dir ",
+                      gsub("\\.csv",paste0("_",l),sampleSheetName),
+                      "\n"
+                      )
         }else{
                 programToRun <- as.vector(config[config$section == "programs" & config$name == "BclToFastq2","value"])
+                      runBCLcommand <- paste0(
+                programToRun,
+                " --input-dir ",
+                file.path(currentRun,as.vector(config[config$section == "paths" & config$name == "inputdir","value"])),
+                " --sample-sheet ",
+                gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),
+                " --use-bases-mask ",usebasemask
+                ,
+                " -r 4 -p 4 -w 4 -d 4 --output-dir ",
+                gsub("\\.csv",paste0("_",l),sampleSheetName),
+                "\n"
+                )
         }
-      runBCLcommand <- paste0(
-        programToRun,
-        " --input-dir ",
-        file.path(currentRun,as.vector(config[config$section == "paths" & config$name == "inputdir","value"])),
-        " --sample-sheet ",
-        gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),
-        " --fastq-cluster-count=0 --use-bases-mask ",usebasemask
-        ,
-        " --output-dir ",
-        gsub("\\.csv",paste0("_",l),sampleSheetName),
-        "\n"
-        )
-      cat(runBCLcommand,file=gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName))
+
+      write.table("#!/bin/bash",file=gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName),col.names=F,row.names=F,append=F,quote=F)
+      write.table(runBCLcommand,file=gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName),col.names=F,row.names=F,append=T,quote=F)
       shellBCLs[p] <- gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName)
       p <- p+1
     }
@@ -199,15 +215,16 @@ for(i in 1:length(Run_folders_WithRTA)){
 ####
 #### "FCID,Lane,SampleID,SampleRef,Index,Description,Control,Recipe,Operator,SampleProject\n";
 
-blcOuts <- vector("list",length=length(shellBCLs))
-for(i in 1:length(shellBCLs)){
-  #blcOuts[[i]] <- system(command=paste0("bash ",shellBCLs[i]),intern=T)
-  blcOuts[[i]] <- system2("bash",shellBCLs[i],stdout=T,stderr=T)
-}
+# blcOuts <- vector("list",length=length(shellBCLs))
+# for(i in 1:length(shellBCLs)){
+#   #blcOuts[[i]] <- system(command=paste0("bash ",shellBCLs[i]),intern=T)
+#   blcOuts[[i]] <- system2("bash",shellBCLs[i],stdout=T,stderr=T)
+# }
 
 makeQsubs <- vector("list",length=length(shellBCLs))
-for(i in 1:length(shellBCLs)){
 
+for(i in 1:length(shellBCLs)){
+dir.create(gsub("\\.sh","/",shellBCLs[i]),showWarnings = F)
 makeQsubs[i] <- paste0("qsub -v PATH -wd ",
 gsub("\\.sh","/",shellBCLs[i]),
 " -o ",
@@ -216,7 +233,7 @@ gsub("\\.sh","\\.out",shellBCLs[i]),
 gsub("\\.sh","\\.error",shellBCLs[i]),
 " -N ",
 basename(gsub("\\.sh","",shellBCLs[i])),
-" -pe make -10 /ifs/data/Bioinformatics/Scripts/Casava_demultiplex.sh"
+" ",shellBCLs[i]
 )
 }
 
@@ -226,6 +243,11 @@ for(i in 1:length(makeQsubs)){
   makeOuts[[i]] <- system(makeQsubs[[i]],intern=T)
   cat(makeQsubs[[i]],file=paste0(gsub(" ","_",Sys.time()),"_Qsubs.sh\n"),append=T)
 }
+
+
+
+qsub -v PATH -wd /ifs/data/Hiseq/Runs/TestRuns/Tombcl2/160622_D00467_0182_AC9BM5ANXX/ -o /ifs/data/Hiseq/Runs/TestRuns/Tombcl2/160622_D00467_0182_AC9BM5ANXX//C9BM5ANXX_6-0.out -e /ifs/data/Hiseq/Runs/TestRuns/Tombcl2/160622_D00467_0182_AC9BM5ANXX//C9BM5ANXX_6-0.error -N C9BM5ANXX_6-0 /ifs/data/Hiseq/Runs/TestRuns/Tombcl2/160622_D00467_0182_AC9BM5ANXX//test.sh
+
 
 ```
 
