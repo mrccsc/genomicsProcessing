@@ -72,8 +72,10 @@ runParams <- vector("list",length=length(Run_folders_WithRTA))
 shellBCLs <- vector()
 p <- 1
 
-subFoldersFull <- "/ifs/data/Hiseq/Runs/TestRuns/Tombcl2/160622_D00467_0182_AC9BM5ANXX/"
-Run_folders_WithRTA <- "/ifs/data/Hiseq/Runs/TestRuns/Tombcl2/160622_D00467_0182_AC9BM5ANXX/"
+bclVersion <- "New"
+
+subFoldersFull <- "/ifs/data/Hiseq/Runs/161020_D00467_0202_AC9M2LANXX/"
+Run_folders_WithRTA <- "/ifs/data/Hiseq/Runs/161020_D00467_0202_AC9M2LANXX/"
 
 for(i in 1:length(Run_folders_WithRTA)){
   currentRun <- subFoldersFull[grepl(Run_folders_WithRTA[i],subFoldersFull)]
@@ -168,8 +170,12 @@ for(i in 1:length(Run_folders_WithRTA)){
         }else{
           indexMask2 <- ""
         }
+        if(currentRunParameters$Read2 > 0){
+          usebasemask <- paste0("y*n",indexMask1,indexMask2,",y*n")
+        }else{
+          usebasemask <- paste0("y*n",indexMask1,indexMask2)
+        }
         
-        usebasemask <- paste0("y*n",indexMask1,indexMask2,",y*n")
         if(bclVersion == "Old"){
                 programToRun <- as.vector(config[config$section == "programs" & config$name == "configureBclToFastq","value"])
                       runBCLcommand <- paste0(
@@ -202,7 +208,12 @@ for(i in 1:length(Run_folders_WithRTA)){
 
       write.table("#!/bin/bash",file=gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName),col.names=F,row.names=F,append=F,quote=F)
       write.table(runBCLcommand,file=gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName),col.names=F,row.names=F,append=T,quote=F)
-      shellBCLs[p] <- gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName)
+      write.table("#!/bin/bash",file=gsub("\\.csv",paste0("_",l,"ForQSUB\\.sh"),sampleSheetName),col.names=F,row.names=F,append=F,quote=F)
+      write.table(paste0("",gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName)),
+                  file=gsub("\\.csv",paste0("_",l,"ForQSUB\\.sh"),sampleSheetName),
+                  col.names=F,row.names=F,append=T,quote=F)
+      
+      shellBCLs[p] <- gsub("\\.csv",paste0("_",l,"ForQSUB\\.sh"),sampleSheetName)
       p <- p+1
     }
     }
@@ -224,15 +235,15 @@ for(i in 1:length(Run_folders_WithRTA)){
 makeQsubs <- vector("list",length=length(shellBCLs))
 
 for(i in 1:length(shellBCLs)){
-dir.create(gsub("\\.sh","/",shellBCLs[i]),showWarnings = F)
+dir.create(gsub("ForQSUB\\.sh","/",shellBCLs[i]),showWarnings = F)
 makeQsubs[i] <- paste0("qsub -v PATH -wd ",
-gsub("\\.sh","/",shellBCLs[i]),
+dirname(gsub("ForQSUB\\.sh","/",shellBCLs[i])),
 " -o ",
-gsub("\\.sh","\\.out",shellBCLs[i]),
+gsub("ForQSUB\\.sh","\\.out",shellBCLs[i]),
 " -e ", 
-gsub("\\.sh","\\.error",shellBCLs[i]),
+gsub("ForQSUB\\.sh","\\.error",shellBCLs[i]),
 " -N ",
-basename(gsub("\\.sh","",shellBCLs[i])),
+basename(gsub("ForQSUB\\.sh","",shellBCLs[i])),
 " ",shellBCLs[i]
 )
 }
@@ -241,13 +252,14 @@ makeOuts <- vector("list",length=length(shellBCLs))
 for(i in 1:length(makeQsubs)){
   #blcOuts[[i]] <- system(command=paste0("bash ",shellBCLs[i]),intern=T)
   makeOuts[[i]] <- system(makeQsubs[[i]],intern=T)
-  cat(makeQsubs[[i]],file=paste0(gsub(" ","_",Sys.time()),"_Qsubs.sh\n"),append=T)
+  cat(paste0(makeQsubs[[i]],"\n"),file=paste0(gsub(" ","_",Sys.time()),"_Qsubs.sh"),append=T)
 }
 
 
 
 qsub -v PATH -wd /ifs/data/Hiseq/Runs/TestRuns/Tombcl2/160622_D00467_0182_AC9BM5ANXX/ -o /ifs/data/Hiseq/Runs/TestRuns/Tombcl2/160622_D00467_0182_AC9BM5ANXX//C9BM5ANXX_6-0.out -e /ifs/data/Hiseq/Runs/TestRuns/Tombcl2/160622_D00467_0182_AC9BM5ANXX//C9BM5ANXX_6-0.error -N C9BM5ANXX_6-0 /ifs/data/Hiseq/Runs/TestRuns/Tombcl2/160622_D00467_0182_AC9BM5ANXX//test.sh
 
+/usr/local/bcl2fastq2/bin/bcl2fastq --input-dir /ifs/data/Hiseq/Runs/TestRuns/Tombcl2/160622_D00467_0182_AC9BM5ANXX///Data/Intensities/BaseCalls/ --sample-sheet /ifs/data/Hiseq/Runs/TestRuns/Tombcl2/160622_D00467_0182_AC9BM5ANXX//C9BM5ANXX_8-8.csv --use-bases-mask y*n,i8,i8,y*n -r 4 -p 4 -w 4 -d 4 --output-dir /ifs/data/Hiseq/Runs/TestRuns/Tombcl2/160622_D00467_0182_AC9BM5ANXX//C9BM5ANXX_8-8
 
 ```
 
