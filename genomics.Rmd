@@ -158,7 +158,7 @@ for(i in 1:length(Run_folders_WithRTA)){
             indexMask1 <-  paste0(",I",indexLengths[1],paste0(rep("n",numberOfNs),collapse=""))
           }
         }else{
-          indexMask1 <- ",n*"
+          indexMask1 <- ""
         }
         if(as.numeric(as.vector(currentRunParameters$IndexRead2)) != 0){
           numberOfNs <- as.numeric(as.vector(currentRunParameters$IndexRead2)) - as.numeric(indexLengths[2])
@@ -168,7 +168,7 @@ for(i in 1:length(Run_folders_WithRTA)){
           indexMask2 <-  paste0(",I",indexLengths[2],paste0(rep("n",numberOfNs),collapse=""))
           }
         }else{
-          indexMask2 <- ",n*"
+          indexMask2 <- ""
         }
         if(currentRunParameters$Read2 > 0){
           usebasemask <- paste0("y*n",indexMask1,indexMask2,",y*n")
