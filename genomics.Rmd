@@ -74,8 +74,8 @@ p <- 1
 
 bclVersion <- "New"
 
-subFoldersFull <- "/ifs/data/Hiseq/Runs/161020_D00467_0202_AC9M2LANXX/"
-Run_folders_WithRTA <- "/ifs/data/Hiseq/Runs/161020_D00467_0202_AC9M2LANXX/"
+subFoldersFull <- "/ifs/data/Hiseq/Runs/161105_D00467_0205_AC9L0AANXX"
+Run_folders_WithRTA <- "/ifs/data/Hiseq/Runs/161105_D00467_0205_AC9L0AANXX"
 
 for(i in 1:length(Run_folders_WithRTA)){
   currentRun <- subFoldersFull[grepl(Run_folders_WithRTA[i],subFoldersFull)]
@@ -153,22 +153,22 @@ for(i in 1:length(Run_folders_WithRTA)){
         if(as.numeric(as.vector(currentRunParameters$IndexRead1)) != 0){
           numberOfNs <- as.numeric(as.vector(currentRunParameters$IndexRead1)) - as.numeric(indexLengths[1])
           if(indexLengths[1] == 0){ 
-            indexMask1 <- ""
+            indexMask1 <- ",n*"
           }else{
             indexMask1 <-  paste0(",I",indexLengths[1],paste0(rep("n",numberOfNs),collapse=""))
           }
         }else{
-          indexMask1 <- ""
+          indexMask1 <- ",n*"
         }
         if(as.numeric(as.vector(currentRunParameters$IndexRead2)) != 0){
           numberOfNs <- as.numeric(as.vector(currentRunParameters$IndexRead2)) - as.numeric(indexLengths[2])
           if(indexLengths[2] == 0){ 
-            indexMask2 <- ""
+            indexMask2 <- ",n*"
           }else{
           indexMask2 <-  paste0(",I",indexLengths[2],paste0(rep("n",numberOfNs),collapse=""))
           }
         }else{
-          indexMask2 <- ""
+          indexMask2 <- ",n*"
         }
         if(currentRunParameters$Read2 > 0){
           usebasemask <- paste0("y*n",indexMask1,indexMask2,",y*n")
