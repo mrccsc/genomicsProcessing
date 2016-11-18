@@ -84,8 +84,8 @@ p <- 1
 
 bclVersion <- "New"
 
-subFoldersFull <- "/ifs/data/Hiseq/Runs/161105_D00467_0205_AC9L0AANXX"
-Run_folders_WithRTA <- "/ifs/data/Hiseq/Runs/161105_D00467_0205_AC9L0AANXX"
+subFoldersFull <- "/ifs/data/Hiseq/Runs/161111_D00467_0207_AC9M1EANXX"
+Run_folders_WithRTA <- "/ifs/data/Hiseq/Runs/161111_D00467_0207_AC9M1EANXX"
 
 
 readyBasecalling <- function(Run_folders_WithRTA,subFoldersFull,config,bclVersion="New"){
@@ -259,7 +259,7 @@ makeQsubs <- function(bclcommands,launch=TRUE){
 }
 
 bclcommands <- readyBasecalling(Run_folders_WithRTA,subFoldersFull,config,bclVersion="New")
-qsubscommands <- makeQsubs(bclcommands,launch=TRUE)
+
 
 
 
@@ -307,5 +307,20 @@ for(i in 1:length(makeQsubs)){
   cat(paste0(makeQsubs[[i]],"\n"),file=paste0(gsub(" ","_",Sys.time()),"_Qsubs.sh"),append=T)
 }
 
+
+
+		doc = xmlTreeParse(DremeMotifFile, useInternal = TRUE)
+		top = xmlRoot(doc)
+		NOfMotifs <- length(names(top[["motifs"]]))
+		for(k in 1:NOfMotifs){
+#			ProbLine <- top[["motifs"]][[k]][["match"]]
+			LineAtrr <- xmlAttrs(top[["motifs"]][[k]])
+			TempSignificantTableDreme <- matrix(c(SampleToLookFor,LineAtrr[1:9]),nrow=1,byrow=T)
+			if(exists(as.character(bquote(SignificantTableDreme)))){
+				SignificantTableDreme <- rbind(SignificantTableDreme,TempSignificantTableDreme)
+			}else{
+				SignificantTableDreme <- TempSignificantTableDreme
+			}
+		}
 ```
 
