@@ -32,9 +32,9 @@ for(p in 1:length(Projects)){
             
             Read <-  FilterState[[r]]
             ReadNumber <-  xmlAttrs(Read)
-            ReadNumber_Yield <- as.integer(xmlValue(FilterState[["Yield"]]))
-            ReadNumber_YieldQ30 <- as.integer(xmlValue(FilterState[["YieldQ30"]]))
-            ReadNumber_QualityScoreSum <- as.integer(xmlValue(FilterState[["QualityScoreSum"]]))
+            ReadNumber_Yield <- as.integer(xmlValue(Read[["Yield"]]))
+            ReadNumber_YieldQ30 <- as.integer(xmlValue(Read[["YieldQ30"]]))
+            ReadNumber_QualityScoreSum <- as.integer(xmlValue(Read[["QualityScoreSum"]]))
           }
         }
       }
