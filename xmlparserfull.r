@@ -50,6 +50,10 @@ Lane_Stats4 <- Projects_DF2 %>% filter(Sample != "all" & BarcodeStat == "Perfect
 
 Lane_Stats4 %>% filter(Project != "default") %>% ggplot(aes(x=Project,y=Count))+geom_violin(alpha=0.3,scale="width")+geom_jitter(alpha=0.6)
 
+temp <- Projects_DF2 %>% tbl_df %>% mutate(Count = as.numeric(Count)) %>%
+  filter(Sample != "all" & BarcodeStat == "PerfectBarcodeCount") %>% 
+  filter(Project != "default")
+ggplot(temp,aes(x=Lane,y=Count,fill=Sample))+geom_bar(stat = "identity")
 
 
 convStatsXML <- xmlTreeParse("~/Downloads/Stats/ConversionStats.xml")
