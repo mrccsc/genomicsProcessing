@@ -42,8 +42,8 @@ for(p in 1:length(Projects)){
                                    psiMatDF)
   names(Projects_Info)[p] <- Project_Name
 }
-Projects_DF <- do.call(rbind,Projects_Info)
-rownames(Projects_DF) <- NULL
+Projects_DF2 <- do.call(rbind,Projects_Info)
+rownames(Projects_DF2) <- NULL
 
 
 
@@ -130,3 +130,11 @@ for(p in 1:length(Projects)){
 }
 Projects_DF <- do.call(rbind,Projects_Info)
 rownames(Projects_DF) <- NULL
+
+Lane_perTileStats <- Projects_DF %>% group_by(Lane,Tile,Filter) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
+Sample_Stats <- Projects_DF %>% filter(Sample != "all") %>% group_by(Sample,Filter) %>% summarise(Yield=sum(as.numeric(Yield)))
+Lane_Stats4 <- Projects_DF %>% filter(Sample != "all") %>% group_by(Lane,Filter) %>% summarise(Yield=sum(as.numeric(Yield)))
+#Lane_Stats <- Projects_DF %>% filter(Sample == "all") %>% group_by(Lane,Filter) %>% summarise(sum(Yield))
+
+ggplot(data=Lane_perTileStats,aes(x=Lane,y=Yield))+geom_violin()
+
