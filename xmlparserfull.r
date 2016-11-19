@@ -45,6 +45,11 @@ for(p in 1:length(Projects)){
 Projects_DF2 <- do.call(rbind,Projects_Info)
 rownames(Projects_DF2) <- NULL
 
+Lane_Stats4 <- Projects_DF2 %>% filter(Sample != "all" & BarcodeStat == "PerfectBarcodeCount") %>% group_by(Project,Sample) %>% summarise(Count=sum(as.numeric(Count)))
+#Lane_Stats <- Projects_DF %>% filter(Sample == "all") %>% group_by(Lane,Filter) %>% summarise(sum(Yield))
+
+Lane_Stats4 %>% filter(Project != "default") %>% ggplot(aes(x=Project,y=Count))+geom_violin(alpha=0.3,scale="width")+geom_jitter(alpha=0.6)
+
 
 
 convStatsXML <- xmlTreeParse("~/Downloads/Stats/ConversionStats.xml")
