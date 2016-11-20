@@ -53,7 +53,8 @@ Lane_Stats4 %>% filter(Project != "default") %>% ggplot(aes(x=Project,y=Count))+
 temp <- Projects_DF2 %>% tbl_df %>% mutate(Count = as.numeric(Count)) %>%
   filter(Sample != "all" & BarcodeStat == "PerfectBarcodeCount") %>% 
   filter(Project != "default")
-ggplot(temp,aes(x=Lane,y=Count,fill=Sample))+geom_bar(stat = "identity")
+ggplot(temp,aes(x=Lane,y=Count,fill=Sample))+geom_bar(stat = "identity")+theme_bw()
+ggplot(temp,aes(x=Sample,y=Count,fill=Lane))+geom_bar(stat = "identity")+theme_bw()+coord_flip()
 
 
 convStatsXML <- xmlTreeParse("~/Downloads/Stats/ConversionStats.xml")
