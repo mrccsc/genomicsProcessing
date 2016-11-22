@@ -1,5 +1,5 @@
 library(XML)
-demuxStatsXML <- xmlTreeParse("~/Downloads/Stats/DemultiplexingStats.xml")
+demuxStatsXML <- xmlTreeParse("~/Desktop/genomics/Stats/DemultiplexingStats.xml")
 demuxStatsXML_root <- xmlRoot(demuxStatsXML)
 
 Projects <- demuxStatsXML_root[[1]]
@@ -57,7 +57,7 @@ ggplot(temp,aes(x=Lane,y=Count,fill=Sample))+geom_bar(stat = "identity")+theme_b
 ggplot(temp,aes(x=Sample,y=Count,fill=Lane))+geom_bar(stat = "identity")+theme_bw()+coord_flip()
 
 
-convStatsXML <- xmlTreeParse("~/Downloads/Stats/ConversionStats.xml")
+convStatsXML <- xmlTreeParse("~/Desktop/genomics/Stats/ConversionStats.xml")
 convStatsXML_root <- xmlRoot(convStatsXML)
 
 Projects <- convStatsXML_root[[1]]
