@@ -14,70 +14,79 @@ readyBasecalling <- function(Run_folders_WithRTA,subFoldersFull,config,bclVersio
     currentRunParameters <- xmlToDataFrame(xmlFromPresentRunFolder)
     currentRunParameters <- currentRunParameters[!is.na(currentRunParameters$ExperimentName),,drop=F]
     sampleSheetName <- file.path(currentRun,paste0(currentRunParameters$Barcode,".csv"))
-    if(file.exists(sampleSheetName)){
-      ss <- read.delim(sampleSheetName,sep=",",quote=NULL,header=T,stringsAsFactors=F)
-      ss$SampleID <- gsub("^X","Sample_",validNames(ss$SampleID))
-      ss$SampleID <-gsub("\\?|\\(|\\)|\\[|\\]|\\\\|/|\\=|\\+|<|>|\\:|\\;|\"|\'|\\*|\\^|\\||\\&|\\.","_",ss$SampleID)
-      ss$Index <- gsub(" ","",ss$Index)
-      toBeTrimmed <- which(lapply(ss$Index,nchar) > as.numeric(currentRunParameters$IndexRead1))
-      for(i in toBeTrimmed){
-        ss$Index[toBeTrimmed] <-  substr(ss$Index[toBeTrimmed],0,as.numeric(currentRunParameters$IndexRead1))
-      }
-      
-      message("Read samplesheet ",basename(sampleSheetName)," discovered for run ",currentRun)
-      index1Lengths <- unlist(lapply(ss$Index,function(x)nchar(x)))
-      
-      if(any(colnames(ss) %in% "Index2")){
-        ss$Index2 <- gsub(" ","",ss$Index2)
-        index2Lengths <- unlist(lapply(ss$Index2,function(x)nchar(x)))
-        index2NAs <- unlist(lapply(ss$Index2,function(x)is.na(x)))
-        index2Lengths[index2NAs] <- 0
-        allIndexTypes <- paste0(index1Lengths,"-",index2Lengths)
-        uniqueIndexTypes <- unique(allIndexTypes)
-        #ss$SampleID <- gsub("[[:punct:]]", "_", ss$SampleID).)
-        #ss$SampleID <- gsub("[^[:alnum:]]", "_", ss$SampleID).)
-        ss$Index <- gsub("-NA|-$|^-$","",paste(ss$Index,ss$Index2,sep="-"))
-        ss <- ss[,-grep("Index2",colnames(ss))]
-      }else{
-        allIndexTypes <- paste0(index1Lengths)
-        uniqueIndexTypes <- unique(allIndexTypes)
-        #ss$SampleID <- gsub("[[:punct:]]", "_", ss$SampleID).)
-        #ss$SampleID <- gsub("[^[:alnum:]]", "_", ss$SampleID).)
-      }
-      indexLoop <- 1
-      for(l in uniqueIndexTypes){
-        tempss <- ss[allIndexTypes %in% l,]
-        tempss[is.na(tempss)] <- ""
-        if(!ncol(tempss) > 9){
-          diff <- 10-ncol(tempss)
-          addColumns <- matrix(nrow=nrow(tempss),ncol=diff)
-          colnames(addColumns) <- paste0("Dummy",seq(1,diff))
-          tempss <- cbind(tempss,addColumns)
-        }
-        
-        
-        if(!file.exists(gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName))){
-          if(bclVersion == "old"){
-            write.table(tempss,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T)
-          }else{
-            Sample_Project <- tempss$Project
-            Lane <- tempss$Lane
-            Sample_ID <- tempss$SampleID
-            Sample_Name <- tempss$SampleID
-            index <- tempss$Index
-            if(any(grepl("-",index))){
-              indexMat <- matrix(unlist(strsplit(tempss$Index,"-")),ncol=2,byrow=T)
-              index <- indexMat[,1]
-              index2 <- indexMat[,2]
-              tempss_New <- cbind(Sample_Project,Lane,Sample_ID,Sample_Name,index,index2)
-            }else{
-              tempss_New <- cbind(Sample_Project,Lane,Sample_ID,Sample_Name,index)
+    if(file.exists(sampleSheetName)){  # check whether the sample sheet exist
+        ss <- read.delim(sampleSheetName,sep=",",quote=NULL,header=T,stringsAsFactors=F)
+        # (1) check SampleID integrity
+            ss$SampleID <- gsub("^X","Sample_",validNames(ss$SampleID))
+            ss$SampleID <-gsub("\\?|\\(|\\)|\\[|\\]|\\\\|/|\\=|\\+|<|>|\\:|\\;|\"|\'|\\*|\\^|\\||\\&|\\.","_",ss$SampleID)
+        # (2) check Project integrity
+            # "UP": Unknown project
+            ss[ss$Project==""|ss$Project==" "|is.na(ss$Project),]$Project<-"UP"
+            
+        # (3) a. check the index sequence in $Index column, i.e. remove the space character
+            ss$Index <- gsub(" ","",ss$Index)
+            # b. check the index sequence length in $Index column
+            toBeTrimmed <- which(lapply(ss$Index,nchar) > as.numeric(currentRunParameters$IndexRead1))
+            for(i4trim in toBeTrimmed){
+              #ss$Index[i4trim] <-  substr(ss$Index[i4trim],0,as.numeric(currentRunParameters$IndexRead1))
+              ss$Index[i4trim] <-  substr(ss$Index[i4trim],1,as.numeric(currentRunParameters$IndexRead1)-1)
             }
-            dataSectionString <- "[Data]"
-            write.table(dataSectionString,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=F)
-            write.table(tempss_New,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T,append=T)
-          }
+        # (4) after checking the SampleID and index, print out message
+        message("Read samplesheet ",basename(sampleSheetName)," discovered for run ",currentRun)
+        index1Lengths <- unlist(lapply(ss$Index,function(x)nchar(x)))
+        # (5) check whether there is "Index2" column in the sample sheet
+        if(any(colnames(ss) %in% "Index2")){
+            ss$Index2 <- gsub(" ","",ss$Index2)
+            index2Lengths <- unlist(lapply(ss$Index2,function(x)nchar(x)))
+            index2NAs <- unlist(lapply(ss$Index2,function(x)is.na(x)))
+            index2Lengths[index2NAs] <- 0
+            allIndexTypes <- paste0(index1Lengths,"-",index2Lengths)
+            uniqueIndexTypes <- unique(allIndexTypes)
+            #ss$SampleID <- gsub("[[:punct:]]", "_", ss$SampleID).)
+            #ss$SampleID <- gsub("[^[:alnum:]]", "_", ss$SampleID).)
+            ss$Index <- gsub("-NA|-$|^-$","",paste(ss$Index,ss$Index2,sep="-"))
+            # after merging Index2 information to Index, delete the Index2 column from ss
+            ss <- ss[,-grep("Index2",colnames(ss))]
+        }else{
+            allIndexTypes <- paste0(index1Lengths)
+            uniqueIndexTypes <- unique(allIndexTypes)
+            #ss$SampleID <- gsub("[[:punct:]]", "_", ss$SampleID).)
+            #ss$SampleID <- gsub("[^[:alnum:]]", "_", ss$SampleID).)
         }
+        indexLoop <- 1  # unused parameter; for future development
+        for(l in uniqueIndexTypes){
+            tempss <- ss[allIndexTypes %in% l,]
+            tempss[is.na(tempss)] <- ""
+            if(!ncol(tempss) > 9){
+              diff <- 10-ncol(tempss)
+              addColumns <- matrix(nrow=nrow(tempss),ncol=diff)
+              colnames(addColumns) <- paste0("Dummy",seq(1,diff))
+              tempss <- cbind(tempss,addColumns)
+            }
+          
+          
+          if(!file.exists(gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName))){
+            if(bclVersion == "old"){
+              write.table(tempss,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T)
+            }else{
+              Sample_Project <- tempss$Project
+              Lane <- tempss$Lane
+              Sample_ID <- tempss$SampleID
+              Sample_Name <- tempss$SampleID
+              index <- tempss$Index
+              if(any(grepl("-",index))){
+                indexMat <- matrix(unlist(strsplit(tempss$Index,"-")),ncol=2,byrow=T)
+                index <- indexMat[,1]
+                index2 <- indexMat[,2]
+                tempss_New <- cbind(Sample_Project,Lane,Sample_ID,Sample_Name,index,index2)
+              }else{
+                tempss_New <- cbind(Sample_Project,Lane,Sample_ID,Sample_Name,index)
+              }
+              dataSectionString <- "[Data]"
+              write.table(dataSectionString,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=F)
+              write.table(tempss_New,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T,append=T)
+            }
+          }
         #if(!dir.exists(gsub("\\.csv",paste0("_",l),sampleSheetName))){
         #  dir.create(gsub("\\.csv",paste0("_",l),sampleSheetName),showWarnings = F)
         #}
