@@ -7,7 +7,8 @@ Run_folders_WithRTA <- "/ifs/data/Hiseq/Runs/161105_D00467_0205_AC9L0AANXX"
 ########################Basecalling########################################
 readyBasecalling <- function(Run_folders_WithRTA,subFoldersFull,config,bclVersion="New"){
   runParams <- vector("list",length=length(Run_folders_WithRTA))
-  shellBCLs <- vector()
+  #shellBCLs <- vector()
+  shellBCLs_df<-NULL
   for(i in 1:length(Run_folders_WithRTA)){
     currentRun <- subFoldersFull[grepl(Run_folders_WithRTA[i],subFoldersFull)]
     xmlFromPresentRunFolder <- xmlParse(file.path(currentRun,"runParameters.xml"))
@@ -21,7 +22,10 @@ readyBasecalling <- function(Run_folders_WithRTA,subFoldersFull,config,bclVersio
             ss$SampleID <-gsub("\\?|\\(|\\)|\\[|\\]|\\\\|/|\\=|\\+|<|>|\\:|\\;|\"|\'|\\*|\\^|\\||\\&|\\.","_",ss$SampleID)
         # (2) check Project integrity
             # "UP": Unknown project
-            ss[ss$Project==""|ss$Project==" "|is.na(ss$Project),]$Project<-"UP"
+            checkUP<-ss[ss$Project==""|ss$Project==" "|is.na(ss$Project),]$Project
+            if (length(checkUP)>0){
+              ss[ss$Project==""|ss$Project==" "|is.na(ss$Project),]$Project<-"UP"
+            }
         # (3) a. check the index sequence in $Index column, i.e. remove the space character
             ss$Index <- gsub(" ","",ss$Index)
             # b. check the index sequence length in $Index column
@@ -159,8 +163,9 @@ readyBasecalling <- function(Run_folders_WithRTA,subFoldersFull,config,bclVersio
               write.table(paste0("",gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName)),
                           file=gsub("\\.csv",paste0("_",l,"ForQSUB\\.sh"),sampleSheetName),
                           col.names=F,row.names=F,append=T,quote=F)
-              shellBCLs[p] <- gsub("\\.csv",paste0("_",l,"ForQSUB\\.sh"),sampleSheetName)
-              p <- p+1
+              #shellBCLs[p] <- gsub("\\.csv",paste0("_",l,"ForQSUB\\.sh"),sampleSheetName)
+              #p <- p+1
+              shellBCLs_df<-rbind(shellBCLs_df,gsub("\\.csv",paste0("_",l,"ForQSUB\\.sh"),sampleSheetName))
           }else{
             # in the current version, if the shell script exists, no shellBCLs will be generated
             message("shell script ",gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName)," already exists.")
@@ -171,6 +176,7 @@ readyBasecalling <- function(Run_folders_WithRTA,subFoldersFull,config,bclVersio
       stop("No samplesheet ",basename(sampleSheetName)," discovered for run ",basename(currentRun))
     }
   }
+  shellBCLs<-as.vector(t(shellBCLs_df))
   return(shellBCLs)
 }
 
@@ -196,7 +202,7 @@ makeQsubs <- function(bclcommands,launch=TRUE){
 
 
 config = data.frame(readIniFile("~/genomicsProcessing/config.ini"))
-p <- 1
+#p <- 1     # no need to indicate p for the readyBasecalling function anymore
 
 
 bclcommands <- readyBasecalling(Run_folders_WithRTA,subFoldersFull,config,bclVersion="New")
