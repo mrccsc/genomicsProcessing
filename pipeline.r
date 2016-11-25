@@ -161,6 +161,9 @@ readyBasecalling <- function(Run_folders_WithRTA,subFoldersFull,config,bclVersio
                           col.names=F,row.names=F,append=T,quote=F)
               shellBCLs[p] <- gsub("\\.csv",paste0("_",l,"ForQSUB\\.sh"),sampleSheetName)
               p <- p+1
+          }else{
+            # in the current version, if the shell script exists, no shellBCLs will be generated
+            message("shell script ",gsub("\\.csv",paste0("_",l,"\\.sh"),sampleSheetName)," already exists.")
           }
         #####################################################################
         }
