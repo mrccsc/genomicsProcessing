@@ -1,5 +1,6 @@
 library(XML)
-demuxStatsXML <- xmlTreeParse("~/Desktop/genomics/Stats/DemultiplexingStats.xml")
+library(scales) # for pie char formatting
+demuxStatsXML <- xmlTreeParse("Stats/DemultiplexingStats.xml")
 demuxStatsXML_root <- xmlRoot(demuxStatsXML)
 
 Projects <- demuxStatsXML_root[[1]]
@@ -45,19 +46,34 @@ for(p in 1:length(Projects)){
 Projects_DF2 <- do.call(rbind,Projects_Info)
 rownames(Projects_DF2) <- NULL
 
-Lane_Stats4 <- Projects_DF2 %>% filter(Sample != "all" & BarcodeStat == "PerfectBarcodeCount") %>% group_by(Project,Sample) %>% summarise(Count=sum(as.numeric(Count)))
+Lane_Stats4 <- Projects_DF2 %>% filter(Sample != "all" & BarcodeStat == "BarcodeCount") %>% group_by(Project,Sample) %>% summarise(Count=sum(as.numeric(Count)))
 #Lane_Stats <- Projects_DF %>% filter(Sample == "all") %>% group_by(Lane,Filter) %>% summarise(sum(Yield))
 
-Lane_Stats4 %>% filter(Project != "default") %>% ggplot(aes(x=Project,y=Count))+geom_violin(alpha=0.3,scale="width")+geom_jitter(alpha=0.6)
+Lane_Stats4 %>% filter(Project != "default") %>% ggplot(aes(x=Project,y=Count))+geom_violin(alpha=0.3,scale="width")+geom_jitter(alpha=0.6)+theme(legend.position="bottom")
 
 temp <- Projects_DF2 %>% tbl_df %>% mutate(Count = as.numeric(Count)) %>%
-  filter(Sample != "all" & BarcodeStat == "PerfectBarcodeCount") %>% 
-  filter(Project != "default")
-ggplot(temp,aes(x=Lane,y=Count,fill=Sample))+geom_bar(stat = "identity")+theme_bw()
-ggplot(temp,aes(x=Sample,y=Count,fill=Lane))+geom_bar(stat = "identity")+theme_bw()+coord_flip()
+  filter(Sample != "all" & BarcodeStat == "BarcodeCount") %>% 
+  filter(Project != "default") # Computing percent label text and position for pie chart
+temp <- temp %>% group_by(Lane) %>% mutate(labelperc=round(Count/sum(Count),2)*100) %>% group_by(Lane) %>% mutate(pos = cumsum(labelperc)- labelperc/2)
 
 
-convStatsXML <- xmlTreeParse("~/Desktop/genomics/Stats/ConversionStats.xml")
+#### Plots
+ggplot(temp,aes(x=Lane,y=Count,fill=Sample))+geom_bar(stat = "identity")+theme_bw()+theme(legend.position="bottom")
+ggplot(temp,aes(x=Sample,y=Count,fill=Lane))+geom_bar(stat = "identity")+theme_bw()+coord_flip()+theme(legend.position="bottom")
+
+## Pie chart - currenty works for only one lane!
+# loop thru each lane and print a pie chart
+fontsize <- 2
+ggplot(data=temp1[temp1$Lane=="Lane2",], aes(x=factor(1), y=labelperc, fill=factor(Sample))) +
+  geom_bar(stat="identity") +
+  geom_text(aes(x= factor(1), y=pos, label = paste0(temp1[temp1$Lane=="Lane2",]$labelperc,"%")), size=fontsize) +  # note y = pos
+  coord_polar(theta = "y")+theme(legend.position="bottom") +
+  facet_grid(facets = .~Lane, labeller = label_value)
+
+
+
+
+convStatsXML <- xmlTreeParse("Stats/ConversionStats.xml")
 convStatsXML_root <- xmlRoot(convStatsXML)
 
 Projects <- convStatsXML_root[[1]]

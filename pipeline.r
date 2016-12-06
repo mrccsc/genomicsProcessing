@@ -69,7 +69,7 @@ readyBasecalling <- function(Run_folders_WithRTA,subFoldersFull,config,bclVersio
               colnames(addColumns) <- paste0("Dummy",seq(1,diff))
               tempss <- cbind(tempss,addColumns)
             }
-          # generate new sample sheets #################################
+          # generate new sample sheets for each Index type #################################
           if(!file.exists(gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName))){
               if(bclVersion == "old"){  # generate sample sheet for the old version of bclVersion
                 write.table(tempss,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T)
@@ -206,7 +206,7 @@ config = data.frame(readIniFile("~/genomicsProcessing/config.ini"))
 
 
 bclcommands <- readyBasecalling(Run_folders_WithRTA,subFoldersFull,config,bclVersion="New")
-qsubscommands <- makeQsubs(bclcommands,launch=F)
+qsubscommands <- makeQsubs(bclcommands[1],launch=T)
 
 qsubscommands
 shellBCLs

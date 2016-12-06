@@ -5,8 +5,8 @@ demuxStatsXML_root <- xmlRoot(demuxStatsXML)
 Projects <- demuxStatsXML_root[[1]]
 
 flowcellID <- xmlAttrs(Projects)
-library(dplyr)
-Projects_Info <- list()
+  library(dplyr)
+  Projects_Info <- list()
 for(p in 1:length(Projects)){
   Project <- Projects[[p]]
   Project_Name <- xmlAttrs(Project)
@@ -15,7 +15,7 @@ for(p in 1:length(Projects)){
     Sample <- Project[[s]]
     Sample_Name <- xmlAttrs(Sample)
     Sample_BarcodeExpected <- Sample[[1]]
-    Sample_BarcodeExpected_Name <- xmlAttrs(Sample[[i]])
+    Sample_BarcodeExpected_Name <- xmlAttrs(Sample[[1]])
     Project_Sample_BarcodeExpected_Lane_Info <- list()
     for(b in 1:length(Sample_BarcodeExpected)){
       Lane <- Sample_BarcodeExpected[[b]]

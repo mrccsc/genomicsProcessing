@@ -1,0 +1,1235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Stats>
+  <Flowcell flowcell-id="C9L0AANXX">
+    <Project name="default">
+      <Sample name="Undetermined">
+        <Barcode name="unknown">
+          <Lane number="2">
+            <BarcodeCount>1778149</BarcodeCount>
+            <PerfectBarcodeCount>1778149</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="3">
+            <BarcodeCount>1804319</BarcodeCount>
+            <PerfectBarcodeCount>1804319</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="4">
+            <BarcodeCount>3797263</BarcodeCount>
+            <PerfectBarcodeCount>3797263</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="5">
+            <BarcodeCount>3679471</BarcodeCount>
+            <PerfectBarcodeCount>3679471</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="6">
+            <BarcodeCount>85203448</BarcodeCount>
+            <PerfectBarcodeCount>85203448</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="7">
+            <BarcodeCount>44493506</BarcodeCount>
+            <PerfectBarcodeCount>44493506</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="8">
+            <BarcodeCount>27841745</BarcodeCount>
+            <PerfectBarcodeCount>27841745</PerfectBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="2">
+            <BarcodeCount>1778149</BarcodeCount>
+            <PerfectBarcodeCount>1778149</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="3">
+            <BarcodeCount>1804319</BarcodeCount>
+            <PerfectBarcodeCount>1804319</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="4">
+            <BarcodeCount>3797263</BarcodeCount>
+            <PerfectBarcodeCount>3797263</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="5">
+            <BarcodeCount>3679471</BarcodeCount>
+            <PerfectBarcodeCount>3679471</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="6">
+            <BarcodeCount>85203448</BarcodeCount>
+            <PerfectBarcodeCount>85203448</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="7">
+            <BarcodeCount>44493506</BarcodeCount>
+            <PerfectBarcodeCount>44493506</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="8">
+            <BarcodeCount>27841745</BarcodeCount>
+            <PerfectBarcodeCount>27841745</PerfectBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="all">
+        <Barcode name="all">
+          <Lane number="2">
+            <BarcodeCount>1778149</BarcodeCount>
+            <PerfectBarcodeCount>1778149</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="3">
+            <BarcodeCount>1804319</BarcodeCount>
+            <PerfectBarcodeCount>1804319</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="4">
+            <BarcodeCount>3797263</BarcodeCount>
+            <PerfectBarcodeCount>3797263</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="5">
+            <BarcodeCount>3679471</BarcodeCount>
+            <PerfectBarcodeCount>3679471</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="6">
+            <BarcodeCount>85203448</BarcodeCount>
+            <PerfectBarcodeCount>85203448</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="7">
+            <BarcodeCount>44493506</BarcodeCount>
+            <PerfectBarcodeCount>44493506</PerfectBarcodeCount>
+          </Lane>
+          <Lane number="8">
+            <BarcodeCount>27841745</BarcodeCount>
+            <PerfectBarcodeCount>27841745</PerfectBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+    </Project>
+    <Project name="SR">
+      <Sample name="Sample_14dM2_1">
+        <Barcode name="CGATGT">
+          <Lane number="2">
+            <BarcodeCount>26598348</BarcodeCount>
+            <PerfectBarcodeCount>26379314</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>219034</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="2">
+            <BarcodeCount>26598348</BarcodeCount>
+            <PerfectBarcodeCount>26379314</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>219034</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_14dM3_1">
+        <Barcode name="TGACCA">
+          <Lane number="2">
+            <BarcodeCount>24930787</BarcodeCount>
+            <PerfectBarcodeCount>24715409</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>215378</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="2">
+            <BarcodeCount>24930787</BarcodeCount>
+            <PerfectBarcodeCount>24715409</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>215378</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_14dM5_1">
+        <Barcode name="ACAGTG">
+          <Lane number="2">
+            <BarcodeCount>21644454</BarcodeCount>
+            <PerfectBarcodeCount>21492010</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>152444</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="2">
+            <BarcodeCount>21644454</BarcodeCount>
+            <PerfectBarcodeCount>21492010</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>152444</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_14dF1_1">
+        <Barcode name="GCCAAT">
+          <Lane number="2">
+            <BarcodeCount>22264109</BarcodeCount>
+            <PerfectBarcodeCount>22062818</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>201291</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="2">
+            <BarcodeCount>22264109</BarcodeCount>
+            <PerfectBarcodeCount>22062818</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>201291</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_14dF3_1">
+        <Barcode name="CAGATC">
+          <Lane number="2">
+            <BarcodeCount>21447274</BarcodeCount>
+            <PerfectBarcodeCount>21222516</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>224758</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="2">
+            <BarcodeCount>21447274</BarcodeCount>
+            <PerfectBarcodeCount>21222516</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>224758</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_14dF5_1">
+        <Barcode name="CTTGTA">
+          <Lane number="2">
+            <BarcodeCount>23691622</BarcodeCount>
+            <PerfectBarcodeCount>23517228</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>174394</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="2">
+            <BarcodeCount>23691622</BarcodeCount>
+            <PerfectBarcodeCount>23517228</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>174394</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_12wM1_1">
+        <Barcode name="AGTCAA">
+          <Lane number="2">
+            <BarcodeCount>22911118</BarcodeCount>
+            <PerfectBarcodeCount>22730894</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>180224</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="2">
+            <BarcodeCount>22911118</BarcodeCount>
+            <PerfectBarcodeCount>22730894</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>180224</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_12wM4_1">
+        <Barcode name="AGTTCC">
+          <Lane number="2">
+            <BarcodeCount>22441428</BarcodeCount>
+            <PerfectBarcodeCount>22242174</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>199254</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="2">
+            <BarcodeCount>22441428</BarcodeCount>
+            <PerfectBarcodeCount>22242174</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>199254</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_12wM5_1">
+        <Barcode name="ATGTCA">
+          <Lane number="2">
+            <BarcodeCount>21519819</BarcodeCount>
+            <PerfectBarcodeCount>21366190</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>153629</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="2">
+            <BarcodeCount>21519819</BarcodeCount>
+            <PerfectBarcodeCount>21366190</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>153629</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_12wF1_1">
+        <Barcode name="CCGTCC">
+          <Lane number="2">
+            <BarcodeCount>21623322</BarcodeCount>
+            <PerfectBarcodeCount>21455858</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>167464</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="2">
+            <BarcodeCount>21623322</BarcodeCount>
+            <PerfectBarcodeCount>21455858</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>167464</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_12wF4_1">
+        <Barcode name="GTCCGC">
+          <Lane number="2">
+            <BarcodeCount>25147977</BarcodeCount>
+            <PerfectBarcodeCount>24893863</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>254114</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="2">
+            <BarcodeCount>25147977</BarcodeCount>
+            <PerfectBarcodeCount>24893863</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>254114</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_12wF5_1">
+        <Barcode name="GTGAAA">
+          <Lane number="2">
+            <BarcodeCount>26362663</BarcodeCount>
+            <PerfectBarcodeCount>26191229</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>171434</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="2">
+            <BarcodeCount>26362663</BarcodeCount>
+            <PerfectBarcodeCount>26191229</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>171434</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="all">
+        <Barcode name="all">
+          <Lane number="2">
+            <BarcodeCount>280582921</BarcodeCount>
+            <PerfectBarcodeCount>278269503</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>2313418</OneMismatchBarcodeCount>
+          </Lane>
+          <Lane number="3">
+            <BarcodeCount>281382705</BarcodeCount>
+            <PerfectBarcodeCount>279061880</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>2320825</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_14dM2_2">
+        <Barcode name="CGATGT">
+          <Lane number="3">
+            <BarcodeCount>26643382</BarcodeCount>
+            <PerfectBarcodeCount>26425050</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>218332</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="3">
+            <BarcodeCount>26643382</BarcodeCount>
+            <PerfectBarcodeCount>26425050</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>218332</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_14dM3_2">
+        <Barcode name="TGACCA">
+          <Lane number="3">
+            <BarcodeCount>25047312</BarcodeCount>
+            <PerfectBarcodeCount>24829064</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>218248</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="3">
+            <BarcodeCount>25047312</BarcodeCount>
+            <PerfectBarcodeCount>24829064</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>218248</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_14dM5_2">
+        <Barcode name="ACAGTG">
+          <Lane number="3">
+            <BarcodeCount>21708539</BarcodeCount>
+            <PerfectBarcodeCount>21555520</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>153019</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="3">
+            <BarcodeCount>21708539</BarcodeCount>
+            <PerfectBarcodeCount>21555520</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>153019</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_14dF1_2">
+        <Barcode name="GCCAAT">
+          <Lane number="3">
+            <BarcodeCount>22357530</BarcodeCount>
+            <PerfectBarcodeCount>22155956</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>201574</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="3">
+            <BarcodeCount>22357530</BarcodeCount>
+            <PerfectBarcodeCount>22155956</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>201574</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_14dF3_2">
+        <Barcode name="CAGATC">
+          <Lane number="3">
+            <BarcodeCount>21511806</BarcodeCount>
+            <PerfectBarcodeCount>21286422</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>225384</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="3">
+            <BarcodeCount>21511806</BarcodeCount>
+            <PerfectBarcodeCount>21286422</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>225384</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_14dF5_2">
+        <Barcode name="CTTGTA">
+          <Lane number="3">
+            <BarcodeCount>23713243</BarcodeCount>
+            <PerfectBarcodeCount>23540507</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>172736</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="3">
+            <BarcodeCount>23713243</BarcodeCount>
+            <PerfectBarcodeCount>23540507</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>172736</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_12wM1_2">
+        <Barcode name="AGTCAA">
+          <Lane number="3">
+            <BarcodeCount>23011166</BarcodeCount>
+            <PerfectBarcodeCount>22829504</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>181662</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="3">
+            <BarcodeCount>23011166</BarcodeCount>
+            <PerfectBarcodeCount>22829504</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>181662</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_12wM4_2">
+        <Barcode name="AGTTCC">
+          <Lane number="3">
+            <BarcodeCount>22490848</BarcodeCount>
+            <PerfectBarcodeCount>22291940</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>198908</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="3">
+            <BarcodeCount>22490848</BarcodeCount>
+            <PerfectBarcodeCount>22291940</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>198908</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_12wM5_2">
+        <Barcode name="ATGTCA">
+          <Lane number="3">
+            <BarcodeCount>21550507</BarcodeCount>
+            <PerfectBarcodeCount>21395968</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>154539</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="3">
+            <BarcodeCount>21550507</BarcodeCount>
+            <PerfectBarcodeCount>21395968</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>154539</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_12wF1_2">
+        <Barcode name="CCGTCC">
+          <Lane number="3">
+            <BarcodeCount>21673882</BarcodeCount>
+            <PerfectBarcodeCount>21504883</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>168999</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="3">
+            <BarcodeCount>21673882</BarcodeCount>
+            <PerfectBarcodeCount>21504883</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>168999</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_12wF4_2">
+        <Barcode name="GTCCGC">
+          <Lane number="3">
+            <BarcodeCount>25228495</BarcodeCount>
+            <PerfectBarcodeCount>24974860</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>253635</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="3">
+            <BarcodeCount>25228495</BarcodeCount>
+            <PerfectBarcodeCount>24974860</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>253635</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="Sample_12wF5_2">
+        <Barcode name="GTGAAA">
+          <Lane number="3">
+            <BarcodeCount>26445995</BarcodeCount>
+            <PerfectBarcodeCount>26272206</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>173789</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="3">
+            <BarcodeCount>26445995</BarcodeCount>
+            <PerfectBarcodeCount>26272206</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>173789</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+    </Project>
+    <Project name="all">
+      <Sample name="all">
+        <Barcode name="all">
+          <Lane number="2">
+            <BarcodeCount>282361070</BarcodeCount>
+            <PerfectBarcodeCount>280047652</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>2313418</OneMismatchBarcodeCount>
+          </Lane>
+          <Lane number="3">
+            <BarcodeCount>283187024</BarcodeCount>
+            <PerfectBarcodeCount>280866199</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>2320825</OneMismatchBarcodeCount>
+          </Lane>
+          <Lane number="4">
+            <BarcodeCount>324844411</BarcodeCount>
+            <PerfectBarcodeCount>319015053</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>5829358</OneMismatchBarcodeCount>
+          </Lane>
+          <Lane number="5">
+            <BarcodeCount>323565451</BarcodeCount>
+            <PerfectBarcodeCount>317593290</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>5972161</OneMismatchBarcodeCount>
+          </Lane>
+          <Lane number="6">
+            <BarcodeCount>311203503</BarcodeCount>
+            <PerfectBarcodeCount>296361438</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>14842065</OneMismatchBarcodeCount>
+          </Lane>
+          <Lane number="7">
+            <BarcodeCount>63548295</BarcodeCount>
+            <PerfectBarcodeCount>46757971</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>16790324</OneMismatchBarcodeCount>
+          </Lane>
+          <Lane number="8">
+            <BarcodeCount>49357504</BarcodeCount>
+            <PerfectBarcodeCount>29828879</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>19528625</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+    </Project>
+    <Project name="SZLC">
+      <Sample name="SA4">
+        <Barcode name="TGACCA">
+          <Lane number="4">
+            <BarcodeCount>118109043</BarcodeCount>
+            <PerfectBarcodeCount>116605419</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1503624</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="4">
+            <BarcodeCount>118109043</BarcodeCount>
+            <PerfectBarcodeCount>116605419</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1503624</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="SA5">
+        <Barcode name="ACAGTG">
+          <Lane number="4">
+            <BarcodeCount>93272660</BarcodeCount>
+            <PerfectBarcodeCount>90651875</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>2620785</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="4">
+            <BarcodeCount>93272660</BarcodeCount>
+            <PerfectBarcodeCount>90651875</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>2620785</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="SA6">
+        <Barcode name="GCCAAT">
+          <Lane number="4">
+            <BarcodeCount>109665445</BarcodeCount>
+            <PerfectBarcodeCount>107960496</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1704949</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="4">
+            <BarcodeCount>109665445</BarcodeCount>
+            <PerfectBarcodeCount>107960496</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1704949</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="all">
+        <Barcode name="all">
+          <Lane number="4">
+            <BarcodeCount>321047148</BarcodeCount>
+            <PerfectBarcodeCount>315217790</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>5829358</OneMismatchBarcodeCount>
+          </Lane>
+          <Lane number="5">
+            <BarcodeCount>319885980</BarcodeCount>
+            <PerfectBarcodeCount>313913819</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>5972161</OneMismatchBarcodeCount>
+          </Lane>
+          <Lane number="6">
+            <BarcodeCount>226000055</BarcodeCount>
+            <PerfectBarcodeCount>211157990</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>14842065</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="SA7">
+        <Barcode name="CAGATC">
+          <Lane number="5">
+            <BarcodeCount>73777914</BarcodeCount>
+            <PerfectBarcodeCount>72606456</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1171458</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="5">
+            <BarcodeCount>73777914</BarcodeCount>
+            <PerfectBarcodeCount>72606456</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1171458</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="SA12">
+        <Barcode name="CTTGTA">
+          <Lane number="5">
+            <BarcodeCount>171970830</BarcodeCount>
+            <PerfectBarcodeCount>168434245</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>3536585</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="5">
+            <BarcodeCount>171970830</BarcodeCount>
+            <PerfectBarcodeCount>168434245</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>3536585</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="SA13">
+        <Barcode name="AGTCAA">
+          <Lane number="5">
+            <BarcodeCount>74137236</BarcodeCount>
+            <PerfectBarcodeCount>72873118</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1264118</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="5">
+            <BarcodeCount>74137236</BarcodeCount>
+            <PerfectBarcodeCount>72873118</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1264118</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="SA14">
+        <Barcode name="AGTTCC">
+          <Lane number="6">
+            <BarcodeCount>107588581</BarcodeCount>
+            <PerfectBarcodeCount>100262413</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>7326168</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="6">
+            <BarcodeCount>107588581</BarcodeCount>
+            <PerfectBarcodeCount>100262413</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>7326168</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="SA15">
+        <Barcode name="ATGTCA">
+          <Lane number="6">
+            <BarcodeCount>63523302</BarcodeCount>
+            <PerfectBarcodeCount>59537831</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>3985471</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="6">
+            <BarcodeCount>63523302</BarcodeCount>
+            <PerfectBarcodeCount>59537831</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>3985471</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="SA16">
+        <Barcode name="CCGTCC">
+          <Lane number="6">
+            <BarcodeCount>54888172</BarcodeCount>
+            <PerfectBarcodeCount>51357746</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>3530426</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="6">
+            <BarcodeCount>54888172</BarcodeCount>
+            <PerfectBarcodeCount>51357746</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>3530426</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+    </Project>
+    <Project name="BNPH">
+      <Sample name="D15GOWT1_1">
+        <Barcode name="ATCACG">
+          <Lane number="7">
+            <BarcodeCount>1211262</BarcodeCount>
+            <PerfectBarcodeCount>143970</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1067292</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>1211262</BarcodeCount>
+            <PerfectBarcodeCount>143970</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1067292</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOWT2_1">
+        <Barcode name="CGATGT">
+          <Lane number="7">
+            <BarcodeCount>1299186</BarcodeCount>
+            <PerfectBarcodeCount>167194</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1131992</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>1299186</BarcodeCount>
+            <PerfectBarcodeCount>167194</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1131992</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOWT3_1">
+        <Barcode name="TTAGGC">
+          <Lane number="7">
+            <BarcodeCount>1328932</BarcodeCount>
+            <PerfectBarcodeCount>154444</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1174488</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>1328932</BarcodeCount>
+            <PerfectBarcodeCount>154444</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1174488</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOWT4_1">
+        <Barcode name="TGACCA">
+          <Lane number="7">
+            <BarcodeCount>1073545</BarcodeCount>
+            <PerfectBarcodeCount>121662</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>951883</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>1073545</BarcodeCount>
+            <PerfectBarcodeCount>121662</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>951883</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOWT5_1">
+        <Barcode name="ACAGTG">
+          <Lane number="7">
+            <BarcodeCount>1275657</BarcodeCount>
+            <PerfectBarcodeCount>156888</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1118769</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>1275657</BarcodeCount>
+            <PerfectBarcodeCount>156888</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1118769</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOWT6_1">
+        <Barcode name="GCCAAT">
+          <Lane number="7">
+            <BarcodeCount>892027</BarcodeCount>
+            <PerfectBarcodeCount>110705</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>781322</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>892027</BarcodeCount>
+            <PerfectBarcodeCount>110705</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>781322</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOWT7_1">
+        <Barcode name="CAGATC">
+          <Lane number="7">
+            <BarcodeCount>1015639</BarcodeCount>
+            <PerfectBarcodeCount>119494</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>896145</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>1015639</BarcodeCount>
+            <PerfectBarcodeCount>119494</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>896145</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOWT8_1">
+        <Barcode name="ACTTGA">
+          <Lane number="7">
+            <BarcodeCount>1083577</BarcodeCount>
+            <PerfectBarcodeCount>125451</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>958126</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>1083577</BarcodeCount>
+            <PerfectBarcodeCount>125451</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>958126</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOKO1_1">
+        <Barcode name="GATCAG">
+          <Lane number="7">
+            <BarcodeCount>1186800</BarcodeCount>
+            <PerfectBarcodeCount>173103</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1013697</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>1186800</BarcodeCount>
+            <PerfectBarcodeCount>173103</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1013697</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOKO2_1">
+        <Barcode name="TAGCTT">
+          <Lane number="7">
+            <BarcodeCount>1065781</BarcodeCount>
+            <PerfectBarcodeCount>141982</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>923799</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>1065781</BarcodeCount>
+            <PerfectBarcodeCount>141982</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>923799</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOKO3_1">
+        <Barcode name="GGCTAC">
+          <Lane number="7">
+            <BarcodeCount>1085889</BarcodeCount>
+            <PerfectBarcodeCount>126417</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>959472</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>1085889</BarcodeCount>
+            <PerfectBarcodeCount>126417</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>959472</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOKO4_1">
+        <Barcode name="CTTGTA">
+          <Lane number="7">
+            <BarcodeCount>1698743</BarcodeCount>
+            <PerfectBarcodeCount>188839</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1509904</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>1698743</BarcodeCount>
+            <PerfectBarcodeCount>188839</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1509904</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOKO5_1">
+        <Barcode name="AGTCAA">
+          <Lane number="7">
+            <BarcodeCount>1094549</BarcodeCount>
+            <PerfectBarcodeCount>121701</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>972848</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>1094549</BarcodeCount>
+            <PerfectBarcodeCount>121701</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>972848</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOKO6_1">
+        <Barcode name="AGTTCC">
+          <Lane number="7">
+            <BarcodeCount>1130094</BarcodeCount>
+            <PerfectBarcodeCount>124091</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1006003</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>1130094</BarcodeCount>
+            <PerfectBarcodeCount>124091</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1006003</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOKO7_1">
+        <Barcode name="ATGTCA">
+          <Lane number="7">
+            <BarcodeCount>1634665</BarcodeCount>
+            <PerfectBarcodeCount>181051</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1453614</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>1634665</BarcodeCount>
+            <PerfectBarcodeCount>181051</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1453614</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOKO8_1">
+        <Barcode name="CCGTCC">
+          <Lane number="7">
+            <BarcodeCount>978443</BarcodeCount>
+            <PerfectBarcodeCount>107473</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>870970</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>978443</BarcodeCount>
+            <PerfectBarcodeCount>107473</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>870970</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="all">
+        <Barcode name="all">
+          <Lane number="7">
+            <BarcodeCount>19054789</BarcodeCount>
+            <PerfectBarcodeCount>2264465</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>16790324</OneMismatchBarcodeCount>
+          </Lane>
+          <Lane number="8">
+            <BarcodeCount>21515759</BarcodeCount>
+            <PerfectBarcodeCount>1987134</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>19528625</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOWT1_2">
+        <Barcode name="ATCACG">
+          <Lane number="8">
+            <BarcodeCount>1328944</BarcodeCount>
+            <PerfectBarcodeCount>128841</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1200103</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="8">
+            <BarcodeCount>1328944</BarcodeCount>
+            <PerfectBarcodeCount>128841</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1200103</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOWT2_2">
+        <Barcode name="CGATGT">
+          <Lane number="8">
+            <BarcodeCount>1486986</BarcodeCount>
+            <PerfectBarcodeCount>144656</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1342330</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="8">
+            <BarcodeCount>1486986</BarcodeCount>
+            <PerfectBarcodeCount>144656</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1342330</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOWT3_2">
+        <Barcode name="TTAGGC">
+          <Lane number="8">
+            <BarcodeCount>1468501</BarcodeCount>
+            <PerfectBarcodeCount>131569</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1336932</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="8">
+            <BarcodeCount>1468501</BarcodeCount>
+            <PerfectBarcodeCount>131569</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1336932</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOWT4_2">
+        <Barcode name="TGACCA">
+          <Lane number="8">
+            <BarcodeCount>1203844</BarcodeCount>
+            <PerfectBarcodeCount>102972</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1100872</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="8">
+            <BarcodeCount>1203844</BarcodeCount>
+            <PerfectBarcodeCount>102972</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1100872</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOWT5_2">
+        <Barcode name="ACAGTG">
+          <Lane number="8">
+            <BarcodeCount>1487975</BarcodeCount>
+            <PerfectBarcodeCount>142407</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1345568</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="8">
+            <BarcodeCount>1487975</BarcodeCount>
+            <PerfectBarcodeCount>142407</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1345568</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOWT6_2">
+        <Barcode name="GCCAAT">
+          <Lane number="8">
+            <BarcodeCount>1024555</BarcodeCount>
+            <PerfectBarcodeCount>91706</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>932849</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="8">
+            <BarcodeCount>1024555</BarcodeCount>
+            <PerfectBarcodeCount>91706</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>932849</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOWT7_2">
+        <Barcode name="CAGATC">
+          <Lane number="8">
+            <BarcodeCount>1170283</BarcodeCount>
+            <PerfectBarcodeCount>109907</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1060376</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="8">
+            <BarcodeCount>1170283</BarcodeCount>
+            <PerfectBarcodeCount>109907</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1060376</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOWT8_2">
+        <Barcode name="ACTTGA">
+          <Lane number="8">
+            <BarcodeCount>1237282</BarcodeCount>
+            <PerfectBarcodeCount>107023</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1130259</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="8">
+            <BarcodeCount>1237282</BarcodeCount>
+            <PerfectBarcodeCount>107023</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1130259</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOKO1_2">
+        <Barcode name="GATCAG">
+          <Lane number="8">
+            <BarcodeCount>1435793</BarcodeCount>
+            <PerfectBarcodeCount>155908</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1279885</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="8">
+            <BarcodeCount>1435793</BarcodeCount>
+            <PerfectBarcodeCount>155908</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1279885</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOKO2_2">
+        <Barcode name="TAGCTT">
+          <Lane number="8">
+            <BarcodeCount>1294844</BarcodeCount>
+            <PerfectBarcodeCount>128149</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1166695</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="8">
+            <BarcodeCount>1294844</BarcodeCount>
+            <PerfectBarcodeCount>128149</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1166695</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOKO3_2">
+        <Barcode name="GGCTAC">
+          <Lane number="8">
+            <BarcodeCount>1228169</BarcodeCount>
+            <PerfectBarcodeCount>107230</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1120939</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="8">
+            <BarcodeCount>1228169</BarcodeCount>
+            <PerfectBarcodeCount>107230</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1120939</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOKO4_2">
+        <Barcode name="CTTGTA">
+          <Lane number="8">
+            <BarcodeCount>1784694</BarcodeCount>
+            <PerfectBarcodeCount>167503</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1617191</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="8">
+            <BarcodeCount>1784694</BarcodeCount>
+            <PerfectBarcodeCount>167503</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1617191</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOKO5_2">
+        <Barcode name="AGTCAA">
+          <Lane number="8">
+            <BarcodeCount>1287722</BarcodeCount>
+            <PerfectBarcodeCount>107892</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1179830</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="8">
+            <BarcodeCount>1287722</BarcodeCount>
+            <PerfectBarcodeCount>107892</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1179830</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOKO6_2">
+        <Barcode name="AGTTCC">
+          <Lane number="8">
+            <BarcodeCount>1250078</BarcodeCount>
+            <PerfectBarcodeCount>107256</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1142822</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="8">
+            <BarcodeCount>1250078</BarcodeCount>
+            <PerfectBarcodeCount>107256</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1142822</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOKO7_2">
+        <Barcode name="ATGTCA">
+          <Lane number="8">
+            <BarcodeCount>1740868</BarcodeCount>
+            <PerfectBarcodeCount>166929</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1573939</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="8">
+            <BarcodeCount>1740868</BarcodeCount>
+            <PerfectBarcodeCount>166929</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>1573939</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+      <Sample name="D15GOKO8_2">
+        <Barcode name="CCGTCC">
+          <Lane number="8">
+            <BarcodeCount>1085221</BarcodeCount>
+            <PerfectBarcodeCount>87186</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>998035</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+        <Barcode name="all">
+          <Lane number="8">
+            <BarcodeCount>1085221</BarcodeCount>
+            <PerfectBarcodeCount>87186</PerfectBarcodeCount>
+            <OneMismatchBarcodeCount>998035</OneMismatchBarcodeCount>
+          </Lane>
+        </Barcode>
+      </Sample>
+    </Project>
+  </Flowcell>
+</Stats>

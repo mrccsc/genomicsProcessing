@@ -1,0 +1,63 @@
+
+
+
+# start R
+R-3.2.2/bin/R
+
+
+
+
+
+
+Qs: 
+1. difference between subFoldersFull and Run_folders_WithRTA
+2. Why Flowcell ID in place of barcode in runParameter.xml?  currentRunParameters$Barcode = C9L0AANXX
+3. difference between the lines 91 & 92
+                write.table(dataSectionString,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=F)
+                write.table(tempss_New,file=gsub("\\.csv",paste0("_",l,"\\.csv"),sampleSheetName),quote=F,sep=",",row.names=F,col.names=T,append=T)
+4. 
+
+
+
+1. How to handle if only one sample run on a lane without any index seq?
+2. 
+
+
+Busgs fixed:
+Line 171: Checking for previous shell script: "ForQSUB" missing in the check ?? is it right? check with Tom!
+config.ini :  inputdir=Data/Intensities/BaseCalls/ (removed "/" infront of Data)
+
+
+
+### Example run
+
+dir: /ifs/data/Hiseq/Runs/161105_D00467_0205_AC9L0AANXX
+Run the pipeline for lane 1
+Run qsub for C9L0AANXX_8:  qsubscommands <- makeQsubs(bclcommands[1],launch=T)
+
+# Demultiplexing report parsing
+demuxStatsXML <- xmlTreeParse("C9L0AANXX_8/Stats/DemultiplexingStats.xml")
+bug: Sample_BarcodeExpected_Name <- xmlAttrs(Sample[[i]]) ==> xmlAttrs(Sample[[1]])
+save.image("Gopu_trial.RData")
+
+### xmlparserfull.r
+bug: line 48: BarcodeStat == "PerfectBarcodeCount" changed to BarcodeStat == "BarcodeCount" # PerfectBarcodeCount = index matching without any mismatch, BarcodeCount = Index match with one mismatch + without any mismatch
+Lane_Stats4 <- Projects_DF2 %>% filter(Sample != "all" & BarcodeStat == "BarcodeCount") %>% group_by(Project,Sample) %>% summarise(Count=sum(as.numeric(Count)))
+bug: line 54: BarcodeStat=="BarcodeCount"
+
+# adding pie chart with percent
+Line 54: " %>% mutate(pos = cumsum(Count)- Count/2)" added in the end
+
+TODO:
+1. Pie chart of reads per lane
+2. 
+
+
+
+
+
+============================================================
+============================================================
+
+1. How to get the total reads, yield, PF clusters, mean quality from html? (python HTML parser?)
+2. Demultiplex stat from 
