@@ -1,0 +1,12 @@
+Package: basecallQC
+Type: Package
+Title: Parsing functions for demultiplexing
+Version: 0.1.1
+Author: Thomas Carroll and Marian Dore
+Maintainer: Thomas Carroll <tc.infomatics@gmail.com>
+Description: To be filled
+License: GPL (>= 3)
+LazyData: TRUE
+Collate:
+    'processSampleSheet_Functions.R'
+RoxygenNote: 6.0.1
