@@ -33,7 +33,7 @@ fileLocations <- system.file("extdata",package="basecallQC")
 
 configFile <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
 config = data.frame(readIniFile(configFile))
-bclcommands <- readyBasecalling(Run_folders_WithRTA,subFoldersFull,config,bclVersion="New")
+#bclcommands <- readyBasecalling(Run_folders_WithRTA,subFoldersFull,config,bclVersion="New")
 
 }
 \author{

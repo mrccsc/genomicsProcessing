@@ -27,7 +27,7 @@
 #' configFile <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
 #' config = data.frame(readIniFile(configFile))
 
-#' bclcommands <- readyBasecalling(Run_folders_WithRTA,subFoldersFull,config,bclVersion="New")
+#' #bclcommands <- readyBasecalling(Run_folders_WithRTA,subFoldersFull,config,bclVersion="New")
 #'
 #' @export
 readyBasecalling <- function(Run_folders_WithRTA,subFoldersFull,config,bclVersion="New"){
@@ -229,8 +229,8 @@ makeQsubs <- function(bclcommands,launch=TRUE){
 #' configFile <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
 #' config = data.frame(readIniFile(configFile))
 
-#' bclcommands <- readyBasecalling(Run_folders_WithRTA,subFoldersFull,config,bclVersion="New")
-#' qsubcommands <- makeQsubs(bclcommands[1],launch=T)
+#' #bclcommands <- readyBasecalling(Run_folders_WithRTA,subFoldersFull,config,bclVersion="New")
+#' #qsubcommands <- makeQsubs(bclcommands[1],launch=T)
 
 #' @export
 launchBCLcommands <- function(bclcommands,launch=TRUE){
