@@ -2,6 +2,7 @@
 
 export(processConvStats)
 export(processDemultiplex)
+export(readyBasecalling)
 export(sampleDemuxStats)
 export(summariseConvStats)
 import(GenomicRanges)
