@@ -202,20 +202,20 @@ makeQsubs <- function(bclcommands,launch=TRUE){
 
 #' Illumina Basecalling functions.
 #'
-#' Parses the Illumina samplesheet from run folders to create standardised
+#' Launchs Illumina BCL commands using appropriate BioCparallel (eventually).
 #'
 #'
 #' @docType methods
-#' @name readyBasecalling
-#' @rdname readyBasecalling
+#' @name launchBCLcommands
+#' @rdname launchBCLcommands
 #'
 #' @author Thomas Carroll and Marian Dore
 #' @param Run_folders_WithRTA Run folders with RTA.complete file.
-#' @param subFoldersFull All run folders.
+#' @param bclcommands BCL comands from readyBasecalling function.
 #' @param config Config file (ini format) - see manual for full details.
-#' @param bclVersion Character vector of "New" or "Old". Refers to versions prior to 1.2.1 (?) as old.
+#' @param Launch TRUE or FALSE. TRUE makes QSub call to launch BCL command. TRUE and FALSE return BCL command as character string.
 
-#' @return Shell commands for basecalling.
+#' @return BCL command as character string.
 #' @import IRanges GenomicRanges XVector Rsamtools tractor.base stringr XML RColorBrewer methods
 #' @examples
 #'
@@ -230,9 +230,10 @@ makeQsubs <- function(bclcommands,launch=TRUE){
 #' config = data.frame(readIniFile(configFile))
 
 #' bclcommands <- readyBasecalling(Run_folders_WithRTA,subFoldersFull,config,bclVersion="New")
-#'
+#' qsubcommands <- makeQsubs(bclcommands[1],launch=T)
+
 #' @export
-launchBCL <- function(bclcommands,launch=TRUE){
+launchBCLcommands <- function(bclcommands,launch=TRUE){
   qsubCommands <- list()
   for(i in 1:length(bclcommands)){
     dir.create(gsub("ForQSUB\\.sh","",basename(bclcommands[i])),showWarnings = F)

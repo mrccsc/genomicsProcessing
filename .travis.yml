@@ -1,0 +1,9 @@
+language: r
+os:
+  - linux
+cache: packages
+warnings_are_errors: true
+sudo: required
+r: bioc-release
+before_install:
+  - cd basecallQC
