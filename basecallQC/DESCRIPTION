@@ -7,6 +7,12 @@ Maintainer: Thomas Carroll <tc.infomatics@gmail.com>
 Description: To be filled
 License: GPL (>= 3)
 LazyData: TRUE
+biocViews: Training
+Depends: R (>= 2.10), testthat, methods, ggplot2, rmarkdown, knitr,  yaml, stringr, XML, RColorBrewer, raster
+Suggests: knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr
 Collate:
   processIlluminaSamplesheets_Functions.R
   processXMLs_Functions.R

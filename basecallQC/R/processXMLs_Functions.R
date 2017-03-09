@@ -11,7 +11,7 @@
 #'
 #' @param Projects Demultiplex locations.
 #' @return A datatable of XML results.
-#' @import IRanges GenomicRanges XVector Rsamtools tractor.base stringr XML RColorBrewer methods
+#' @import stringr XML RColorBrewer methods raster
 #' @examples
 #'
 #' fileLocations <- system.file("extdata",package="basecallQC")
@@ -82,7 +82,7 @@ processDemultiplex <- function(demuxStatsXML){
 #'
 #' @param Projects ConversionStats locations.
 #' @return A datatable of XML results.
-#' @import IRanges GenomicRanges XVector Rsamtools tractor.base stringr XML RColorBrewer methods
+#' @import stringr XML RColorBrewer methods raster
 #' @examples
 #'
 #' fileLocations <- system.file("extdata",package="basecallQC")
@@ -193,7 +193,7 @@ processConvStats <- function(ConvStatsXML){
 #'
 #' @param DemuxStats Results from a call to processDemultiplex.
 #' @return A datatable of summarised per sample results.
-#' @import ggplot2 IRanges GenomicRanges XVector Rsamtools tractor.base stringr XML RColorBrewer methods
+#' @import stringr XML RColorBrewer methods raster
 #' @examples
 #'
 #' fileLocations <- system.file("extdata",package="basecallQC")
@@ -236,7 +236,7 @@ sampleDemuxStats <- function(demuxProcessed, plot=T){
 #'
 #' @param ConvStats Results from a call to processConvStats.
 #' @return A datatable of summarised per sample results.
-#' @import ggplot2 IRanges GenomicRanges XVector Rsamtools tractor.base stringr XML RColorBrewer methods
+#' @import stringr XML RColorBrewer methods raster
 #' @examples
 #'
 #' fileLocations <- system.file("extdata",package="basecallQC")

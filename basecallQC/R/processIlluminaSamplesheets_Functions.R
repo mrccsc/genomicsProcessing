@@ -14,7 +14,7 @@
 #' @param bclVersion Character vector of "New" or "Old". Refers to versions prior to 1.2.1 (?) as old.
 
 #' @return Shell commands for basecalling.
-#' @import IRanges GenomicRanges XVector Rsamtools tractor.base stringr XML RColorBrewer methods
+#' @import stringr XML RColorBrewer methods raster
 #' @examples
 #'
 #' library(raster)
@@ -216,7 +216,7 @@ makeQsubs <- function(bclcommands,launch=TRUE){
 #' @param Launch TRUE or FALSE. TRUE makes QSub call to launch BCL command. TRUE and FALSE return BCL command as character string.
 
 #' @return BCL command as character string.
-#' @import IRanges GenomicRanges XVector Rsamtools tractor.base stringr XML RColorBrewer methods
+#' @import stringr XML RColorBrewer methods raster
 #' @examples
 #'
 #' library(raster)
