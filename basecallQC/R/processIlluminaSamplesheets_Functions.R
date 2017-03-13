@@ -14,7 +14,7 @@
 #' @param bclVersion Character vector of "New" or "Old". Refers to versions prior to 1.2.1 (?) as old.
 
 #' @return Shell commands for basecalling.
-#' @import stringr XML RColorBrewer methods raster
+#' @import stringr XML RColorBrewer methods raster BiocStyle
 #' @examples
 #'
 #' library(raster)
@@ -255,4 +255,28 @@ split_path <- function(path) {
   return(c(basename(path), split_path(dirname(path))))
 }
 
+indev_QCshortRead <- function(fastqs) {
+  # fl <- dir(system.file(package="ShortRead", "extdata", "E-MTAB-1147"),
+  #                   pattern="fastq",full.names = T)
+  # names(fl) <- c("Myc1","Myc2")
+  # refqqc <- ShortRead::qa(fl)
+  # refqqc <- ShortRead::qa(fastqs)
+  dirPath <- system.file(package="ShortRead", "extdata", "E-MTAB-1147")
+  fls <- dir(dirPath, "fastq.gz", full=TRUE)
+
+  refqqc <- ShortRead::qa(fastqs)
+
+  # coll <- ShortRead:::QACollate(ShortRead:::QAFastqSource(fls),
+  #                               ShortRead:::QAReadQuality(),
+  #                               ShortRead:::QAAdapterContamination(),
+  #                               ShortRead:::QANucleotideUse(),
+  #                               ShortRead:::QAQualityUse(),
+  #                               ShortRead:::QASequenceUse(),
+  #                   ShortRead:::QAFrequentSequence(n=10),
+  #                   ShortRead:::QANucleotideByCycle(),
+  #                   ShortRead:::QAQualityByCycle())
+  # refqqc <- ShortRead:::qa2(coll, verbose=TRUE)
+  #
+  return(refqqc)
+}
 
