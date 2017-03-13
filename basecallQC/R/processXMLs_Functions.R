@@ -17,7 +17,7 @@
 #' fileLocations <- system.file("extdata",package="basecallQC")
 #'
 #' demuxStats <- dir(fileLocations,pattern="DemultiplexingStats.xml",full.names=TRUE)
-#' processDemultiplex(demuxStats)
+#' demuxProcessed <-processDemultiplex(demuxStats)
 #'
 #' @export
 processDemultiplex <- function(demuxStatsXML){
@@ -88,7 +88,7 @@ processDemultiplex <- function(demuxStatsXML){
 #' fileLocations <- system.file("extdata",package="basecallQC")
 #'
 #' convStats <- dir(fileLocations,pattern="ConversionStats.xml",full.names=TRUE)
-#' processConvStats(convStats)
+#' convProcessed <-processConvStats(convStats)
 #'
 #' @export
 
