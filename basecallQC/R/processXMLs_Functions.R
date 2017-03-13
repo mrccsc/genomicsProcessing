@@ -11,7 +11,7 @@
 #'
 #' @param Projects Demultiplex locations.
 #' @return A datatable of XML results.
-#' @import stringr XML RColorBrewer methods raster
+#' @import stringr XML RColorBrewer methods raster dplyr magrittr tidyr reshape2 ggplot2 lubridate
 #' @examples
 #'
 #' fileLocations <- system.file("extdata",package="basecallQC")

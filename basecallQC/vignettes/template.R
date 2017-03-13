@@ -2,10 +2,11 @@
 #  install.packages("rmarkdown")
 
 ## ----code, echo = FALSE--------------------------------------------------
+library(basecallQC)
 fileLocations <- system.file("extdata",package="basecallQC")
 
 demuxStats <- dir(fileLocations,pattern="DemultiplexingStats.xml",full.names=TRUE)
-processDemultiplex(demuxStats)
+p <- processDemultiplex(demuxStats)
 
 ## ----macro, echo=FALSE---------------------------------------------------
 macro <- function(name, pkg, description)
