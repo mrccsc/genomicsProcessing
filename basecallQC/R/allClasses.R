@@ -24,7 +24,14 @@ setClass("basecallQC", representation(Run = "character", RunMetadata = "data.fra
 #' @param Run The pun to process
 #' @param RunMetadata Any run metadata to attach (sata.frame)
 #' @export
-bclCall <- function(Run,RunMetadata){
-  bclQC <- new("basecallQC",Run = Run, RunMetadata = RunMetadata)
+bclCall <- function(Run,RunMetadata,params=NULL,baseCallMetrics,demultiplexMetrics){
+  bclQC <- new("basecallQC",
+               Run = Run,
+               RunMetadata = RunMetadata,
+               params=checkConfigParams(params))
   return(bclQC)
+}
+
+checkConfigParams <- function(params){
+
 }
