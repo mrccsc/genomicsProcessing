@@ -16,4 +16,5 @@ VignetteBuilder: knitr
 Collate:
   processIlluminaSamplesheets_Functions.R
   processXMLs_Functions.R
+  allClasses.R
 RoxygenNote: 6.0.1
