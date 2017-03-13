@@ -15,5 +15,16 @@
 #'
 #' warning("Put example here!")
 #' @export
-setClass("basecallQC", representation(Run = "character", RunMetadata = "matrix"))
+setClass("basecallQC", representation(Run = "character", RunMetadata = "data.frame"))
 
+#' The bclCall function is a constructor for basecallQC objects.
+#'
+#' @name bclCall
+#' @rdname ChIPprofile
+#' @param Run The pun to process
+#' @param RunMetadata Any run metadata to attach (sata.frame)
+#' @export
+bclCall <- function(Run,RunMetadata){
+  bclQC <- new("basecallQC",Run = Run, RunMetadata = RunMetadata)
+  return(bclQC)
+}

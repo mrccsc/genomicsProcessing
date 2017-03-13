@@ -173,11 +173,11 @@ processConvStats <- function(ConvStatsXML){
     Projects_Info[[p]] <- data.frame(Project = rep(Project_Name,nrow(psi2MatDF)),
                                      psi2MatDF)
     names(Projects_Info)[p] <- paste0(Project_Name)
-
+    Projects_DF <- do.call(rbind,Projects_Info)
+    rownames(Projects_DF) <- NULL
+    return(Projects_DF)
   }
-  Projects_DF <- do.call(rbind,Projects_Info)
-  rownames(Projects_DF) <- NULL
-  return(Projects_DF)
+
 }
 
 #' Generate per sample summary statistics
