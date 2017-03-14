@@ -4,7 +4,7 @@
 \alias{bclCall}
 \title{The bclCall function is a constructor for basecallQC objects.}
 \usage{
-bclCall(Run, RunMetadata)
+bclCall(Run, RunMetadata, params = NULL, baseCallMetrics, demultiplexMetrics)
 }
 \arguments{
 \item{Run}{The pun to process}

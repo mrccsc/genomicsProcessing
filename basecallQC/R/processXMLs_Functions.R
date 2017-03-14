@@ -61,10 +61,12 @@ processDemultiplex <- function(demuxStatsXML){
     Projects_Info[[p]] <- data.frame(Project = rep(Project_Name,nrow(psiMat)),
                                      psiMatDF)
     names(Projects_Info)[p] <- Project_Name
+
   }
   Projects_DF2 <- do.call(rbind,Projects_Info)
   rownames(Projects_DF2) <- NULL
   return(Projects_DF2)
+
 }
 
 
@@ -173,10 +175,11 @@ processConvStats <- function(ConvStatsXML){
     Projects_Info[[p]] <- data.frame(Project = rep(Project_Name,nrow(psi2MatDF)),
                                      psi2MatDF)
     names(Projects_Info)[p] <- paste0(Project_Name)
-    Projects_DF <- do.call(rbind,Projects_Info)
-    rownames(Projects_DF) <- NULL
-    return(Projects_DF)
+
   }
+  Projects_DF <- do.call(rbind,Projects_Info)
+  rownames(Projects_DF) <- NULL
+  return(Projects_DF)
 
 }
 
@@ -251,10 +254,10 @@ summariseConvStats <- function(demuxProcessed, plot=T){
   #Lane_Stats <- Projects_DF %>% filter(Sample == "all") %>% group_by(Lane,Filter) %>% summarise(sum(Yield))
 
 
-  Lane_perTileStats <- Projects_DF %>% group_by(Lane,Tile,Filter) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
-  LaneSample_perTileStats <- Projects_DF %>% group_by(Lane,Sample,Tile,Filter) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
-  Sample_Stats <- Projects_DF %>% filter(Sample != "all") %>% group_by(Sample,Filter) %>% summarise(Yield=sum(as.numeric(Yield)))
-  Lane_Stats <- Projects_DF %>% filter(Sample != "all") %>% group_by(Lane,Filter) %>% summarise(Yield=sum(as.numeric(Yield)))
+  Lane_perTileStats <- demuxProcessed %>% group_by(Lane,Tile,Filter) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
+  LaneSample_perTileStats <- demuxProcessed %>% group_by(Lane,Sample,Tile,Filter) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
+  Sample_Stats <- demuxProcessed %>% filter(Sample != "all") %>% group_by(Sample,Filter) %>% summarise(Yield=sum(as.numeric(Yield)))
+  Lane_Stats <- demuxProcessed %>% filter(Sample != "all") %>% group_by(Lane,Filter) %>% summarise(Yield=sum(as.numeric(Yield)))
   #Lane_Stats <- Projects_DF %>% filter(Sample == "all") %>% group_by(Lane,Filter) %>% summarise(sum(Yield))
   p3 <- ggplot(data=Lane_perTileStats,aes(x=Lane,y=Yield))+geom_violin()
   #ggplot(data=Sample_Stats,aes(x=Sample,y=Yield,fill=Filter))+geom_boxplot()
@@ -268,3 +271,33 @@ summariseConvStats <- function(demuxProcessed, plot=T){
               ViolinPlot=p3))
 }
 
+
+#' Parses parameters for illumina basecalling.
+#'
+#' Creates data.frame of run parameters.
+#'
+#'
+#' @docType methods
+#' @name runParameters
+#' @rdname runParameters
+#'
+#' @author Thomas Carroll
+#'
+#' @param paramXML file path to runParameters.xml .
+#' @return A datatable of run parameter.
+#' @import stringr XML RColorBrewer methods raster
+#' @examples
+#'
+#' fileLocations <- system.file("extdata",package="basecallQC")
+#'
+#' runParameters <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+#' runParametersProcessed <- runParameters(runParameters)
+#'
+#' @export
+runParameters <- function(runParameters = NULL){
+  if(is.null(runParameters)){
+  xmlFromRunParameters <- xmlParse("runParameters.xml")
+  currentRunParameters <- xmlToDataFrame(xmlFromRunParameters)
+  currentRunParameters <- currentRunParameters[!is.na(currentRunParameters$ExperimentName),,drop=F]
+  }
+}

@@ -21,7 +21,7 @@ Parses the ConversionStats.xml from Illumina Basecalling
 fileLocations <- system.file("extdata",package="basecallQC")
 
 convStats <- dir(fileLocations,pattern="ConversionStats.xml",full.names=TRUE)
-processConvStats(convStats)
+convProcessed <-processConvStats(convStats)
 
 }
 \author{

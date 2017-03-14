@@ -20,7 +20,7 @@ setClass("basecallQC", representation(Run = "character", RunMetadata = "data.fra
 #' The bclCall function is a constructor for basecallQC objects.
 #'
 #' @name bclCall
-#' @rdname ChIPprofile
+#' @rdname bclCall
 #' @param Run The pun to process
 #' @param RunMetadata Any run metadata to attach (sata.frame)
 #' @export
@@ -28,10 +28,11 @@ bclCall <- function(Run,RunMetadata,params=NULL,baseCallMetrics,demultiplexMetri
   bclQC <- new("basecallQC",
                Run = Run,
                RunMetadata = RunMetadata,
-               params=checkConfigParams(params))
+               params=checkParams(params))
   return(bclQC)
 }
 
-checkConfigParams <- function(params){
-
+checkParams <- function(params){
+  runParams <- runParameters(params)
+  configParams <- configParams(params)
 }

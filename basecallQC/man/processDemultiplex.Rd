@@ -21,7 +21,7 @@ Parses the DemultiplexingStats.xml from Illumina Basecalling
 fileLocations <- system.file("extdata",package="basecallQC")
 
 demuxStats <- dir(fileLocations,pattern="DemultiplexingStats.xml",full.names=TRUE)
-processDemultiplex(demuxStats)
+demuxProcessed <-processDemultiplex(demuxStats)
 
 }
 \author{
