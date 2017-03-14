@@ -224,9 +224,9 @@ summariseDemuxStats <- function(demuxProcessed, plot=T){
 
 
   temp <- demuxProcessed %>% tbl_df %>% mutate(Count = as.numeric(Count)) %>%
-    filter(Sample != "all" & BarcodeStat == "BarcodeCount") %>%
-    filter(Project != "default") # Computing percent label text and position for pie chart
-  temp <- temp %>% group_by(Lane) %>% mutate(labelperc=round(Count/sum(Count),2)*100) %>% group_by(Lane) %>% mutate(pos = cumsum(labelperc)- labelperc/2)
+  #   filter(Sample != "all" & BarcodeStat == "BarcodeCount") %>%
+  #   filter(Project != "default") # Computing percent label text and position for pie chart
+  # temp <- temp %>% group_by(Lane) %>% mutate(labelperc=round(Count/sum(Count),2)*100) %>% group_by(Lane) %>% mutate(pos = cumsum(labelperc)- labelperc/2)
   # p1 <- temp %>% filter(Project != "default") %>% ggplot(aes(x=Project,y=Count,fill=Project))+geom_violin(alpha=0.3,scale="width")+geom_jitter(alpha=0.6)+theme(legend.position="bottom")
   # p2 <- ggplot(temp,aes(x=Lane,y=Count,fill=Sample))+geom_bar(stat = "identity")+theme_bw()+theme(legend.position="bottom")
   # p3 <- ggplot(temp,aes(x=Sample,y=Count,fill=Lane))+geom_bar(stat = "identity")+theme_bw()+coord_flip()+theme(legend.position="bottom")
@@ -235,7 +235,13 @@ summariseDemuxStats <- function(demuxProcessed, plot=T){
   #   print(p2)
   #   print(p3)
   # }
-  return(list(Summary=temp,Boxplot=p1,StackedBar=p2,Bar=p3))
+  #return(list(Summary=temp,Boxplot=p1,StackedBar=p2,Bar=p3))
+  Lane_perTileStats <- demuxProcessed %>% group_by(Lane,Tile,Filter) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
+  LaneSample_perTileStats <- demuxProcessed %>% group_by(Lane,Sample,Tile,Filter) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
+  Sample_Stats <- demuxProcessed %>% filter(Sample != "all") %>% group_by(Sample,Filter) %>% summarise(Yield=sum(as.numeric(Yield)))
+  Lane_Stats <- demuxProcessed %>% filter(Sample != "all") %>% group_by(Lane,Filter) %>% summarise(Yield=sum(as.numeric(Yield)))
+
+  return(list(Summary=temp))
 }
 
 #' Generate per sample summary statistics
@@ -308,8 +314,7 @@ summariseConvStats <- function(demuxProcessed, plot=T){
 #' @export
 runParameters <- function(runParameters = NULL){
   if(is.null(runParameters)){
-    runParameters = dir(file=".",
-                        pattern="runParameters.xml",
+    runParameters = dir(pattern="runParameters.xml",
                         recursive=T,
                         full.names=T)
   }
