@@ -34,6 +34,8 @@ readyBasecalling <- function(Run_folders_WithRTA,subFoldersFull,config,bclVersio
   runParams <- vector("list",length=length(Run_folders_WithRTA))
   shellBCLs <- vector()
 
+  # samplesheet functions should be into own method
+
   for(i in 1:length(Run_folders_WithRTA)){
     currentRun <- subFoldersFull[grepl(Run_folders_WithRTA[i],subFoldersFull)]
     xmlFromPresentRunFolder <- xmlParse(file.path(currentRun,"runParameters.xml"))
