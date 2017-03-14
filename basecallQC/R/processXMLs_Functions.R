@@ -224,8 +224,8 @@ summariseDemuxStats <- function(demuxProcessed, plot=T){
 
 
   temp <- demuxProcessed %>% tbl_df %>% mutate(Count = as.numeric(Count)) %>%
-  #   filter(Sample != "all" & BarcodeStat == "BarcodeCount") %>%
-  #   filter(Project != "default") # Computing percent label text and position for pie chart
+            filter(Sample != "all" & BarcodeStat == "BarcodeCount") %>%
+            filter(Project != "default") # Computing percent label text and position for pie chart
   # temp <- temp %>% group_by(Lane) %>% mutate(labelperc=round(Count/sum(Count),2)*100) %>% group_by(Lane) %>% mutate(pos = cumsum(labelperc)- labelperc/2)
   # p1 <- temp %>% filter(Project != "default") %>% ggplot(aes(x=Project,y=Count,fill=Project))+geom_violin(alpha=0.3,scale="width")+geom_jitter(alpha=0.6)+theme(legend.position="bottom")
   # p2 <- ggplot(temp,aes(x=Lane,y=Count,fill=Sample))+geom_bar(stat = "identity")+theme_bw()+theme(legend.position="bottom")
