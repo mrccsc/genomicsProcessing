@@ -236,8 +236,8 @@ summariseDemuxStats <- function(demuxProcessed, plot=T){
   #   print(p3)
   # }
   #return(list(Summary=temp,Boxplot=p1,StackedBar=p2,Bar=p3))
-  Lane_perTileStats <- demuxProcessed %>% group_by(Lane,Tile,Filter) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
-  LaneSample_perTileStats <- demuxProcessed %>% group_by(Lane,Sample,Tile,Filter) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
+  # Lane_perTileStats <- demuxProcessed %>% group_by(Lane,Tile,Filter) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
+  # LaneSample_perTileStats <- demuxProcessed %>% group_by(Lane,Sample,Tile,Filter) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
   Sample_Stats <- demuxProcessed %>% filter(Sample != "all") %>% group_by(Sample,Filter) %>% summarise(Yield=sum(as.numeric(Yield)))
   Lane_Stats <- demuxProcessed %>% filter(Sample != "all") %>% group_by(Lane,Filter) %>% summarise(Yield=sum(as.numeric(Yield)))
 

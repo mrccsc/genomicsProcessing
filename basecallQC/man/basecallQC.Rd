@@ -7,7 +7,17 @@
 \alias{basecallQC-basecallQC}
 \title{The basecallQC object.}
 \arguments{
-\item{runFolder}{directory of illumina runfolder.}
+\item{Run}{directory of illumina runfolder.}
+
+\item{RunMatadata}{Dataframe containing Sample_ID column and user-defined metadata.}
+
+\item{baseCallMetrics}{directory of illumina runfolder.}
+
+\item{params}{directory of illumina runfolder.}
+
+\item{demultiplexMetrics}{lr.}
+
+\item{sampleSheet}{fr}
 }
 \value{
 A basecallQC object.
