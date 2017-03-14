@@ -24,15 +24,32 @@ setClass("basecallQC", representation(Run = "character", RunMetadata = "data.fra
 #' @param Run The pun to process
 #' @param RunMetadata Any run metadata to attach (sata.frame)
 #' @export
-bclCall <- function(Run,RunMetadata,params=NULL,baseCallMetrics,demultiplexMetrics){
-  bclQC <- new("basecallQC",
+basecallQC <- function(Run,RunMetadata=NULL,params=NULL,baseCallMetrics=NULL,demultiplexMetrics=NULL){
+  basecallQC <- new("basecallQC",
                Run = Run,
                RunMetadata = RunMetadata,
-               params=checkParams(params))
-  return(bclQC)
+               parameters=runParams(params),
+               baseCallMetrics=baseCallMetrics(params),
+               demultiplexMetrics=demultiplexMetrics(params))
+  return(basecallQC)
 }
 
-checkParams <- function(params){
+runParams <- function(params=NULL){
   runParams <- runParameters(params)
   configParams <- configParams(params)
+  return(c(params,list(runParams=runParams,configParams=configParams)))
+}
+
+basecallMetrics <- function(params){
+  convStatsProcessed <- processConvStats(params)
+  summarisedConvStats <- summariseConvStats(params)
+  return(c(params,list(convStatsProcessed=convStatsProcessed,
+                       summarisedConvStats=summarisedConvStats)))
+}
+
+demultiplexMetrics <- function(params){
+  demuxStatsProcessed <- processDemuxStats(params)
+  summarisedDemuxStats <- summariseDemuxStats(demuxStatsProcessed)
+  return(c(params,list(demuxStatsProcessed=demuxStatsProcessed,
+                       summarisedDemuxStats=summarisedDemuxStats)))
 }

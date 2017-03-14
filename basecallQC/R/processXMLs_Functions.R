@@ -21,6 +21,12 @@
 #'
 #' @export
 processDemultiplex <- function(demuxStatsXML){
+  if(is.null(demuxStatsXML)){
+    demuxStatsXML <- dir(fileLocations,
+        pattern="DemultiplexingStats.xml",
+        full.names=TRUE,
+        recursive = T)
+  }
   demuxStatsXMLparse <- xmlTreeParse(demuxStatsXML)
   demuxStatsXML_root <- xmlRoot(demuxStatsXMLparse)
   Projects <- demuxStatsXML_root[[1]]
@@ -96,6 +102,12 @@ processDemultiplex <- function(demuxStatsXML){
 
 processConvStats <- function(ConvStatsXML){
 
+  if(is.null(ConvStatsXML)){
+    ConvStatsXML <- dir(fileLocations,
+                         pattern="ConversionStats.xml",
+                         full.names=TRUE,
+                         recursive = T)
+  }
   convStatsXMLparse <- xmlTreeParse(ConvStatsXML)
   convStatsXML_root <- xmlRoot(convStatsXMLparse)
   Projects <- convStatsXML_root[[1]]
@@ -189,8 +201,8 @@ processConvStats <- function(ConvStatsXML){
 #'
 #'
 #' @docType methods
-#' @name sampleDemuxStats
-#' @rdname sampleDemuxStats
+#' @name summariseDemuxStats
+#' @rdname summariseDemuxStats
 #'
 #' @author Thomas Carroll
 #'
@@ -203,10 +215,10 @@ processConvStats <- function(ConvStatsXML){
 #'
 #' demuxStats <- dir(fileLocations,pattern="DemultiplexingStats.xml",full.names=TRUE)
 #' demuxProcessed <- processDemultiplex(demuxStats)
-#' samplesDemuxStats <- sampleDemuxStats(demuxProcessed)
+#' samplesDemuxStats <- summariseDemuxStats(demuxProcessed)
 #'
 #' @export
-sampleDemuxStats <- function(demuxProcessed, plot=T){
+summariseDemuxStats <- function(demuxProcessed, plot=T){
   #Lane_Stats4 <- Test %>% filter(Sample != "all" & BarcodeStat == "BarcodeCount") %>% group_by(Project,Sample) %>% summarise(Count=sum(as.numeric(Count)))
   #Lane_Stats <- Projects_DF %>% filter(Sample == "all") %>% group_by(Lane,Filter) %>% summarise(sum(Yield))
 
@@ -215,14 +227,14 @@ sampleDemuxStats <- function(demuxProcessed, plot=T){
     filter(Sample != "all" & BarcodeStat == "BarcodeCount") %>%
     filter(Project != "default") # Computing percent label text and position for pie chart
   temp <- temp %>% group_by(Lane) %>% mutate(labelperc=round(Count/sum(Count),2)*100) %>% group_by(Lane) %>% mutate(pos = cumsum(labelperc)- labelperc/2)
-  p1 <- temp %>% filter(Project != "default") %>% ggplot(aes(x=Project,y=Count,fill=Project))+geom_violin(alpha=0.3,scale="width")+geom_jitter(alpha=0.6)+theme(legend.position="bottom")
-  p2 <- ggplot(temp,aes(x=Lane,y=Count,fill=Sample))+geom_bar(stat = "identity")+theme_bw()+theme(legend.position="bottom")
-  p3 <- ggplot(temp,aes(x=Sample,y=Count,fill=Lane))+geom_bar(stat = "identity")+theme_bw()+coord_flip()+theme(legend.position="bottom")
-  if(plot){
-    print(p1)
-    print(p2)
-    print(p3)
-  }
+  # p1 <- temp %>% filter(Project != "default") %>% ggplot(aes(x=Project,y=Count,fill=Project))+geom_violin(alpha=0.3,scale="width")+geom_jitter(alpha=0.6)+theme(legend.position="bottom")
+  # p2 <- ggplot(temp,aes(x=Lane,y=Count,fill=Sample))+geom_bar(stat = "identity")+theme_bw()+theme(legend.position="bottom")
+  # p3 <- ggplot(temp,aes(x=Sample,y=Count,fill=Lane))+geom_bar(stat = "identity")+theme_bw()+coord_flip()+theme(legend.position="bottom")
+  # if(plot){
+  #   print(p1)
+  #   print(p2)
+  #   print(p3)
+  # }
   return(list(Summary=temp,Boxplot=p1,StackedBar=p2,Bar=p3))
 }
 
@@ -259,16 +271,16 @@ summariseConvStats <- function(demuxProcessed, plot=T){
   Sample_Stats <- demuxProcessed %>% filter(Sample != "all") %>% group_by(Sample,Filter) %>% summarise(Yield=sum(as.numeric(Yield)))
   Lane_Stats <- demuxProcessed %>% filter(Sample != "all") %>% group_by(Lane,Filter) %>% summarise(Yield=sum(as.numeric(Yield)))
   #Lane_Stats <- Projects_DF %>% filter(Sample == "all") %>% group_by(Lane,Filter) %>% summarise(sum(Yield))
-  p3 <- ggplot(data=Lane_perTileStats,aes(x=Lane,y=Yield))+geom_violin()
+  #p3 <- ggplot(data=Lane_perTileStats,aes(x=Lane,y=Yield))+geom_violin()
   #ggplot(data=Sample_Stats,aes(x=Sample,y=Yield,fill=Filter))+geom_boxplot()
-  if(plot){
-    print(p3)
-  }
-  return(list(Lane_perTileStats=Lane_perTileStats,
-              LaneSample_perTileStats=LaneSample_perTileStats,
-              Sample_Stats=Sample_Stats,
-              Lane_Stats=Lane_Stats,
-              ViolinPlot=p3))
+  # if(plot){
+  #   print(p3)
+  # }
+  # return(list(Lane_perTileStats=Lane_perTileStats,
+  #             LaneSample_perTileStats=LaneSample_perTileStats,
+  #             Sample_Stats=Sample_Stats,
+  #             Lane_Stats=Lane_Stats,
+  #             ViolinPlot=p3))
 }
 
 
@@ -296,8 +308,13 @@ summariseConvStats <- function(demuxProcessed, plot=T){
 #' @export
 runParameters <- function(runParameters = NULL){
   if(is.null(runParameters)){
-  xmlFromRunParameters <- xmlParse("runParameters.xml")
+    runParameters = dir(file=".",
+                        pattern="runParameters.xml",
+                        recursive=T,
+                        full.names=T)
+  }
+  xmlFromRunParameters <- xmlParse(runParameters)
   currentRunParameters <- xmlToDataFrame(xmlFromRunParameters)
   currentRunParameters <- currentRunParameters[!is.na(currentRunParameters$ExperimentName),,drop=F]
-  }
+  return(currentRunParameters)
 }
