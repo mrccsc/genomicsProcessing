@@ -303,7 +303,7 @@ summariseConvStats <- function(demuxProcessed, plot=T){
 #'
 #' @param paramXML file path to runParameters.xml .
 #' @return A datatable of run parameter.
-#' @import stringr XML RColorBrewer methods raster
+#' @import stringr XML RColorBrewer methods raster dplyr data.table stringr
 #' @examples
 #'
 #' fileLocations <- system.file("extdata",package="basecallQC")

@@ -54,34 +54,16 @@ demultiplexMetrics <- function(params){
                        summarisedDemuxStats=summarisedDemuxStats)))
 }
 
-validateBCLSheet <- function(sampleSheet){
-  ss <- fread(sampleSheet,sep=",",header=T,stringsAsFactors=F)
-  ss$SampleID <- gsub("^X","Sample_",validNames(ss$SampleID))
-  ss$SampleID <-gsub("\\?|\\(|\\)|\\[|\\]|\\\\|/|\\=|\\+|<|>|\\:|\\;|\"|\'|\\*|\\^|\\||\\&|\\.","_",ss$SampleID)
-  ss$Index <- gsub(" ","",ss$Index)
-  toBeTrimmed <- which(lapply(ss$Index,nchar) > as.numeric(currentRunParameters$IndexRead1))
-  for(i in toBeTrimmed){
-    ss$Index[toBeTrimmed] <-  substr(ss$Index[toBeTrimmed],0,as.numeric(currentRunParameters$IndexRead1))
-  }
+validateBCLSheet <- function(sampleSheet,param){
+  ss <- fread(sampleSheet,sep=",",header=T,stringsAsFactors=F) %>%
+    mutate(Index = if (exists('Index', where = .)) Index else NA,
+           Index2 = if (exists('Index2', where = .)) Index2 else NA,
+           SampleID = if (exists('SampleID', where = .)) SampleID else NA) %>%
+    mutate(SampleID=gsub("^X","Sample_",validNames(SampleID))) %>%
+    mutate(SampleID=gsub("\\?|\\(|\\)|\\[|\\]|\\\\|/|\\=|\\+|<|>|\\:|\\;|\"|\'|\\*|\\^|\\||\\&|\\.","_",SampleID)) %>%
+    mutate(Index=str_trim(Index,"both"),Index2=str_trim(Index2,"both")) %>%
+    mutate(Index=str_sub(Index,1,12),Index2=str_sub(Index2,1,12))  # Will use runParamsIndexLength
 
   message("Read samplesheet ",basename(sampleSheetName)," discovered for run ",currentRun)
-  index1Lengths <- unlist(lapply(ss$Index,function(x)nchar(x)))
-
-  if(any(colnames(ss) %in% "Index2")){
-    ss$Index2 <- gsub(" ","",ss$Index2)
-    index2Lengths <- unlist(lapply(ss$Index2,function(x)nchar(x)))
-    index2NAs <- unlist(lapply(ss$Index2,function(x)is.na(x)))
-    index2Lengths[index2NAs] <- 0
-    allIndexTypes <- paste0(index1Lengths,"-",index2Lengths)
-    uniqueIndexTypes <- unique(allIndexTypes)
-    #ss$SampleID <- gsub("[[:punct:]]", "_", ss$SampleID).)
-    #ss$SampleID <- gsub("[^[:alnum:]]", "_", ss$SampleID).)
-    ss$Index <- gsub("-NA|-$|^-$","",paste(ss$Index,ss$Index2,sep="-"))
-    ss <- ss[,-grep("Index2",colnames(ss))]
-  }else{
-    allIndexTypes <- paste0(index1Lengths)
-    uniqueIndexTypes <- unique(allIndexTypes)
-    #ss$SampleID <- gsub("[[:punct:]]", "_", ss$SampleID).)
-    #ss$SampleID <- gsub("[^[:alnum:]]", "_", ss$SampleID).)
-  }
+  index1Lengths <- str_length(ss$Index)
 }
