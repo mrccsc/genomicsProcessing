@@ -51,6 +51,36 @@ validateBCLSheet <- function(sampleSheet,param=NULL){
   ss
 }
 
+#' Functions to create basemasks for basecalling from Illumina samplesheet.
+#'
+#' Parses the Illumina samplesheet from run folders to create standardised
+#'
+#'
+#' @docType methods
+#' @name createBasemasks
+#' @rdname createBasemasks
+#'
+#' @author Thomas Carroll and Marian Dore
+#' @param sampleSheet mm
+#' @param param mn
+#' @return basemasks Basemasks.
+#' @import stringr XML RColorBrewer methods raster BiocStyle
+#' @examples
+#'
+
+#' fileLocations <- system.file("extdata",package="basecallQC")
+#'
+#' sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
+
+#' cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=NULL)
+#'
+#' @export
+createBasemasks <- function(correctedSS,param=NULL){
+  correctedSS %>%
+    mutate(indexLength=str_length(index),indexLength2=str_length(index2)) %>%
+    group_by(Lane) %>% count(indexLength)#,indexLength2)
+}
+
 
 #' Illumina Basecalling functions.
 #'

@@ -2,6 +2,7 @@
 
 export(basecallQC)
 export(configParams)
+export(createBasemasks)
 export(launchBCLcommands)
 export(processConvStats)
 export(processDemultiplex)
