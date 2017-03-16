@@ -3,21 +3,19 @@
 \docType{methods}
 \name{validateBCLSheet}
 \alias{validateBCLSheet}
-\alias{validateBCLSheet}
 \title{Illumina Basecalling functions.}
 \usage{
 validateBCLSheet(sampleSheet, param = NULL)
+}
+\arguments{
+\item{sampleSheet}{mm}
 
-validateBCLSheet(sampleSheet, param = NULL)
+\item{param}{mn}
 }
 \value{
 Cleaned samplesheet.
-
-Cleaned samplesheet.
 }
 \description{
-Parses the Illumina samplesheet from run folders to create standardised
-
 Parses the Illumina samplesheet from run folders to create standardised
 }
 \examples{
@@ -27,15 +25,7 @@ fileLocations <- system.file("extdata",package="basecallQC")
 sampleSheet <- dir(fileLocations,pattern="*\\\\.csv",full.names=TRUE)
 cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=NULL)
 
-
-fileLocations <- system.file("extdata",package="basecallQC")
-
-sampleSheet <- dir(fileLocations,pattern="*\\\\.csv",full.names=TRUE)
-cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=NULL)
-
 }
 \author{
-Thomas Carroll and Marian Dore
-
 Thomas Carroll and Marian Dore
 }
