@@ -22,6 +22,23 @@
 setClass("basecallQC", representation(Run = "character", RunMetadata = "data.frame",
                                       params="list",sampleSheet="list",baseCallMetrics="list",demultiplexMetrics="list"))
 
+#' The Parameters for BCL2FastQparamters object.
+#'
+#' Parameter class and accessors
+#'
+#' @aliases BCL2FastQparams BCL2FastQparams-BCL2FastQparams
+#'
+#' @references See \url{http://mrccsc.github.io} for more details on soGGi workflows
+#' @rdname BCL2FastQparams
+#' @docType class
+#' @return A BCL2FastQparams object.
+#' @examples
+#'
+#' warning("Put example here!")
+#' @export
+setClass("BCL2FastQparams", representation(RunParameters = "character"))
+
+
 #' The bclCall function is a constructor for basecallQC objects.
 #'
 #' @name bclCall
@@ -29,11 +46,14 @@ setClass("basecallQC", representation(Run = "character", RunMetadata = "data.fra
 #' @param Run The pun to process
 #' @param RunMetadata Any run metadata to attach (sata.frame)
 #' @export
-basecallQC <- function(Run,RunMetadata=NULL,params=NULL,sampleSheet=NULL,baseCallMetrics=NULL,demultiplexMetrics=NULL){
+basecallQC <- function(Run=NULL,RunMetadata=NULL,params=NULL,sampleSheet=NULL,baseCallMetrics=NULL,demultiplexMetrics=NULL){
+  if(is.null(params)){
+    params <- defaultParams()
+  }
   basecallQC <- new("basecallQC",
                Run = Run,
                RunMetadata = RunMetadata,
-               parameters=runParams(params),
+               runParameters=runParams(params),
                sampleSheet=validateBCLSheet(params),
                baseCallMetrics=baseCallMetrics(params),
                demultiplexMetrics=demultiplexMetrics(params))
