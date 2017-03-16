@@ -25,7 +25,7 @@ fileLocations <- system.file("extdata",package="basecallQC")
 sampleSheet <- dir(fileLocations,pattern="*\\\\.csv",full.names=TRUE)
 runParameters <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
 cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=runParameters)
-cleanedSampleSheet <- createBasemasks(cleanedSampleSheet,param=runParameters)
+basenames <- createBasemasks(cleanedSampleSheet,param=runParameters)
 
 }
 \author{

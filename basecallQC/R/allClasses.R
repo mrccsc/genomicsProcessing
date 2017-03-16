@@ -38,7 +38,26 @@ setClass("basecallQC", representation(Run = "character", RunMetadata = "data.fra
 #' @export
 setClass("BCL2FastQparams", representation(RunParameters = "character"))
 
+#' Set Parameters for BCL2FastQparamters object.
+#'
+#' Parameter class and accessors
+#'
+#' @aliases setBCL2FastQparams setBCL2FastQparams-setBCL2FastQparams
+#'
+#' @references See \url{http://mrccsc.github.io} for more details on soGGi workflows
+#' @rdname setBCL2FastQparams
+#' @docType methods
+#' @param runXML file path to runParameters.xml
+#' @return A BCL2FastQparams object.
+#' @examples
+#'
+#' warning("Put example here!")
+#' @export
 
+setBCL2FastQparams <- function(runXML){
+new("BCL2FastQparams",
+    runParameters = runParams(runXML))
+}
 #' The bclCall function is a constructor for basecallQC objects.
 #'
 #' @name bclCall
@@ -53,10 +72,11 @@ basecallQC <- function(Run=NULL,RunMetadata=NULL,params=NULL,sampleSheet=NULL,ba
   basecallQC <- new("basecallQC",
                Run = Run,
                RunMetadata = RunMetadata,
-               runParameters=runParams(params),
-               sampleSheet=validateBCLSheet(params),
-               baseCallMetrics=baseCallMetrics(params),
-               demultiplexMetrics=demultiplexMetrics(params))
+               runParameters = runParams(params),
+               cleanedSampleSheet = validateBCLSheet(sampleSheet,params),
+               baseMasks = createBasemasks(cleanedSampleSheet,param=NULL),
+               baseCallMetrics = baseCallMetrics(params),
+               demultiplexMetrics = demultiplexMetrics(params))
   return(basecallQC)
 }
 

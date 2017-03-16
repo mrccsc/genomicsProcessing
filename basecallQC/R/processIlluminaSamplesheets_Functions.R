@@ -70,7 +70,7 @@ validateBCLSheet <- function(sampleSheet,param=NULL){
 #' sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
 #' runParameters <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
 #' cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=runParameters)
-#' cleanedSampleSheet <- createBasemasks(cleanedSampleSheet,param=runParameters)
+#' basenames <- createBasemasks(cleanedSampleSheet,param=runParameters)
 #'
 #' @export
 createBasemasks <- function(cleanedSampleSheet,param=NULL){
@@ -94,7 +94,7 @@ createBasemasks <- function(cleanedSampleSheet,param=NULL){
       mutate(basemask = str_c(read1Mask,index1Mask,index2Mask,read2Mask,sep=",")) %>%
       mutate(basemask = str_c(Lane,":",basemask)) %>%
       mutate(basemask = str_replace(basemask,",,",",")) %>%
-      select(Lane,basemask,read1Mask,index1Mask,index2Mask,read2Mask)
+      dplyr:::select(Lane,basemask,read1Mask,index1Mask,index2Mask,read2Mask)
       }
 }
 
