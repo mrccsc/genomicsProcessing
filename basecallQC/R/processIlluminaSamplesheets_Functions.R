@@ -24,7 +24,7 @@
 #'
 #' @export
 validateBCLSheet <- function(sampleSheet,param=NULL){
-  ss <- fread(sampleSheet,sep=",",header=T,stringsAsFactors=F) %>%
+  fread(sampleSheet,sep=",",header=T,stringsAsFactors=F) %>%
     tbl_df %>%
   {if(exists('Project', where = .) & !exists('Sample_Project', where = .)) rename(.,Sample_Project = Project) else .} %>%
   {if(exists('SampleID', where = .) & !exists('Sample_ID', where = .)) rename(.,Sample_ID = SampleID) else .} %>%
@@ -47,8 +47,6 @@ validateBCLSheet <- function(sampleSheet,param=NULL){
            index2=str_trim(index2,"both")) #   %>%
   #mutate(Index=str_sub(index,1,index1Length(param)),    # Will use runParamsIndexLength
   #       index2=str_sub(index2,1,index2Length(param)))  # Will use runParamsIndexLength
-
-  ss
 }
 
 #' Functions to create basemasks for basecalling from Illumina samplesheet.
