@@ -40,8 +40,8 @@ validateBCLSheet <- function(sampleSheet,param=NULL){
            Sample_Name = if (exists('Sample_Name', where = .)) SampleName else NA,
            index = if (exists('index', where = .)) index else NA,
            index2 = if (exists('index2', where = .)) index2 else NA
-    ) %>%
-    select(Sample_Project,Lane,Sample_ID,Sample_Name,index,index2,everything()) %>%
+    ) %>% tbl_df %>%
+    dplyr::select(Sample_Project,Lane,Sample_ID,Sample_Name,index,index2,everything()) %>%
     mutate(Sample_ID=gsub("^X\\d+.\\.","Sample_",validNames(Sample_ID))) %>%
     mutate(Sample_ID=gsub("\\?|\\(|\\)|\\[|\\]|\\\\|/|\\=|\\+|<|>|\\:|\\;|\"|\'|\\*|\\^|\\||\\&|\\.","_",Sample_ID)) %>%
     mutate(index=str_trim(index,"both"),
@@ -49,8 +49,6 @@ validateBCLSheet <- function(sampleSheet,param=NULL){
   #mutate(Index=str_sub(index,1,index1Length(param)),    # Will use runParamsIndexLength
   #       index2=str_sub(index2,1,index2Length(param)))  # Will use runParamsIndexLength
 
-  message("Read samplesheet ",basename(sampleSheet)," discovered for run ",currentRun)
-  #index1Lengths <- str_length(ss$Index)
   ss
 }
 
