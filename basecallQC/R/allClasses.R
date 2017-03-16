@@ -65,7 +65,8 @@ new("BCL2FastQparams",
 #' @param Run The pun to process
 #' @param RunMetadata Any run metadata to attach (sata.frame)
 #' @export
-basecallQC <- function(Run=NULL,RunMetadata=NULL,params=NULL,sampleSheet=NULL,baseCallMetrics=NULL,demultiplexMetrics=NULL){
+basecallQC <- function(Run=NULL,RunMetadata=NULL,params=NULL,sampleSheet=NULL,
+                       baseCallMetrics=NULL,demultiplexMetrics=NULL){
   if(is.null(params)){
     params <- defaultParams()
   }
@@ -74,7 +75,7 @@ basecallQC <- function(Run=NULL,RunMetadata=NULL,params=NULL,sampleSheet=NULL,ba
                RunMetadata = RunMetadata,
                runParameters = runParams(params),
                cleanedSampleSheet = validateBCLSheet(sampleSheet,params),
-               baseMasks = createBasemasks(cleanedSampleSheet,param=NULL),
+               baseMasks = createBasemasks(cleanedSampleSheet,params),
                baseCallMetrics = baseCallMetrics(params),
                demultiplexMetrics = demultiplexMetrics(params))
   return(basecallQC)

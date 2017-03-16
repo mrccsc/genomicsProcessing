@@ -5,7 +5,7 @@
 \alias{summariseConvStats}
 \title{Generate per sample summary statistics}
 \usage{
-summariseConvStats(demuxProcessed, plot = T)
+summariseConvStats(convStatsProcessed, plot = T)
 }
 \arguments{
 \item{ConvStats}{Results from a call to processConvStats.}

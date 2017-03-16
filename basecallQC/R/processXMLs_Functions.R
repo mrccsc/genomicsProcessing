@@ -27,6 +27,8 @@ processDemultiplex <- function(demuxStatsXML){
         full.names=TRUE,
         recursive = T)
   }
+  if(file.exists(demuxStatsXML)){
+
   demuxStatsXMLparse <- xmlTreeParse(demuxStatsXML)
   demuxStatsXML_root <- xmlRoot(demuxStatsXMLparse)
   Projects <- demuxStatsXML_root[[1]]
@@ -72,7 +74,8 @@ processDemultiplex <- function(demuxStatsXML){
   Projects_DF2 <- do.call(rbind,Projects_Info)
   rownames(Projects_DF2) <- NULL
   return(Projects_DF2)
-
+  }
+  return(NULL)
 }
 
 
@@ -108,6 +111,7 @@ processConvStats <- function(ConvStatsXML){
                          full.names=TRUE,
                          recursive = T)
   }
+  if(file.exists(ConvStatsXML)){
   convStatsXMLparse <- xmlTreeParse(ConvStatsXML)
   convStatsXML_root <- xmlRoot(convStatsXMLparse)
   Projects <- convStatsXML_root[[1]]
@@ -192,7 +196,8 @@ processConvStats <- function(ConvStatsXML){
   Projects_DF <- do.call(rbind,Projects_Info)
   rownames(Projects_DF) <- NULL
   return(Projects_DF)
-
+  }
+  return(NULL)
 }
 
 #' Generate per sample summary statistics
@@ -222,7 +227,7 @@ summariseDemuxStats <- function(demuxProcessed, plot=T){
   #Lane_Stats4 <- Test %>% filter(Sample != "all" & BarcodeStat == "BarcodeCount") %>% group_by(Project,Sample) %>% summarise(Count=sum(as.numeric(Count)))
   #Lane_Stats <- Projects_DF %>% filter(Sample == "all") %>% group_by(Lane,Filter) %>% summarise(sum(Yield))
 
-
+  if(!is.null(demuxProcessed)){
   temp <- demuxProcessed %>% tbl_df %>% mutate(Count = as.numeric(Count)) %>%
             filter(Sample != "all" & BarcodeStat == "BarcodeCount") %>%
             filter(Project != "default") # Computing percent label text and position for pie chart
@@ -242,6 +247,8 @@ summariseDemuxStats <- function(demuxProcessed, plot=T){
   #Lane_Stats <- demuxProcessed %>% filter(Sample != "all") %>% group_by(Lane) %>% summarise(Yield=sum(as.numeric(Yield)))
 
   return(list(Summary=temp))
+  }
+  return(NULL)
 }
 
 #' Generate per sample summary statistics
@@ -267,26 +274,26 @@ summariseDemuxStats <- function(demuxProcessed, plot=T){
 #' summarisedConvStats <- summariseConvStats(convStatsProcessed)
 #'
 #' @export
-summariseConvStats <- function(demuxProcessed, plot=T){
+summariseConvStats <- function(convStatsProcessed, plot=T){
   #Lane_Stats4 <- Test %>% filter(Sample != "all" & BarcodeStat == "BarcodeCount") %>% group_by(Project,Sample) %>% summarise(Count=sum(as.numeric(Count)))
   #Lane_Stats <- Projects_DF %>% filter(Sample == "all") %>% group_by(Lane,Filter) %>% summarise(sum(Yield))
-
-
-  Lane_perTileStats <- demuxProcessed %>% group_by(Lane,Tile,Filter) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
-  LaneSample_perTileStats <- demuxProcessed %>% group_by(Lane,Sample,Tile,Filter) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
-  Sample_Stats <- demuxProcessed %>% filter(Sample != "all") %>% group_by(Sample,Filter) %>% summarise(Yield=sum(as.numeric(Yield)))
-  Lane_Stats <- demuxProcessed %>% filter(Sample != "all") %>% group_by(Lane,Filter) %>% summarise(Yield=sum(as.numeric(Yield)))
+  if(!is.null(convStatsProcessed)){
+  Lane_perTileStats <- convStatsProcessed %>% group_by(Lane,Tile,Filter) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
+  LaneSample_perTileStats <- convStatsProcessed %>% group_by(Lane,Sample,Tile,Filter) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
+  Sample_Stats <- convStatsProcessed %>% filter(Sample != "all") %>% group_by(Sample,Filter) %>% summarise(Yield=sum(as.numeric(Yield)))
+  Lane_Stats <- convStatsProcessed %>% filter(Sample != "all") %>% group_by(Lane,Filter) %>% summarise(Yield=sum(as.numeric(Yield)))
   #Lane_Stats <- Projects_DF %>% filter(Sample == "all") %>% group_by(Lane,Filter) %>% summarise(sum(Yield))
   #p3 <- ggplot(data=Lane_perTileStats,aes(x=Lane,y=Yield))+geom_violin()
   #ggplot(data=Sample_Stats,aes(x=Sample,y=Yield,fill=Filter))+geom_boxplot()
   # if(plot){
   #   print(p3)
   # }
-  # return(list(Lane_perTileStats=Lane_perTileStats,
-  #             LaneSample_perTileStats=LaneSample_perTileStats,
-  #             Sample_Stats=Sample_Stats,
-  #             Lane_Stats=Lane_Stats,
-  #             ViolinPlot=p3))
+  return(list(Lane_perTileStats=Lane_perTileStats,
+              LaneSample_perTileStats=LaneSample_perTileStats,
+              Sample_Stats=Sample_Stats,
+              Lane_Stats=Lane_Stats))
+  }
+  return(NULL)
 }
 
 
