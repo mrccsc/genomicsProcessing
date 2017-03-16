@@ -5,7 +5,7 @@
 \alias{createBasemasks}
 \title{Functions to create basemasks for basecalling from Illumina samplesheet.}
 \usage{
-createBasemasks(correctedSS, param = NULL)
+createBasemasks(cleanedSampleSheet, param = NULL)
 }
 \arguments{
 \item{param}{mn}

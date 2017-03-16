@@ -24,6 +24,7 @@
 #'
 #' @export
 validateBCLSheet <- function(sampleSheet,param=NULL){
+  runParam <- runParameters(param)
   fread(sampleSheet,sep=",",header=T,stringsAsFactors=F) %>%
     tbl_df %>%
   {if(exists('Project', where = .) & !exists('Sample_Project', where = .)) rename(.,Sample_Project = Project) else .} %>%
@@ -44,9 +45,9 @@ validateBCLSheet <- function(sampleSheet,param=NULL){
     mutate(Sample_ID=gsub("^X\\d+.\\.","Sample_",validNames(Sample_ID))) %>%
     mutate(Sample_ID=gsub("\\?|\\(|\\)|\\[|\\]|\\\\|/|\\=|\\+|<|>|\\:|\\;|\"|\'|\\*|\\^|\\||\\&|\\.","_",Sample_ID)) %>%
     mutate(index=str_trim(index,"both"),
-           index2=str_trim(index2,"both")) #   %>%
-  #mutate(Index=str_sub(index,1,index1Length(param)),    # Will use runParamsIndexLength
-  #       index2=str_sub(index2,1,index2Length(param)))  # Will use runParamsIndexLength
+           index2=str_trim(index2,"both"))    %>%
+  mutate(Index=str_sub(index,1,as.numeric(runParam$IndexRead1)),    # Will use runParamsIndexLength
+         index2=str_sub(index2,1,as.numeric(runParam$IndexRead2)))  # Will use runParamsIndexLength
 }
 
 #' Functions to create basemasks for basecalling from Illumina samplesheet.
@@ -73,10 +74,20 @@ validateBCLSheet <- function(sampleSheet,param=NULL){
 #' cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=NULL)
 #'
 #' @export
-createBasemasks <- function(correctedSS,param=NULL){
-  correctedSS %>%
+createBasemasks <- function(cleanedSampleSheet,param=NULL){
+  runParam <- runParameters(param)
+  indexCombinations <- cleanedSampleSheet %>%
     mutate(indexLength=str_length(index),indexLength2=str_length(index2)) %>%
-    group_by(Lane) %>% count(indexLength)#,indexLength2)
+    group_by(Lane) %>% count(indexLength,indexLength2)
+
+  if(nrow(indexCombinations) == length(unique(indexCombinations$Lane))){
+    indexCombinations %>%
+      mutate(index1Mask = str_c(str_dup("Y",indexLength),str_dup("N",as.numeric(runParam$IndexRead1)-indexLength)),
+             index2Mask = str_c(str_dup("Y",indexLength2),str_dup("N",as.numeric(runParam$IndexRead2)-indexLength2))) %>%
+      mutate(read1Mask = str_c(str_dup("Y",as.numeric(runParam$Read1))),read2Mask = str_c(str_dup("Y",as.numeric(runParam$Read2))))
+  }else{
+    stop()
+  }
 }
 
 

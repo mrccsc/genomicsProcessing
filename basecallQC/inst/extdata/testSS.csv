@@ -1,7 +1,7 @@
 FCID,Lane,SampleID,SampleRef,Index,Index2,Description,Control,Recipe,Operator,Project
-testRun,1,Sh_JNG32GD1,,TCGCCTTA,,,,,,TSC
-testRun,2,Sh_JNG64GD1,,TTCTGCCT,,,,,,TSC
-testRun,3,Sh_JNG128GD1,,GCTCAGGA,,,,,,TSC
+testRun,1,Sh_JNG32GD1,,TCGCCTTA,TCGCCTTA,,,,,TSC
+testRun,2,Sh_JNG64GD1,,TTCTGCCT,TCGCCTTA,,,,,TSC
+testRun,3,Sh_JNG128GD1,,GCTCAGGA,TCGCCTTA,,,,,TSC
 testRun,4,1,,CGATGT,,,,,,MD
 testRun,4,2,,TGACCA,,,,,,MD
 testRun,4,3,,ACAGTG,,,,,,MD
