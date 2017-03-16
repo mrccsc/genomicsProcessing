@@ -88,7 +88,13 @@ createBasemasks <- function(cleanedSampleSheet,param=NULL){
       mutate(read1Mask = str_c(str_dup("Y",as.numeric(runParam$Read1))),
              read2Mask = str_c(str_dup("Y",as.numeric(runParam$Read2)))) %>%
       mutate(read1Mask = str_replace(read1Mask,"Y$","N"),
-             read2Mask = str_replace(read2Mask,"Y$","N"))
+             read2Mask = str_replace(read2Mask,"Y$","N")) %>%
+      mutate(index1Mask = if (runParam$IndexRead1 > 0) str_c("I",index1Mask) else index1Mask) %>%
+      mutate(index2Mask = if (runParam$IndexRead2 > 0) str_c("I",index2Mask) else index2Mask) %>%
+      mutate(basemask = str_c(read1Mask,index1Mask,index2Mask,read2Mask,sep=",")) %>%
+      mutate(basemask = str_c(Lane,":",basemask)) %>%
+      mutate(basemask = str_replace(basemask,",,",",")) %>%
+      select(Lane,basemask,read1Mask,index1Mask,index2Mask,read2Mask)
       }
 }
 
