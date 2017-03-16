@@ -23,7 +23,9 @@ Parses the Illumina samplesheet from run folders to create standardised
 fileLocations <- system.file("extdata",package="basecallQC")
 
 sampleSheet <- dir(fileLocations,pattern="*\\\\.csv",full.names=TRUE)
-cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=NULL)
+runParameters <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=runParameters)
+cleanedSampleSheet <- createBasemasks(cleanedSampleSheet,param=runParameters)
 
 }
 \author{

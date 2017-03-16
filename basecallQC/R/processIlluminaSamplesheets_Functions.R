@@ -15,12 +15,10 @@
 #' @import stringr XML RColorBrewer methods raster BiocStyle
 #' @examples
 #'
-
 #' fileLocations <- system.file("extdata",package="basecallQC")
-#'
+#' runParameters <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
 #' sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
-
-#' cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=NULL)
+#' cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=runParameters)
 #'
 #' @export
 validateBCLSheet <- function(sampleSheet,param=NULL){
@@ -70,8 +68,9 @@ validateBCLSheet <- function(sampleSheet,param=NULL){
 #' fileLocations <- system.file("extdata",package="basecallQC")
 #'
 #' sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
-
-#' cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=NULL)
+#' runParameters <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+#' cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=runParameters)
+#' cleanedSampleSheet <- createBasemasks(cleanedSampleSheet,param=runParameters)
 #'
 #' @export
 createBasemasks <- function(cleanedSampleSheet,param=NULL){
@@ -82,11 +81,15 @@ createBasemasks <- function(cleanedSampleSheet,param=NULL){
 
   if(nrow(indexCombinations) == length(unique(indexCombinations$Lane))){
     baseMasks <- indexCombinations %>%
-      mutate(index1Mask = str_c(str_dup("Y",indexLength),str_dup("N",as.numeric(runParam$IndexRead1)-indexLength)),
-             index2Mask = str_c(str_dup("Y",indexLength2),str_dup("N",as.numeric(runParam$IndexRead2)-indexLength2))) %>%
-      mutate(read1Mask = str_c(str_dup("Y",as.numeric(runParam$Read1))),read2Mask = str_c(str_dup("Y",as.numeric(runParam$Read2)))) %>%
-      mutate(read1Mask = str_replace(read1Mask,"Y$","N"),read2Mask = str_replace(read2Mask,"Y$","N"))
-  }
+      mutate(index1Mask = str_c(str_dup("Y",indexLength),
+                                str_dup("N",as.numeric(runParam$IndexRead1)-indexLength)),
+             index2Mask = str_c(str_dup("Y",indexLength2),
+                                str_dup("N",as.numeric(runParam$IndexRead2)-indexLength2))) %>%
+      mutate(read1Mask = str_c(str_dup("Y",as.numeric(runParam$Read1))),
+             read2Mask = str_c(str_dup("Y",as.numeric(runParam$Read2)))) %>%
+      mutate(read1Mask = str_replace(read1Mask,"Y$","N"),
+             read2Mask = str_replace(read2Mask,"Y$","N"))
+      }
 }
 
 
