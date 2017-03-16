@@ -81,12 +81,11 @@ createBasemasks <- function(cleanedSampleSheet,param=NULL){
     group_by(Lane) %>% count(indexLength,indexLength2)
 
   if(nrow(indexCombinations) == length(unique(indexCombinations$Lane))){
-    indexCombinations %>%
+    baseMasks <- indexCombinations %>%
       mutate(index1Mask = str_c(str_dup("Y",indexLength),str_dup("N",as.numeric(runParam$IndexRead1)-indexLength)),
              index2Mask = str_c(str_dup("Y",indexLength2),str_dup("N",as.numeric(runParam$IndexRead2)-indexLength2))) %>%
-      mutate(read1Mask = str_c(str_dup("Y",as.numeric(runParam$Read1))),read2Mask = str_c(str_dup("Y",as.numeric(runParam$Read2))))
-  }else{
-    stop()
+      mutate(read1Mask = str_c(str_dup("Y",as.numeric(runParam$Read1))),read2Mask = str_c(str_dup("Y",as.numeric(runParam$Read2)))) %>%
+      mutate(read1Mask = str_replace(read1Mask,"Y$","N"),read2Mask = str_replace(read2Mask,"Y$","N"))
   }
 }
 
