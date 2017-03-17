@@ -6,7 +6,7 @@
 \alias{setBCL2FastQparams-setBCL2FastQparams}
 \title{Set Parameters for BCL2FastQparamters object.}
 \usage{
-setBCL2FastQparams(runXML)
+setBCL2FastQparams(runXML = NULL)
 }
 \arguments{
 \item{runXML}{file path to runParameters.xml}

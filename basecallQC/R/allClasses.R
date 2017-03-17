@@ -54,9 +54,9 @@ setClass("BCL2FastQparams", representation(RunParameters = "character"))
 #' warning("Put example here!")
 #' @export
 
-setBCL2FastQparams <- function(runXML){
-new("BCL2FastQparams",
-    runParameters = runParams(runXML))
+setBCL2FastQparams <- function(runXML=NULL){
+  new("BCL2FastQparams",
+      runParameters = runParams(runXML))
 }
 #' The bclCall function is a constructor for basecallQC objects.
 #'
@@ -65,26 +65,23 @@ new("BCL2FastQparams",
 #' @param Run The pun to process
 #' @param RunMetadata Any run metadata to attach (sata.frame)
 #' @export
-basecallQC <- function(Run=NULL,RunMetadata=NULL,params=NULL,sampleSheet=NULL,
+basecallQC <- function(Run=NULL,RunMetadata=NULL,runXML=NULL,config=NULL,sampleSheet=NULL,
                        baseCallMetrics=NULL,demultiplexMetrics=NULL){
-  if(is.null(params)){
-    params <- defaultParams()
-  }
   basecallQC <- new("basecallQC",
-               Run = Run,
-               RunMetadata = RunMetadata,
-               runParameters = runParams(params),
-               cleanedSampleSheet = validateBCLSheet(sampleSheet,params),
-               baseMasks = createBasemasks(cleanedSampleSheet,params),
-               baseCallMetrics = baseCallMetrics(params),
-               demultiplexMetrics = demultiplexMetrics(params))
+                    Run = Run,
+                    RunMetadata = RunMetadata,
+                    runParameters = setBCL2FastQparams(runXML,config),
+                    cleanedSampleSheet = validateBCLSheet(sampleSheet,runParameters),
+                    baseMasks = createBasemasks(cleanedSampleSheet,runParameters),
+                    baseCallMetrics = baseCallMetrics(runParameters),
+                    demultiplexMetrics = demultiplexMetrics(runParameters))
   return(basecallQC)
 }
 
-runParams <- function(params=NULL){
-  runParams <- runParameters(params)
-  configParams <- configParams(params)
-  return(c(params,list(runParams=runParams,configParams=configParams)))
+runParams <- function(runXML=NULL,config=NULL){
+  runParams <- runParameters(runXML)
+  configParams <- configParams(config)
+  return(list(runParams=runParams,configParams=configParams))
 }
 
 basecallMetrics <- function(params){
@@ -100,6 +97,8 @@ demultiplexMetrics <- function(params){
   return(c(params,list(demuxStatsProcessed=demuxStatsProcessed,
                        summarisedDemuxStats=summarisedDemuxStats)))
 }
+
+
 
 
 
