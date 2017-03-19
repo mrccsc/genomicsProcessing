@@ -5,7 +5,7 @@
 \alias{basecallQC}
 \title{The bclCall function is a constructor for basecallQC objects.}
 \usage{
-basecallQC(Run = NULL, RunMetadata = NULL, params = NULL,
+basecallQC(Run = NULL, RunMetadata = NULL, runXML = NULL, config = NULL,
   sampleSheet = NULL, baseCallMetrics = NULL, demultiplexMetrics = NULL)
 }
 \arguments{
