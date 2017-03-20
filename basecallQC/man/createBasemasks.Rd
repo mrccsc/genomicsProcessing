@@ -21,11 +21,13 @@ Parses the Illumina samplesheet from run folders to create standardised
 \examples{
 
 fileLocations <- system.file("extdata",package="basecallQC")
-
+runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
 sampleSheet <- dir(fileLocations,pattern="*\\\\.csv",full.names=TRUE)
-runParameters <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
-cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=runParameters)
-basenames <- createBasemasks(cleanedSampleSheet,param=runParameters)
+bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=T)
+
+cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=bcl2fastqparams)
+basenames <- createBasemasks(cleanedSampleSheet,param=bcl2fastqparams)
 
 }
 \author{

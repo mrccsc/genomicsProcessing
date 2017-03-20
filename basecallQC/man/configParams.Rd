@@ -4,10 +4,10 @@
 \alias{configParams}
 \title{Ini config file reader.}
 \usage{
-configParams(params)
+configParams(Config)
 }
 \arguments{
-\item{Params}{Any parameters}
+\item{Config}{Any parameters}
 }
 \description{
 Ini config file reader.

@@ -17,5 +17,6 @@ Collate:
   processIlluminaSamplesheets_Functions.R
   processXMLs_Functions.R
   allClasses.R
+  allMethods.R
   processExternalFormats_Functions.R
 RoxygenNote: 6.0.1

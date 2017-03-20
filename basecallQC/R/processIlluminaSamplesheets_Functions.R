@@ -16,36 +16,39 @@
 #' @examples
 #'
 #' fileLocations <- system.file("extdata",package="basecallQC")
-#' runParameters <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+#' runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+#' config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
 #' sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
-#' cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=runParameters)
+#' bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=T)
+#'
+#' cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=bcl2fastqparams)
 #'
 #' @export
-validateBCLSheet <- function(sampleSheet,param=NULL){
-  runParam <- runParameters(param)
+validateBCLSheet <- function(sampleSheet,param=bcl2fastqparams){
+  #runParam <- runParameters(param)
   fread(sampleSheet,sep=",",header=T,stringsAsFactors=F) %>%
     tbl_df %>%
-  {if(exists('Project', where = .) & !exists('Sample_Project', where = .)) rename(.,Sample_Project = Project) else .} %>%
-  {if(exists('SampleID', where = .) & !exists('Sample_ID', where = .)) rename(.,Sample_ID = SampleID) else .} %>%
-  {if(exists('ID', where = .) & !exists('Sample_ID', where = .)) rename(.,Sample_ID = ID) else .} %>%
-  {if(exists('SampleName', where = .) & !exists('Sample_Name', where = .)) rename(.,Sample_Name = SampleName) else .} %>%
-  {if(exists('Name', where = .) & !exists('Name', where = .)) rename(.,Sample_Name = Name) else .} %>%
-  {if(exists('Index', where = .) & !exists('index', where = .)) rename(.,index = Index) else .} %>%
-  {if(exists('Index2', where = .) & !exists('index2', where = .)) rename(.,index2 = Index2) else .} %>%
+  {if(exists('Project', where = .) & !exists('Sample_Project', where = .)) dplyr:::rename(.,Sample_Project = Project) else .} %>%
+  {if(exists('SampleID', where = .) & !exists('Sample_ID', where = .)) dplyr:::rename(.,Sample_ID = SampleID) else .} %>%
+  {if(exists('ID', where = .) & !exists('Sample_ID', where = .)) dplyr:::rename(.,Sample_ID = ID) else .} %>%
+  {if(exists('SampleName', where = .) & !exists('Sample_Name', where = .)) dplyr:::rename(.,Sample_Name = SampleName) else .} %>%
+  {if(exists('Name', where = .) & !exists('Sample_Name', where = .)) dplyr:::rename(.,Sample_Name = Name) else .} %>%
+  {if(exists('index', where = .) & !exists('Index', where = .)) dplyr:::rename(.,Index = index) else .} %>%
+  {if(exists('index2', where = .) & !exists('Index2', where = .)) dplyr:::rename(.,Index2 = index2) else .} %>%
     mutate(Sample_Project = if (exists('Sample_Project', where = .)) Sample_Project else NA,
            Lane = if (exists('Lane', where = .)) Lane else NA,
            Sample_ID = if (exists('Sample_ID', where = .)) Sample_ID else NA,
-           Sample_Name = if (exists('Sample_Name', where = .)) SampleName else NA,
-           index = if (exists('index', where = .)) index else NA,
-           index2 = if (exists('index2', where = .)) index2 else NA) %>%
+           Sample_Name = if (exists('Sample_Name', where = .)) Sample_Name else NA,
+           Index = if (exists('Index', where = .)) Index else NA,
+           Index2 = if (exists('Index2', where = .)) Index2 else NA) %>%
     tbl_df %>%
-    dplyr:::select(Sample_Project,Lane,Sample_ID,Sample_Name,index,index2,everything()) %>%
+    dplyr:::select(Sample_Project,Lane,Sample_ID,Sample_Name,Index,Index2,everything()) %>%
     mutate(Sample_ID=gsub("^X\\d+.\\.","Sample_",validNames(Sample_ID))) %>%
     mutate(Sample_ID=gsub("\\?|\\(|\\)|\\[|\\]|\\\\|/|\\=|\\+|<|>|\\:|\\;|\"|\'|\\*|\\^|\\||\\&|\\.","_",Sample_ID)) %>%
-    mutate(index=str_trim(index,"both"),
-           index2=str_trim(index2,"both"))    %>%
-  mutate(Index=str_sub(index,1,as.numeric(runParam$IndexRead1)),    # Will use runParamsIndexLength
-         index2=str_sub(index2,1,as.numeric(runParam$IndexRead2)))  # Will use runParamsIndexLength
+    mutate(Index=str_trim(Index,"both"),
+           Index2=str_trim(Index2,"both"))    %>%
+  mutate(Index=str_sub(Index,1,as.numeric(indexlengths(bcl2fastqparams)$IndexRead1)),    # Will use runParamsIndexLength
+         Index2=str_sub(Index2,1,as.numeric(indexlengths(bcl2fastqparams)$IndexRead2)))  # Will use runParamsIndexLength
 }
 
 #' Functions to create basemasks for basecalling from Illumina samplesheet.
@@ -66,38 +69,48 @@ validateBCLSheet <- function(sampleSheet,param=NULL){
 #'
 
 #' fileLocations <- system.file("extdata",package="basecallQC")
-#'
+#' runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+#' config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
 #' sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
-#' runParameters <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
-#' cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=runParameters)
-#' basenames <- createBasemasks(cleanedSampleSheet,param=runParameters)
+#' bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=T)
+#'
+#' cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=bcl2fastqparams)
+#' basenames <- createBasemasks(cleanedSampleSheet,param=bcl2fastqparams)
 #'
 #' @export
 createBasemasks <- function(cleanedSampleSheet,param=NULL){
-  runParam <- runParameters(param)
   indexCombinations <- cleanedSampleSheet %>%
-    mutate(indexLength=str_length(index),indexLength2=str_length(index2)) %>%
+    mutate(indexLength=str_length(Index),indexLength2=str_length(Index2)) %>%
     group_by(Lane) %>% count(indexLength,indexLength2)
 
   if(nrow(indexCombinations) == length(unique(indexCombinations$Lane))){
     baseMasks <- indexCombinations %>%
-      mutate(index1Mask = str_c(str_dup("Y",indexLength),
-                                str_dup("N",as.numeric(runParam$IndexRead1)-indexLength)),
-             index2Mask = str_c(str_dup("Y",indexLength2),
-                                str_dup("N",as.numeric(runParam$IndexRead2)-indexLength2))) %>%
-      mutate(read1Mask = str_c(str_dup("Y",as.numeric(runParam$Read1))),
-             read2Mask = str_c(str_dup("Y",as.numeric(runParam$Read2)))) %>%
+      mutate(index1Mask = str_c(str_dup("I",indexLength),
+                                str_dup("N",indexlengths(bcl2fastqparams)$IndexRead1-indexLength)),
+             index2Mask = str_c(str_dup("I",indexLength2),
+                                str_dup("N",indexlengths(bcl2fastqparams)$IndexRead2-indexLength2))) %>%
+      mutate(read1Mask = str_c(str_dup("Y",as.numeric(readlengths(bcl2fastqparams)$Read1))),
+             read2Mask = str_c(str_dup("Y",as.numeric(readlengths(bcl2fastqparams)$Read1)))) %>%
       mutate(read1Mask = str_replace(read1Mask,"Y$","N"),
              read2Mask = str_replace(read2Mask,"Y$","N")) %>%
-      mutate(index1Mask = if (runParam$IndexRead1 > 0) str_c("I",index1Mask) else index1Mask) %>%
-      mutate(index2Mask = if (runParam$IndexRead2 > 0) str_c("I",index2Mask) else index2Mask) %>%
+      mutate(index1Mask = if (indexlengths(bcl2fastqparams)$IndexRead1 > 0) str_c("I",index1Mask) else index1Mask) %>%
+      mutate(index2Mask = if (indexlengths(bcl2fastqparams)$IndexRead2 > 0) str_c("I",index2Mask) else index2Mask) %>%
       mutate(basemask = str_c(read1Mask,index1Mask,index2Mask,read2Mask,sep=",")) %>%
       mutate(basemask = str_c(Lane,":",basemask)) %>%
       mutate(basemask = str_replace(basemask,",,",",")) %>%
+      tbl_df %>%
       dplyr:::select(Lane,basemask,read1Mask,index1Mask,index2Mask,read2Mask)
       }
 }
 
+createBCLcommand <- function(bcl2fastqparams,cleanedSampleSheet,baseMasks){
+  sampleSheetLocation <- paste0(file.path(bcl2fastqparams@RunDir,bcl2fastqparams@RunParameters$runParams$Barcode),".csv")
+  bclPath <- bcl2fastqparams@RunParameters$configParams[bcl2fastqparams@RunParameters$configParams$name == "configureBclToFastq","value"]
+  write.table(cleanedSampleSheet,file=sampleSheetLocation,sep=",",quote=F,row.names=F)
+  baseMasksToUse <- str_c("--use-bases-mask ",select(tbl_df(baseMasks),basemask)$basemask,collapse = " ")
+  bclcommand <- str_c(as.vector(bclPath$value),"--sample-sheet",sampleSheetLocation,baseMasksToUse,sep=" ")
+  return(bclcommand)
+}
 
 #' Illumina Basecalling functions.
 #'
@@ -117,10 +130,6 @@ createBasemasks <- function(cleanedSampleSheet,param=NULL){
 #' @return Shell commands for basecalling.
 #' @import stringr XML RColorBrewer methods raster BiocStyle
 #' @examples
-#'
-#' library(raster)
-#' library(XML)
-
 #' subFoldersFull <- "/ifs/data/Hiseq/Runs/161105_D00467_0205_AC9L0AANXX"
 #' Run_folders_WithRTA <- "/ifs/data/Hiseq/Runs/161105_D00467_0205_AC9L0AANXX"
 #' fileLocations <- system.file("extdata",package="basecallQC")

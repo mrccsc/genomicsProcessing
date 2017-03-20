@@ -5,7 +5,7 @@
 \alias{validateBCLSheet}
 \title{Illumina Basecalling functions.}
 \usage{
-validateBCLSheet(sampleSheet, param = NULL)
+validateBCLSheet(sampleSheet, param = bcl2fastqparams)
 }
 \arguments{
 \item{sampleSheet}{mm}
@@ -21,9 +21,12 @@ Parses the Illumina samplesheet from run folders to create standardised
 \examples{
 
 fileLocations <- system.file("extdata",package="basecallQC")
-runParameters <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
 sampleSheet <- dir(fileLocations,pattern="*\\\\.csv",full.names=TRUE)
-cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=runParameters)
+bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=T)
+
+cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=bcl2fastqparams)
 
 }
 \author{

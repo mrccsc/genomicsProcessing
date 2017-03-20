@@ -322,13 +322,12 @@ summariseConvStats <- function(convStatsProcessed, plot=T){
 runParameters <- function(runParameters = NULL){
   if(is.null(runParameters)){
     runParameters = dir(pattern="runParameters.xml",
-                        recursive=T,
                         full.names=T)
   }
   xmlFromRunParameters <- xmlParse(runParameters)
   currentRunParameters <- xmlToDataFrame(xmlFromRunParameters)
   currentRunParameters <- currentRunParameters[!is.na(currentRunParameters$ExperimentName),,drop=F]
-  return(currentRunParameters)
+  currentRunParameters %>% tbl_df
 }
 
 

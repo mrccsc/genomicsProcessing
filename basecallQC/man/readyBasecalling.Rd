@@ -24,9 +24,6 @@ Shell commands for basecalling.
 Parses the Illumina samplesheet from run folders to create standardised
 }
 \examples{
-
-library(raster)
-library(XML)
 subFoldersFull <- "/ifs/data/Hiseq/Runs/161105_D00467_0205_AC9L0AANXX"
 Run_folders_WithRTA <- "/ifs/data/Hiseq/Runs/161105_D00467_0205_AC9L0AANXX"
 fileLocations <- system.file("extdata",package="basecallQC")

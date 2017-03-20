@@ -6,10 +6,19 @@
 \alias{setBCL2FastQparams-setBCL2FastQparams}
 \title{Set Parameters for BCL2FastQparamters object.}
 \usage{
-setBCL2FastQparams(runXML = NULL)
+setBCL2FastQparams(runXML = NULL, config = NULL, runDir = NULL,
+  verbose = T)
 }
 \arguments{
-\item{runXML}{file path to runParameters.xml}
+\item{runXML}{file path to runParameters.xml ,if not specified
+looks in run directory.}
+
+\item{config}{file path to config.ini ,if not specified
+looks in run directory.}
+
+\item{runDir}{file path to run directory.}
+
+\item{verbose}{TRUE or FALSE. Messages on or off. Warnings/errors persist}
 }
 \value{
 A BCL2FastQparams object.
@@ -18,8 +27,10 @@ A BCL2FastQparams object.
 Parameter class and accessors
 }
 \examples{
-
-warning("Put example here!")
+fileLocations <- system.file("extdata",package="basecallQC")
+runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
+setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=T)
 }
 \references{
 See \url{http://mrccsc.github.io} for more details on soGGi workflows
