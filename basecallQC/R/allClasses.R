@@ -90,6 +90,7 @@ setBCL2FastQparams <- function(runXML=NULL,config=NULL,runDir=NULL,verbose=T){
 #' @export
 basecallQC <- function(bcl2fastqparams,RunMetaData=NULL,sampleSheet=NULL,
                        baseCallMetrics=NULL,demultiplexMetrics=NULL){
+
   cleanedSampleSheet <- validateBCLSheet(sampleSheet,bcl2fastqparams)
   baseMasks <- createBasemasks(cleanedSampleSheet,bcl2fastqparams)
   basecallmetrics <- baseCallMetrics(setBCL2FastQparams)

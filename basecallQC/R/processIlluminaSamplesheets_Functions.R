@@ -75,7 +75,7 @@ validateBCLSheet <- function(sampleSheet,param=bcl2fastqparams){
 #' bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=T)
 #'
 #' cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=bcl2fastqparams)
-#' basenames <- createBasemasks(cleanedSampleSheet,param=bcl2fastqparams)
+#' basemasks <- createBasemasks(cleanedSampleSheet,param=bcl2fastqparams)
 #'
 #' @export
 createBasemasks <- function(cleanedSampleSheet,param=NULL){
@@ -103,6 +103,33 @@ createBasemasks <- function(cleanedSampleSheet,param=NULL){
       }
 }
 
+#' Functions to create basemasks for basecalling from Illumina samplesheet.
+#'
+#' Parses the Illumina samplesheet from run folders to create standardised
+#'
+#'
+#' @docType methods
+#' @name createBasemasks
+#' @rdname createBasemasks
+#'
+#' @author Thomas Carroll and Marian Dore
+#' @param sampleSheet mm
+#' @param param mn
+#' @return basemasks Basemasks.
+#' @import stringr XML RColorBrewer methods raster BiocStyle
+#' @examples
+#'
+
+#' fileLocations <- system.file("extdata",package="basecallQC")
+#' runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+#' config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
+#' sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
+#' bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=T)
+#'
+#' cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=bcl2fastqparams)
+#' basemasks <- createBasemasks(cleanedSampleSheet,param=bcl2fastqparams)
+#'
+#' @export
 createBCLcommand <- function(bcl2fastqparams,cleanedSampleSheet,baseMasks){
   sampleSheetLocation <- paste0(file.path(bcl2fastqparams@RunDir,bcl2fastqparams@RunParameters$runParams$Barcode),".csv")
   bclPath <- bcl2fastqparams@RunParameters$configParams[bcl2fastqparams@RunParameters$configParams$name == "configureBclToFastq","value"]
@@ -341,7 +368,7 @@ makeQsubs <- function(bclcommands,launch=TRUE){
 #' configFile <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
 #' config = data.frame(readIniFile(configFile))
 
-#' #bclcommands <- readyBasecalling(Run_folders_WithRTA,subFoldersFull,config,bclVersion="New")
+#' bclcommands <- readyBasecalling(Run_folders_WithRTA,subFoldersFull,config,bclVersion="New")
 #' #qsubcommands <- makeQsubs(bclcommands[1],launch=T)
 
 #' @export
