@@ -14,7 +14,7 @@
 #' fileLocations <- system.file("extdata",package="basecallQC")
 #' runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
 #' config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
-#' bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=T)
+#' bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
 #' readlength <- readlengths(bcl2fastqparams)
 #' @export
 #' @param object A BCL2FastQparams object

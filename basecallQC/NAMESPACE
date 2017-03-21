@@ -2,12 +2,11 @@
 
 export(basecallQC)
 export(configParams)
+export(createBCLcommand)
 export(createBasemasks)
-export(launchBCLcommands)
 export(processConvStats)
 export(processDemultiplex)
 export(readlengths.bcl2fastqparams)
-export(readyBasecalling)
 export(runParameters)
 export(setBCL2FastQparams)
 export(summariseConvStats)

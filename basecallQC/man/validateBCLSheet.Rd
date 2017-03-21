@@ -24,7 +24,7 @@ fileLocations <- system.file("extdata",package="basecallQC")
 runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
 config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
 sampleSheet <- dir(fileLocations,pattern="*\\\\.csv",full.names=TRUE)
-bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=T)
+bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
 
 cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=bcl2fastqparams)
 

@@ -3,19 +3,31 @@
 \docType{methods}
 \name{createBasemasks}
 \alias{createBasemasks}
+\alias{createBasemasks}
+\alias{createBCLcommand}
 \title{Functions to create basemasks for basecalling from Illumina samplesheet.}
 \usage{
 createBasemasks(cleanedSampleSheet, param = NULL)
+
+createBCLcommand(bcl2fastqparams, cleanedSampleSheet, baseMasks)
 }
 \arguments{
 \item{param}{mn}
 
 \item{sampleSheet}{mm}
+
+\item{sampleSheet}{mm}
+
+\item{param}{mn}
 }
 \value{
 basemasks Basemasks.
+
+basemasks Basemasks.
 }
 \description{
+Parses the Illumina samplesheet from run folders to create standardised
+
 Parses the Illumina samplesheet from run folders to create standardised
 }
 \examples{
@@ -24,12 +36,24 @@ fileLocations <- system.file("extdata",package="basecallQC")
 runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
 config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
 sampleSheet <- dir(fileLocations,pattern="*\\\\.csv",full.names=TRUE)
-bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=T)
+bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
 
 cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=bcl2fastqparams)
-basenames <- createBasemasks(cleanedSampleSheet,param=bcl2fastqparams)
+basemasks <- createBasemasks(cleanedSampleSheet,param=bcl2fastqparams)
 
+
+fileLocations <- system.file("extdata",package="basecallQC")
+runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
+sampleSheet <- dir(fileLocations,pattern="*\\\\.csv",full.names=TRUE)
+bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
+
+cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=bcl2fastqparams)
+baseMasks <- createBasemasks(cleanedSampleSheet,param=bcl2fastqparams)
+toSubmit <- createBCLcommand(bcl2fastqparams,cleanedSampleSheet,baseMasks)
 }
 \author{
+Thomas Carroll and Marian Dore
+
 Thomas Carroll and Marian Dore
 }

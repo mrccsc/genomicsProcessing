@@ -61,10 +61,10 @@ setClass("basecallQC", representation(BCL2FastQparams="list",RunMetadata = "data
 #' fileLocations <- system.file("extdata",package="basecallQC")
 #' runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
 #' config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
-#' setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=T)
+#' setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
 #' @export
 
-setBCL2FastQparams <- function(runXML=NULL,config=NULL,runDir=NULL,verbose=T){
+setBCL2FastQparams <- function(runXML=NULL,config=NULL,runDir=NULL,verbose=TRUE){
   if(is.null(runDir)) runDir <- getwd(); if(verbose) message("No runDir specified, run directory set to working directory");
   if(is.null(runXML)){
     if(verbose) message("No location for runParameters.xml specified")
