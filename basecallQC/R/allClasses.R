@@ -93,8 +93,9 @@ basecallQC <- function(bcl2fastqparams,RunMetaData=NULL,sampleSheet=NULL,
 
   cleanedSampleSheet <- validateBCLSheet(sampleSheet,bcl2fastqparams)
   baseMasks <- createBasemasks(cleanedSampleSheet,bcl2fastqparams)
-  basecallmetrics <- baseCallMetrics(setBCL2FastQparams)
-  demultiplexmetrics <- demultiplexMetrics(setBCL2FastQparams)
+  toSubmit <- createBCLcommand(bcl2fastqparams,cleanedSampleSheet,baseMasks)
+  basecallmetrics <- baseCallMetrics(bcl2fastqparams)
+  demultiplexmetrics <- demultiplexMetrics(bcl2fastqparams)
 
   basecallQC <- new("basecallQC",
                     Run = Run,
@@ -112,18 +113,22 @@ runParams <- function(runXML=NULL,config=NULL){
   return(list(runParams=runParams,configParams=configParams))
 }
 
-basecallMetrics <- function(params){
-  convStatsProcessed <- processConvStats(params)
-  summarisedConvStats <- summariseConvStats(params)
-  return(c(params,list(convStatsProcessed=convStatsProcessed,
-                       summarisedConvStats=summarisedConvStats)))
+basecallMetrics <- function(bcl2fastqparams){
+  convStatsXML <- file.path(bcl2fastqparams@OutDir,"Stats","ConversionStats.xml")
+  if(!file.exists(convStatsXML)) return(list(convStatsProcessed=NULL,summarisedConvStats=NULL))
+  convStatsProcessed <- processConvStats(convStatsXML)
+  summarisedConvStats <- summariseConvStats(convStatsProcessed)
+  return(list(convStatsProcessed=convStatsProcessed,
+                       summarisedConvStats=summarisedConvStats))
 }
 
-demultiplexMetrics <- function(params){
-  demuxStatsProcessed <- processDemuxStats(params)
+demultiplexMetrics <- function(bcl2fastqparams){
+  demuxStatsXML <- file.path(bcl2fastqparams@OutDir,"Stats","DemultiplexingStats.xml")
+  if(!file.exists(demuxStatsXML)) return(list(demuxStatsProcessed=NULL,summarisedDemuxStats=NULL))
+  demuxStatsProcessed <- processDemuxStats(demuxStatsXML)
   summarisedDemuxStats <- summariseDemuxStats(demuxStatsProcessed)
-  return(c(params,list(demuxStatsProcessed=demuxStatsProcessed,
-                       summarisedDemuxStats=summarisedDemuxStats)))
+  return(list(demuxStatsProcessed=demuxStatsProcessed,
+                       summarisedDemuxStats=summarisedDemuxStats))
 }
 
 
