@@ -7,7 +7,7 @@
 \title{Set Parameters for BCL2FastQparamters object.}
 \usage{
 setBCL2FastQparams(runXML = NULL, config = NULL, runDir = NULL,
-  verbose = TRUE)
+  outDir = NULL, verbose = TRUE)
 }
 \arguments{
 \item{runXML}{file path to runParameters.xml ,if not specified
@@ -17,6 +17,8 @@ looks in run directory.}
 looks in run directory.}
 
 \item{runDir}{file path to run directory.}
+
+\item{outDir}{file path to run directory.}
 
 \item{verbose}{TRUE or FALSE. Messages on or off. Warnings/errors persist}
 }

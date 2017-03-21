@@ -13,7 +13,7 @@
 #' warning("Put example here!")
 #' @export
 #'
-setClass("BCL2FastQparams", representation(RunDir="character",RunParameters = "list"))
+setClass("BCL2FastQparams", representation(RunDir="character",OutDir="character",RunParameters = "list"))
 
 #' The basecallQC object.
 #'
@@ -37,8 +37,9 @@ setClass("BCL2FastQparams", representation(RunDir="character",RunParameters = "l
 #' warning("Put example here!")
 #' @export
 
-setClass("basecallQC", representation(BCL2FastQparams="list",RunMetadata = "data.frame",
-                                      sampleSheet="list",baseCallMetrics="list",demultiplexMetrics="list"))
+setClass("basecallQC", representation(BCL2FastQparams="BCL2FastQparams",RunMetadata = "data.frame",
+                                      cleanedSampleSheet="list",baseMasks= "data.frame",
+                                      baseCallMetrics="list",demultiplexMetrics="list"))
 
 
 #' Set Parameters for BCL2FastQparamters object.
@@ -55,6 +56,7 @@ setClass("basecallQC", representation(BCL2FastQparams="list",RunMetadata = "data
 #' @param config file path to config.ini ,if not specified
 #' looks in run directory.
 #' @param runDir file path to run directory.
+#' @param outDir file path to run directory.
 #' @param verbose TRUE or FALSE. Messages on or off. Warnings/errors persist
 #' @return A BCL2FastQparams object.
 #' @examples
@@ -64,7 +66,7 @@ setClass("basecallQC", representation(BCL2FastQparams="list",RunMetadata = "data
 #' setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
 #' @export
 
-setBCL2FastQparams <- function(runXML=NULL,config=NULL,runDir=NULL,verbose=TRUE){
+setBCL2FastQparams <- function(runXML=NULL,config=NULL,runDir=NULL,outDir=NULL,verbose=TRUE){
   if(is.null(runDir)) runDir <- getwd(); if(verbose) message("No runDir specified, run directory set to working directory");
   if(is.null(runXML)){
     if(verbose) message("No location for runParameters.xml specified")
@@ -76,9 +78,19 @@ setBCL2FastQparams <- function(runXML=NULL,config=NULL,runDir=NULL,verbose=TRUE)
     config <- file.path(runDir,"config.ini")
     if(!file.exists(config)) stop("No config.ini found in run directory")
   }
+
+  runParameters = runParams(runXML,config)
+
+  if(is.null(outDir)){
+    if(verbose) message("No location for outDir specified")
+    outDir <- file.path(runDir,runParameters$runParams$Barcode)
+    message("outDir set to",outDir)
+  }
   new("BCL2FastQparams",
       RunDir=runDir,
-      RunParameters = runParams(runXML,config))
+      OutDir=outDir,
+      RunParameters=runParameters
+  )
 
 }
 #' The bclCall function is a constructor for basecallQC objects.
@@ -87,6 +99,15 @@ setBCL2FastQparams <- function(runXML=NULL,config=NULL,runDir=NULL,verbose=TRUE)
 #' @rdname basecallQC
 #' @param Run The pun to process
 #' @param RunMetadata Any run metadata to attach (sata.frame)
+#' @return A basecallQC object.
+#' @examples
+#' fileLocations <- system.file("extdata",package="basecallQC")
+#' runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+#' config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
+#' sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
+#' outDir <- file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/C9L0AANXX/")
+#' bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
+#' bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
 #' @export
 basecallQC <- function(bcl2fastqparams,RunMetaData=NULL,sampleSheet=NULL,
                        baseCallMetrics=NULL,demultiplexMetrics=NULL){
@@ -98,8 +119,7 @@ basecallQC <- function(bcl2fastqparams,RunMetaData=NULL,sampleSheet=NULL,
   demultiplexmetrics <- demultiplexMetrics(bcl2fastqparams)
 
   basecallQC <- new("basecallQC",
-                    Run = Run,
-                    runParameters = bcl2fastqparams,
+                    BCL2FastQparams = bcl2fastqparams,
                     cleanedSampleSheet = cleanedSampleSheet,
                     baseMasks = baseMasks,
                     baseCallMetrics = basecallmetrics,
@@ -113,7 +133,8 @@ runParams <- function(runXML=NULL,config=NULL){
   return(list(runParams=runParams,configParams=configParams))
 }
 
-basecallMetrics <- function(bcl2fastqparams){
+#' @export
+baseCallMetrics <- function(bcl2fastqparams){
   convStatsXML <- file.path(bcl2fastqparams@OutDir,"Stats","ConversionStats.xml")
   if(!file.exists(convStatsXML)) return(list(convStatsProcessed=NULL,summarisedConvStats=NULL))
   convStatsProcessed <- processConvStats(convStatsXML)
@@ -122,10 +143,11 @@ basecallMetrics <- function(bcl2fastqparams){
                        summarisedConvStats=summarisedConvStats))
 }
 
+#' @export
 demultiplexMetrics <- function(bcl2fastqparams){
   demuxStatsXML <- file.path(bcl2fastqparams@OutDir,"Stats","DemultiplexingStats.xml")
   if(!file.exists(demuxStatsXML)) return(list(demuxStatsProcessed=NULL,summarisedDemuxStats=NULL))
-  demuxStatsProcessed <- processDemuxStats(demuxStatsXML)
+  demuxStatsProcessed <- processDemultiplex(demuxStatsXML)
   summarisedDemuxStats <- summariseDemuxStats(demuxStatsProcessed)
   return(list(demuxStatsProcessed=demuxStatsProcessed,
                        summarisedDemuxStats=summarisedDemuxStats))

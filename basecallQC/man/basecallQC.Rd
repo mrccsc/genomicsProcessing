@@ -29,6 +29,8 @@ and current analysis Run.}
 }
 \value{
 A basecallQC object.
+
+A basecallQC object.
 }
 \description{
 Objects and methods to handle Illumina BCL inputs and output files.
@@ -39,6 +41,13 @@ The bclCall function is a constructor for basecallQC objects.
 \examples{
 
 warning("Put example here!")
+fileLocations <- system.file("extdata",package="basecallQC")
+runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
+sampleSheet <- dir(fileLocations,pattern="*\\\\.csv",full.names=TRUE)
+outDir <- file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/C9L0AANXX/")
+bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
+bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
 }
 \references{
 See \url{http://mrccsc.github.io} for more details on soGGi workflows

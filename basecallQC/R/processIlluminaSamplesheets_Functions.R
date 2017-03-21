@@ -134,7 +134,7 @@ createBCLcommand <- function(bcl2fastqparams,cleanedSampleSheet,baseMasks){
   sampleSheetLocation <- paste0(file.path(bcl2fastqparams@RunDir,bcl2fastqparams@RunParameters$runParams$Barcode),".csv")
   bclPath <- bcl2fastqparams@RunParameters$configParams[bcl2fastqparams@RunParameters$configParams$name == "configureBclToFastq","value"]
   write.table(cleanedSampleSheet,file=sampleSheetLocation,sep=",",quote=F,row.names=F)
-  baseMasksToUse <- str_c("--use-bases-mask ",select(tbl_df(baseMasks),basemask)$basemask,collapse = " ")
+  baseMasksToUse <- str_c("--use-bases-mask ",dplyr:::select(tbl_df(baseMasks),basemask)$basemask,collapse = " ")
   bclcommand <- str_c(as.vector(bclPath$value),"--sample-sheet",sampleSheetLocation,baseMasksToUse,sep=" ")
   return(bclcommand)
 }
