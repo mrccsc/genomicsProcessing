@@ -20,5 +20,6 @@ Collate:
   allMethods.R
   processExternalFormats_Functions.R
   plots.R
+  reporting.R
   tables.R
 RoxygenNote: 6.0.1

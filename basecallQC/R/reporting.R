@@ -21,15 +21,15 @@
 #' outDir <- file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/C9L0AANXX/")
 #' bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
 #' bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
-#' summaryDemuxTable(bclQC,output="static")
 #' @export
-summaryDemuxTable <- function(BCLQC,output="static"){
-
-  toTable <- BCLQC@demultiplexMetrics$summarisedDemuxStats$Summary
-  if(output=="static"){
-    return(kable(toTable))
+reportBCL <- function(BCLQC,reportOut=file.path("/Users/tcarroll/genomicsProcessing/","report.html"),output="static",reportRMDfile=NULL){
+  BCLQCreport <- BCLQC
+  fileLocations <- system.file("extdata",package="basecallQC")
+  if(is.null(reportRMDfile)){
+    reportRMD <- file.path(fileLocations,"reportRMDs","basecallqcreport.Rmd")
   }
-  if(output=="html"){
-    return(DT:::datatable(toTable))
-  }
+  if(!file.exists(reportRMD)) stop()
+  #dir.create(BCLQCreport@BCL2FastQparams@OutDir,showWarnings = F)
+  render(reportRMD,
+         output_file = reportOut)
 }
