@@ -27,9 +27,9 @@ summaryDemuxTable <- function(BCLQC,output="static"){
 
   toTable <- BCLQC@demultiplexMetrics$summarisedDemuxStats$Summary
   if(output=="static"){
-    kable(toTable)
+    return(kable(toTable))
   }
   if(output=="html"){
-    DT:::datatable(toTable)
+    return(DT:::datatable(toTable))
   }
 }
