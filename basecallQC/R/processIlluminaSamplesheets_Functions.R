@@ -80,6 +80,7 @@ validateBCLSheet <- function(sampleSheet,param=bcl2fastqparams){
 #' @export
 createBasemasks <- function(cleanedSampleSheet,param){
   indexCombinations <- cleanedSampleSheet %>%
+    mutate(Index2=ifelse(is.na(Index2), "", Index2),Index=ifelse(is.na(Index), "", Index)) %>%
     mutate(indexLength=str_length(Index),indexLength2=str_length(Index2)) %>%
     group_by(Lane) %>% count(indexLength,indexLength2)
 
