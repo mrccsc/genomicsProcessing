@@ -67,6 +67,18 @@ passFilterBoxplot <- function(BCLQC,groupBy=c("Lane")){
   return(p)
 }
 
+#' @export
+demuxBarplot <- function(BCLQC,groupBy=c("Lane")){
+  groupByS <- unique(c("Lane","Sample","Tile","Filter"))
+  groupByG <- unique(c(groupBy))
+  toPlot <- BCLQC@demultiplexMetrics$demuxStatsProcessed %>% group_by_(.dots=as.list(groupByS)) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
+  toPlot <- toPlot %>% spread(Filter,Yield) %>% mutate(Ff=Raw-Pf) %>% dplyr:::select(-Raw) %>% tbl_df %>% gather(key=PassFilter,value=Yield,Ff,Pf)
+  p <- ggplot(data=toPlot,aes_string(x=groupByG,y="Yield",fill="PassFilter"))+geom_violin()+ coord_flip()+facet_grid(PassFilter~.)
+  return(p)
+}
+
+
+
 # fileLocations <- system.file("extdata",package="basecallQC")
 # runXML <- dir(file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/"),pattern="runParameters.xml",full.names=TRUE)
 # config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)

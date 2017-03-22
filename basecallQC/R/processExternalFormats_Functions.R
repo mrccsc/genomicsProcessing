@@ -4,7 +4,7 @@
 #' @rdname configParams
 #' @param Config Any parameters
 #' @export
-configParams <- function(Config){
+configParams <- function(config){
   data.frame(readIniFile(config)) %>% tbl_df
 }
 

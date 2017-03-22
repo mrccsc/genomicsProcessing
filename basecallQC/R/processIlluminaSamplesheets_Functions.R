@@ -47,8 +47,8 @@ validateBCLSheet <- function(sampleSheet,param=bcl2fastqparams){
     mutate(Sample_ID=gsub("\\?|\\(|\\)|\\[|\\]|\\\\|/|\\=|\\+|<|>|\\:|\\;|\"|\'|\\*|\\^|\\||\\&|\\.","_",Sample_ID)) %>%
     mutate(Index=str_trim(Index,"both"),
            Index2=str_trim(Index2,"both"))    %>%
-  mutate(Index=str_sub(Index,1,as.numeric(indexlengths(bcl2fastqparams)$IndexRead1)),    # Will use runParamsIndexLength
-         Index2=str_sub(Index2,1,as.numeric(indexlengths(bcl2fastqparams)$IndexRead2)))  # Will use runParamsIndexLength
+  mutate(Index=str_sub(Index,1,as.numeric(indexlengths(param)$IndexRead1)),    # Will use runParamsIndexLength
+         Index2=str_sub(Index2,1,as.numeric(indexlengths(param)$IndexRead2)))  # Will use runParamsIndexLength
 }
 
 #' Functions to create basemasks for basecalling from Illumina samplesheet.
@@ -78,7 +78,7 @@ validateBCLSheet <- function(sampleSheet,param=bcl2fastqparams){
 #' basemasks <- createBasemasks(cleanedSampleSheet,param=bcl2fastqparams)
 #'
 #' @export
-createBasemasks <- function(cleanedSampleSheet,param=NULL){
+createBasemasks <- function(cleanedSampleSheet,param){
   indexCombinations <- cleanedSampleSheet %>%
     mutate(indexLength=str_length(Index),indexLength2=str_length(Index2)) %>%
     group_by(Lane) %>% count(indexLength,indexLength2)
@@ -86,15 +86,15 @@ createBasemasks <- function(cleanedSampleSheet,param=NULL){
   if(nrow(indexCombinations) == length(unique(indexCombinations$Lane))){
     baseMasks <- indexCombinations %>%
       mutate(index1Mask = str_c(str_dup("I",indexLength),
-                                str_dup("N",indexlengths(bcl2fastqparams)$IndexRead1-indexLength)),
+                                str_dup("N",indexlengths(param)$IndexRead1-indexLength)),
              index2Mask = str_c(str_dup("I",indexLength2),
-                                str_dup("N",indexlengths(bcl2fastqparams)$IndexRead2-indexLength2))) %>%
-      mutate(read1Mask = str_c(str_dup("Y",as.numeric(readlengths(bcl2fastqparams)$Read1))),
-             read2Mask = str_c(str_dup("Y",as.numeric(readlengths(bcl2fastqparams)$Read1)))) %>%
+                                str_dup("N",indexlengths(param)$IndexRead2-indexLength2))) %>%
+      mutate(read1Mask = str_c(str_dup("Y",as.numeric(readlengths(param)$Read1))),
+             read2Mask = str_c(str_dup("Y",as.numeric(readlengths(param)$Read1)))) %>%
       mutate(read1Mask = str_replace(read1Mask,"Y$","N"),
              read2Mask = str_replace(read2Mask,"Y$","N")) %>%
-      mutate(index1Mask = if (indexlengths(bcl2fastqparams)$IndexRead1 > 0) str_c("I",index1Mask) else index1Mask) %>%
-      mutate(index2Mask = if (indexlengths(bcl2fastqparams)$IndexRead2 > 0) str_c("I",index2Mask) else index2Mask) %>%
+      mutate(index1Mask = if (indexlengths(param)$IndexRead1 > 0) str_c("I",index1Mask) else index1Mask) %>%
+      mutate(index2Mask = if (indexlengths(param)$IndexRead2 > 0) str_c("I",index2Mask) else index2Mask) %>%
       mutate(basemask = str_c(read1Mask,index1Mask,index2Mask,read2Mask,sep=",")) %>%
       mutate(basemask = str_c(Lane,":",basemask)) %>%
       mutate(basemask = str_replace(basemask,",,",",")) %>%

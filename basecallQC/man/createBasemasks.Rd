@@ -7,7 +7,7 @@
 \alias{createBCLcommand}
 \title{Functions to create basemasks for basecalling from Illumina samplesheet.}
 \usage{
-createBasemasks(cleanedSampleSheet, param = NULL)
+createBasemasks(cleanedSampleSheet, param)
 
 createBCLcommand(bcl2fastqparams, cleanedSampleSheet, baseMasks)
 }

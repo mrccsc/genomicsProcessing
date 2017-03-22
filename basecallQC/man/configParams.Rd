@@ -4,7 +4,7 @@
 \alias{configParams}
 \title{Ini config file reader.}
 \usage{
-configParams(Config)
+configParams(config)
 }
 \arguments{
 \item{Config}{Any parameters}

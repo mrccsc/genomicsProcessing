@@ -21,7 +21,7 @@
 #' @return readlengths <- Readlengths as defined runParamaeters.xml
 readlengths.bcl2fastqparams <-  function (object)
 {
-  dplyr:::select(bcl2fastqparams@RunParameters$runParams,Read1,Read2) %>% mutate_all(as.numeric)
+  dplyr:::select(object@RunParameters$runParams,Read1,Read2) %>% mutate_all(as.numeric)
 }
 
 setGeneric("readlengths", function(object="BCL2FastQparams") standardGeneric("readlengths"))
@@ -32,7 +32,7 @@ setMethod("readlengths", signature(object="BCL2FastQparams"), readlengths.bcl2fa
 
 indexlengths.bcl2fastqparams <-  function (object)
 {
-  dplyr:::select(bcl2fastqparams@RunParameters$runParams,IndexRead1,IndexRead2)  %>% mutate_all(as.numeric)
+  dplyr:::select(object@RunParameters$runParams,IndexRead1,IndexRead2)  %>% mutate_all(as.numeric)
 }
 
 setGeneric("indexlengths", function(object="BCL2FastQparams") standardGeneric("indexlengths"))
