@@ -1,0 +1,35 @@
+###############################################
+###                                         ###
+###  Immediate (unless marked low priorty!) ###
+###                                         ###
+###############################################
+
+
+Need outdir for basecalling...maybe linked to flowcellID/FCID column.
+(low priority for position in list)output to basecalling could be (list of options)
+
+### Teamwork ##
+
+Tom and Marian est examples on cluster.
+
+Marian get list of full options for basecalling in easy format..the commands not the explanation.
+Marian starts manual.
+Marian - No samplesheet option should be catered for
+
+
+Make example report..render a separate rmd?.
+
+################################
+##Plotting and table strategy ##
+################################
+
+groupBy for summaries, facetBy for plotting
+How to use string formula or create new column to mutigroup split Barcharts boxplots etc..myabe jsut lane by x sample by coulr would force it..but doesnt seem right,
+How to change value to plot by for all plots..thenonly need three or four plot methods and much clisker.
+
+################################
+## Must be done at some point ##
+################################
+Someone should check the numbers!
+Validity checking for objects
+Most likely whole script will be part of bplapply or many runs.
