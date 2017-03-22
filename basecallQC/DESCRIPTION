@@ -8,7 +8,7 @@ Description: To be filled
 License: GPL (>= 3)
 LazyData: TRUE
 biocViews: Training
-Depends: R (>= 2.10), testthat, methods, ggplot2, rmarkdown, knitr,  yaml, stringr, XML, RColorBrewer, raster, BiocStyle, dplyr, data.table, stringr, tidyr, reshape2, magrittr, lubridate
+Depends: R (>= 2.10), testthat, methods, ggplot2, rmarkdown, knitr,  yaml, stringr, XML, RColorBrewer, raster, BiocStyle, dplyr, data.table, stringr, tidyr, reshape2, magrittr, DT, lubridate
 Suggests: knitr,
     rmarkdown,
     testthat
@@ -20,4 +20,5 @@ Collate:
   allMethods.R
   processExternalFormats_Functions.R
   plots.R
+  tables.R
 RoxygenNote: 6.0.1
