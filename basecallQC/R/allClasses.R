@@ -38,7 +38,7 @@ setClass("BCL2FastQparams", representation(RunDir="character",OutDir="character"
 #' @export
 
 setClass("basecallQC", representation(BCL2FastQparams="BCL2FastQparams",RunMetadata = "data.frame",
-                                      cleanedSampleSheet="list",baseMasks= "data.frame",
+                                      cleanedSampleSheet="data.frame",BCLCommand="character",baseMasks= "data.frame",
                                       baseCallMetrics="list",demultiplexMetrics="list"))
 
 
@@ -122,6 +122,7 @@ basecallQC <- function(bcl2fastqparams,RunMetaData=NULL,sampleSheet=NULL,
                     BCL2FastQparams = bcl2fastqparams,
                     cleanedSampleSheet = cleanedSampleSheet,
                     baseMasks = baseMasks,
+                    BCLCommand=toSubmit,
                     baseCallMetrics = basecallmetrics,
                     demultiplexMetrics = demultiplexmetrics)
   return(basecallQC)
