@@ -12,8 +12,31 @@ knitr::opts_chunk$set(echo = TRUE)
 ## BasecallQC
 
 
-```{r table}
+```{r table,fig.height=30,widht=15}
 summaryDemuxTable(BCLQCreport,output=output)
 ```
 
+```{r Lane,fig.height=30,widht=15}
+passFilterBar(BCLQCreport,groupBy = "Lane",
+              metricToPlot = "Yield")+theme_bw()
+
+passFilterBar(BCLQCreport,groupBy = "Lane",
+              metricToPlot = "QualityScoreSum")+theme_bw()
+```
+
+```{r Sample,fig.height=30,widht=15}
+passFilterBar(BCLQCreport,groupBy = "Sample",
+              metricToPlot = "Yield")+theme_bw()
+
+passFilterBar(BCLQCreport,groupBy = "Sample",
+              metricToPlot = "QualityScoreSum")+theme_bw()
+```
+
+```{r tile,fig.height=30,widht=15}
+passFilterBar(BCLQCreport,groupBy = "Tile",
+              metricToPlot = "Yield")+theme_bw()
+
+passFilterBar(BCLQCreport,groupBy = "Tile",
+              metricToPlot = "QualityScoreSum")+theme_bw()
+```
 

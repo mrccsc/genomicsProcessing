@@ -12,7 +12,7 @@
 #' @param sampleSheet mm
 #' @param param mn
 #' @return Cleaned samplesheet.
-#' @import stringr XML RColorBrewer methods raster BiocStyle
+#' @import stringr XML RColorBrewer methods raster BiocStyle lazyeval
 #' @examples
 #'
 #' fileLocations <- system.file("extdata",package="basecallQC")

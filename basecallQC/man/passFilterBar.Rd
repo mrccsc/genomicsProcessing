@@ -5,7 +5,7 @@
 \alias{passFilterBar}
 \title{Functions to create basemasks for basecalling from Illumina samplesheet.}
 \usage{
-passFilterBar(BCLQC, groupBy = c("Lane"))
+passFilterBar(BCLQC, groupBy = c("Lane"), metricToPlot = "Yield")
 }
 \arguments{
 \item{BCLQC}{baseCallQC A  basecall QC object}

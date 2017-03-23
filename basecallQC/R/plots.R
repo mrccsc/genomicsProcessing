@@ -24,12 +24,22 @@
 #' plot <- passFilterBar(bclQC)
 
 #' @export
-passFilterBar <- function(BCLQC,groupBy=c("Lane")){
+passFilterBar <- function(BCLQC,groupBy=c("Lane"),metricToPlot="Yield"){
   groupByS <- unique(c(groupBy,"Filter"))
   groupByG <- unique(c(groupBy))
-  toPlot <- BCLQC@baseCallMetrics$convStatsProcessed %>% group_by_(.dots=as.list(groupByS)) %>% filter(Sample != "all") %>% summarise(Yield=sum(as.numeric(Yield)))
-  toPlot <- toPlot %>% spread(Filter,Yield) %>% mutate(Ff=Raw-Pf) %>% dplyr:::select(-Raw) %>% tbl_df %>% gather(key=PassFilter,value=Yield,Ff,Pf)
-  p <- ggplot(data=toPlot,aes_string(x=groupByG,y="Yield",fill="PassFilter"))+geom_bar(stat = "identity")+ coord_flip()
+  toPlot <- BCLQC@baseCallMetrics$convStatsProcessed %>%
+    group_by_(.dots=as.list(groupByS)) %>%
+    filter(Sample != "all") %>%
+    summarise_(.dots = setNames(list(interp( ~sum(as.numeric(var)),
+                                             var=as.name(metricToPlot))
+    )
+    ,metricToPlot)) %>%
+    spread_("Filter",metricToPlot) %>%
+    mutate(Ff=Raw-Pf) %>%
+    dplyr:::select(-Raw) %>%
+    tbl_df %>%
+    gather_(key="PassFilter",value=as.name(metricToPlot),c("Ff","Pf"))
+  p <- ggplot(data=toPlot,aes_string(x=groupByG,y=metricToPlot,fill="PassFilter"))+geom_bar(stat = "identity")+ coord_flip()
   return(p)
 }
 
@@ -117,3 +127,60 @@ demuxBarplot <- function(BCLQC,groupBy=c("Lane")){
 # sampleSheet <- dir(file.path(fileLocations,"Runs/170303_D00467_0231_ACAK02ANXX/"),pattern="*\\.csv",full.names=TRUE)
 # bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
 # bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
+
+#
+#
+# testBeBY <- function(BCLQC,groupBy=c("Lane"),metricToPlot="Yield"){
+#   groupByS <- unique(c(groupBy,"Filter"))
+#   groupByG <- unique(c(groupBy))
+#   toPlot <- BCLQC@baseCallMetrics$convStatsProcessed %>%
+#     group_by_(.dots=as.list(groupByS)) %>%
+#     filter(Sample != "all") %>%
+#     summarise_(.dots = setNames(list(interp( ~sum(as.numeric(var)),
+#                                              var=as.name(metricToPlot))
+#                                      )
+#                                 ,metricToPlot)) %>%
+#     spread_("Filter",metricToPlot) %>%
+#     mutate(Ff=Raw-Pf) %>%
+#     dplyr:::select(-Raw) %>%
+#     tbl_df %>%
+#     gather_(key="PassFilter",value=as.name(metricToPlot),c("Ff","Pf"))
+#   p <- ggplot(data=toPlot,aes_string(x=groupByG,y=metricToPlot,fill="PassFilter"))+geom_bar(stat = "identity")+ coord_flip()
+#   return(p)
+# }
+#
+#
+# gather_(key="PassFilter",value=as.name(name),Ff,Pf)
+#
+#
+# df <- data_frame(v1 = 1:5, v2 = 6:10, v3 = c(rep("A", 3), rep("B", 2)))
+# library(lazyeval)
+# df %>%
+# select(-matches(drp)) %>%
+# group_by_(key) %>%
+# summarise_(sum_val = interp(~sum(var, na.rm = TRUE), var = as.name(val)))
+#
+# group_by_(.dots=as.list(groupByS)) %>%
+#   filter(Sample != "all") %>%
+#   summarise_(name=interp(~sum(as.numeric(var)),var=as.name(name)))
+#
+# select_(iris, lazyeval::interp(~matches(x), x = ".t."))
+# select_(iris, quote(-Petal.Length), quote(-Petal.Width))
+# select_(iris, .dots = list(quote(-Petal.Length), quote(-Petal.Width)))
+#
+# groupByS <- unique(c(groupBy,"Filter"))
+# groupByG <- unique(c(groupBy))
+# name="Yield"
+# toPlot <- BCLQC@baseCallMetrics$convStatsProcessed %>%
+#   group_by_(.dots=as.list(groupByS)) %>%
+#   filter(Sample != "all") %>%
+#   summarise_(list(interp(~sum(as.numeric(var)),
+#                          var=as.name(name))),
+#              .dots = setNames(dots,name)
+#              )
+#
+# dots <- list(str_c("~sum(as.numeric("var")))
+# group_by_(.dots=as.list(groupByS)) %>%
+#   filter(Sample != "all") %>%
+#   summarise_(
+#

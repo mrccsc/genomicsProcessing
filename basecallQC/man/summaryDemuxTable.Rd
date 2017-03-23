@@ -7,8 +7,8 @@
 \alias{summaryDemuxTable}
 \title{Generate per sample summary statistics}
 \usage{
-reportBCL(BCLQC, reportOut = file.path("/Users/tcarroll/genomicsProcessing/",
-  "report.html"), output = "static", reportRMDfile = NULL)
+reportBCL(BCLQC, reportOut = "report.html", reportOutDir = getwd(),
+  output = "static", reportRMDfile = NULL)
 
 summaryDemuxTable(BCLQC, output = "static")
 }
@@ -36,6 +36,7 @@ sampleSheet <- dir(fileLocations,pattern="*\\\\.csv",full.names=TRUE)
 outDir <- file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/C9L0AANXX/")
 bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
 bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
+reportBCL(bclQC,"TestReport.html")
 
 fileLocations <- system.file("extdata",package="basecallQC")
 runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)

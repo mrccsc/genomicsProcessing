@@ -21,8 +21,10 @@
 #' outDir <- file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/C9L0AANXX/")
 #' bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
 #' bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
+#' reportBCL(bclQC,"TestReport.html")
 #' @export
-reportBCL <- function(BCLQC,reportOut=file.path("/Users/tcarroll/genomicsProcessing/","report.html"),output="static",reportRMDfile=NULL){
+reportBCL <- function(BCLQC,reportOut="report.html",reportOutDir=getwd(),
+                      output="static",reportRMDfile=NULL){
   BCLQCreport <- BCLQC
   fileLocations <- system.file("extdata",package="basecallQC")
   if(is.null(reportRMDfile)){
@@ -31,5 +33,5 @@ reportBCL <- function(BCLQC,reportOut=file.path("/Users/tcarroll/genomicsProcess
   if(!file.exists(reportRMD)) stop()
   #dir.create(BCLQCreport@BCL2FastQparams@OutDir,showWarnings = F)
   render(reportRMD,
-         output_file = reportOut)
+         output_file = reportOut,output_dir=reportOutDir)
 }
