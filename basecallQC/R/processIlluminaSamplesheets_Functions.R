@@ -82,7 +82,7 @@ createBasemasks <- function(cleanedSampleSheet,param){
   indexCombinations <- cleanedSampleSheet %>%
     mutate(Index2=ifelse(is.na(Index2), "", Index2),Index=ifelse(is.na(Index), "", Index)) %>%
     mutate(indexLength=str_length(Index),indexLength2=str_length(Index2)) %>%
-    group_by(Lane) %>% count(indexLength,indexLength2)
+    dplyr:::group_by(Lane) %>% dplyr:::count(indexLength,indexLength2)
 
   if(nrow(indexCombinations) == length(unique(indexCombinations$Lane))){
     baseMasks <- indexCombinations %>%
@@ -94,8 +94,6 @@ createBasemasks <- function(cleanedSampleSheet,param){
              read2Mask = str_c(str_dup("Y",as.numeric(readlengths(param)$Read1)))) %>%
       mutate(read1Mask = str_replace(read1Mask,"Y$","N"),
              read2Mask = str_replace(read2Mask,"Y$","N")) %>%
-      mutate(index1Mask = if (indexlengths(param)$IndexRead1 > 0) str_c("I",index1Mask) else index1Mask) %>%
-      mutate(index2Mask = if (indexlengths(param)$IndexRead2 > 0) str_c("I",index2Mask) else index2Mask) %>%
       mutate(basemask = str_c(read1Mask,index1Mask,index2Mask,read2Mask,sep=",")) %>%
       mutate(basemask = str_c(Lane,":",basemask)) %>%
       mutate(basemask = str_replace(basemask,",,",",")) %>%
@@ -134,8 +132,9 @@ createBasemasks <- function(cleanedSampleSheet,param){
 createBCLcommand <- function(bcl2fastqparams,cleanedSampleSheet,baseMasks){
   sampleSheetLocation <- paste0(file.path(bcl2fastqparams@RunDir,bcl2fastqparams@RunParameters$runParams$Barcode),".csv")
   bclPath <- bcl2fastqparams@RunParameters$configParams[bcl2fastqparams@RunParameters$configParams$name == "configureBclToFastq","value"]
-  write.table(cleanedSampleSheet,file=sampleSheetLocation,sep=",",quote=F,row.names=F)
+  write.table("[DATA]",file=sampleSheetLocation,sep="",quote=F,row.names=F)
+  write.table(cleanedSampleSheet,file=sampleSheetLocation,sep=",",quote=F,row.names=F,append = T)
   baseMasksToUse <- str_c("--use-bases-mask ",dplyr:::select(tbl_df(baseMasks),basemask)$basemask,collapse = " ")
-  bclcommand <- str_c(as.vector(bclPath$value),"--sample-sheet",sampleSheetLocation,baseMasksToUse,sep=" ")
+  bclcommand <- str_c(as.vector(bclPath$value),"--output-dir ",bcl2fastqparams@OutDir,"--sample-sheet",sampleSheetLocation,baseMasksToUse,sep=" ")
   return(bclcommand)
 }

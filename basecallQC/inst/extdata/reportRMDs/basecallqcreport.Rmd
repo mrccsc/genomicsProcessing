@@ -1,9 +1,10 @@
 ---
-title: "basecallQC_Report"
-author: "basecallQC"
-date: "22 March 2017"
+title: "Untitled"
+author: "tom carroll"
+date: "24 March 2017"
 output: html_document
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)

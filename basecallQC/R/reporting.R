@@ -33,5 +33,5 @@ reportBCL <- function(BCLQC,reportOut="report.html",reportOutDir=getwd(),
   if(!file.exists(reportRMD)) stop()
   #dir.create(BCLQCreport@BCL2FastQparams@OutDir,showWarnings = F)
   render(reportRMD,
-         output_file = reportOut,output_dir=reportOutDir)
+         output_file = reportOut,output_dir=reportOutDir,params=list(title=paste0("basecallQC")))
 }
