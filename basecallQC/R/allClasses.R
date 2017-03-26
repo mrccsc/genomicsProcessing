@@ -39,7 +39,7 @@ setClass("BCL2FastQparams", representation(RunDir="character",OutDir="character"
 
 setClass("basecallQC", representation(BCL2FastQparams="BCL2FastQparams",RunMetadata = "data.frame",
                                       cleanedSampleSheet="data.frame",BCLCommand="character",baseMasks= "data.frame",
-                                      baseCallMetrics="list",demultiplexMetrics="list"))
+                                      baseCallMetrics="list",demultiplexMetrics="list",fqQCmetrics="list"))
 
 
 #' Set Parameters for BCL2FastQparamters object.
@@ -110,21 +110,27 @@ setBCL2FastQparams <- function(runXML=NULL,config=NULL,runDir=NULL,outDir=NULL,v
 #' bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
 #' @export
 basecallQC <- function(bcl2fastqparams,RunMetaData=NULL,sampleSheet=NULL,
-                       baseCallMetrics=NULL,demultiplexMetrics=NULL){
+                       baseCallMetrics=NULL,demultiplexMetrics=NULL,doFQMetric=FALSE){
 
   cleanedSampleSheet <- validateBCLSheet(sampleSheet,bcl2fastqparams)
   baseMasks <- createBasemasks(cleanedSampleSheet,bcl2fastqparams)
   toSubmit <- createBCLcommand(bcl2fastqparams,cleanedSampleSheet,baseMasks)
   basecallmetrics <- baseCallMetrics(bcl2fastqparams)
   demultiplexmetrics <- demultiplexMetrics(bcl2fastqparams)
-
+  if(doFQMetric==TRUE){
+    fastqs <- dir("~/Documents/test2/fastq2/",pattern="*.fastq.gz",full.names=T)[1:2]
+    fqQCmetrics <- qcShortRead(fastqs)
+  }else{
+    fqQCmetrics <- list(FQQC_Table = NULL,ShortReadQC=NULL)
+  }
   basecallQC <- new("basecallQC",
                     BCL2FastQparams = bcl2fastqparams,
                     cleanedSampleSheet = cleanedSampleSheet,
                     baseMasks = baseMasks,
                     BCLCommand=toSubmit,
                     baseCallMetrics = basecallmetrics,
-                    demultiplexMetrics = demultiplexmetrics)
+                    demultiplexMetrics = demultiplexmetrics,
+                    fqQCmetrics=fqQCmetrics)
   return(basecallQC)
 }
 

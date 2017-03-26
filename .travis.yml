@@ -4,6 +4,6 @@ os:
 cache: packages
 warnings_are_errors: false
 sudo: required
-r: bioc-release
+r: bioc-devel
 before_install:
   - cd basecallQC

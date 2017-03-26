@@ -5,14 +5,20 @@
 \alias{summaryDemuxTable}
 \alias{reportBCL}
 \alias{summaryDemuxTable}
+\alias{summaryDemuxTable}
+\alias{summaryConvStatsTable}
 \title{Generate per sample summary statistics}
 \usage{
 reportBCL(BCLQC, reportOut = "report.html", reportOutDir = getwd(),
-  output = "static", reportRMDfile = NULL)
+  output = "static", reportRMDfile = NULL, FQQC = FALSE)
 
 summaryDemuxTable(BCLQC, output = "static")
+
+summaryConvStatsTable(BCLQC, output = "static")
 }
 \arguments{
+\item{ConvStats}{Results from a call to processConvStats.}
+
 \item{ConvStats}{Results from a call to processConvStats.}
 
 \item{ConvStats}{Results from a call to processConvStats.}
@@ -21,8 +27,12 @@ summaryDemuxTable(BCLQC, output = "static")
 A datatable of summarised per sample results.
 
 A datatable of summarised per sample results.
+
+A datatable of summarised per sample results.
 }
 \description{
+Creates per sample summary statistics from demultiplex results
+
 Creates per sample summary statistics from demultiplex results
 
 Creates per sample summary statistics from demultiplex results
@@ -46,8 +56,19 @@ outDir <- file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/C9L0AANXX/
 bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
 bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
 summaryDemuxTable(bclQC,output="static")
+
+fileLocations <- system.file("extdata",package="basecallQC")
+runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
+sampleSheet <- dir(fileLocations,pattern="*\\\\.csv",full.names=TRUE)
+outDir <- file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/C9L0AANXX/")
+bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
+bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
+summaryDemuxTable(bclQC,output="static")
 }
 \author{
+Thomas Carroll
+
 Thomas Carroll
 
 Thomas Carroll

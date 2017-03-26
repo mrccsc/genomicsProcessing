@@ -11,7 +11,7 @@
 #'
 #' @param ConvStats Results from a call to processConvStats.
 #' @return A datatable of summarised per sample results.
-#' @import stringr XML RColorBrewer methods raster
+#' @import stringr XML RColorBrewer methods raster ShortRead
 #' @examples
 #'
 #' fileLocations <- system.file("extdata",package="basecallQC")
@@ -24,8 +24,9 @@
 #' reportBCL(bclQC,"TestReport.html",output="html")
 #' @export
 reportBCL <- function(BCLQC,reportOut="report.html",reportOutDir=getwd(),
-                      output="static",reportRMDfile=NULL){
+                      output="static",reportRMDfile=NULL,FQQC=FALSE){
   BCLQCreport <- BCLQC
+  doFQQC <- FQQC
   fileLocations <- system.file("extdata",package="basecallQC")
   if(is.null(reportRMDfile)){
     reportRMD <- file.path(fileLocations,"reportRMDs","basecallqcreport.Rmd")

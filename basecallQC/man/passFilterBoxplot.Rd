@@ -3,19 +3,43 @@
 \docType{methods}
 \name{passFilterBoxplot}
 \alias{passFilterBoxplot}
+\alias{passFilterBoxplot}
+\alias{passFilterTilePlot}
+\alias{passFilterBoxplot}
+\alias{demuxBoxplot}
 \title{Functions to create basemasks for basecalling from Illumina samplesheet.}
 \usage{
-passFilterBoxplot(BCLQC, groupBy = c("Lane"))
+passFilterBoxplot(BCLQC, groupBy = c("Lane"), metricToPlot = "Yield")
+
+passFilterTilePlot(BCLQC, metricToPlot = "Yield")
+
+demuxBoxplot(BCLQC, groupBy = c("Lane"))
 }
 \arguments{
+\item{BCLQC}{baseCallQC A  basecall QC object}
+
+\item{groupBy}{Character vector of lane and/or Sample}
+
+\item{BCLQC}{baseCallQC A  basecall QC object}
+
+\item{groupBy}{Character vector of lane and/or Sample}
+
 \item{BCLQC}{baseCallQC A  basecall QC object}
 
 \item{groupBy}{Character vector of lane and/or Sample}
 }
 \value{
 ggPlotObject A ggplot2 object.
+
+ggPlotObject A ggplot2 object.
+
+ggPlotObject A ggplot2 object.
 }
 \description{
+Parses the Illumina samplesheet from run folders to create standardised
+
+Parses the Illumina samplesheet from run folders to create standardised
+
 Parses the Illumina samplesheet from run folders to create standardised
 }
 \examples{
@@ -27,7 +51,19 @@ outDir <- file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/C9L0AANXX/
 bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
 bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
 plot <- passFilterBoxplot(bclQC,groupBy = "Sample")
+fileLocations <- system.file("extdata",package="basecallQC")
+runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
+sampleSheet <- dir(fileLocations,pattern="*\\\\.csv",full.names=TRUE)
+outDir <- file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/C9L0AANXX/")
+bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
+bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
+plots <- passFilterTilePlot(bclQC,metricToPlot="Yield")
 }
 \author{
+Thomas Carroll and Marian Dore
+
+Thomas Carroll and Marian Dore
+
 Thomas Carroll and Marian Dore
 }

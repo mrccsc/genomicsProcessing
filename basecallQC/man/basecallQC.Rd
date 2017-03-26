@@ -9,7 +9,7 @@
 \title{The basecallQC object.}
 \usage{
 basecallQC(bcl2fastqparams, RunMetaData = NULL, sampleSheet = NULL,
-  baseCallMetrics = NULL, demultiplexMetrics = NULL)
+  baseCallMetrics = NULL, demultiplexMetrics = NULL, doFQMetric = FALSE)
 }
 \arguments{
 \item{sampleSheet}{fr}

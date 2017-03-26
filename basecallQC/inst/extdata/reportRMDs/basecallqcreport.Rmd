@@ -2,7 +2,12 @@
 title: "Untitled"
 author: "tom carroll"
 date: "24 March 2017"
-output: html_document
+output:
+  prettydoc::html_pretty:
+    theme: leonids
+    highlight: github
+    toc: true
+    toc_depth: 1
 ---
 
 
@@ -12,32 +17,42 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## BasecallQC
 
-
-```{r table,fig.height=30,widht=15}
-summaryDemuxTable(BCLQCreport,output=output)
+summaryConvStatsTable
+```{r LaneT,fig.height=10,fig.width=10}
+summaryConvStatsTable(BCLQCreport,output="html")
 ```
 
-```{r Lane,fig.height=30,widht=15}
-passFilterBar(BCLQCreport,groupBy = "Lane",
-              metricToPlot = "Yield")+theme_bw()
-
-passFilterBar(BCLQCreport,groupBy = "Lane",
-              metricToPlot = "QualityScoreSum")+theme_bw()
-```
-
-```{r Sample,fig.height=30,widht=15}
+```{r Lane,fig.height=10,fig.width=10}
 passFilterBar(BCLQCreport,groupBy = "Sample",
               metricToPlot = "Yield")+theme_bw()
 
-passFilterBar(BCLQCreport,groupBy = "Sample",
-              metricToPlot = "QualityScoreSum")+theme_bw()
+
 ```
 
-```{r tile,fig.height=30,widht=15}
-passFilterBar(BCLQCreport,groupBy = "Tile",
+```{r Sample,fig.height=10,fig.width=10}
+passFilterBoxplot(BCLQCreport,groupBy = "Sample",
               metricToPlot = "Yield")+theme_bw()
-
-passFilterBar(BCLQCreport,groupBy = "Tile",
-              metricToPlot = "QualityScoreSum")+theme_bw()
 ```
 
+```{r Sample2,fig.height=10,fig.width=10}
+passFilterTilePlot(BCLQCreport,
+              metricToPlot = "Yield")
+```
+
+```{r table,fig.height=10,fig.width=10}
+summaryDemuxTable(BCLQCreport,output="html")
+```
+
+```{r tile,fig.height=10,fig.width=10}
+demuxBarplot(BCLQCreport,groupBy = "Sample")+theme_bw()
+```
+
+```{r tile2,fig.height=10,fig.width=10}
+demuxBoxplot(BCLQCreport,groupBy = "Sample")+theme_bw()
+```
+
+```{r fastqc,fig.height=30,fig.width=15}
+if(doFQQC==TRUE){
+  makeFQTable(BCLQCreport)
+}
+```
