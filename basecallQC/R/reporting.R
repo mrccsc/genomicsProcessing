@@ -11,7 +11,7 @@
 #'
 #' @param ConvStats Results from a call to processConvStats.
 #' @return A datatable of summarised per sample results.
-#' @import stringr XML RColorBrewer methods raster ShortRead
+#' @import stringr XML RColorBrewer methods raster ShortRead prettydoc
 #' @examples
 #'
 #' fileLocations <- system.file("extdata",package="basecallQC")

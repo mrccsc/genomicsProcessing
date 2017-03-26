@@ -8,7 +8,7 @@ Description: To be filled
 License: GPL (>= 3)
 LazyData: TRUE
 biocViews: Training
-Depends: R (>= 2.10), methods, ggplot2, rmarkdown, knitr,  yaml, stringr, XML, RColorBrewer, raster, BiocStyle, dplyr, data.table, stringr, tidyr, reshape2, magrittr, DT, lubridate, lazyeval, ShortRead
+Depends: R (>= 2.10), methods, ggplot2, rmarkdown, knitr,  yaml, stringr, XML, RColorBrewer, raster, BiocStyle, dplyr, data.table, stringr, tidyr, reshape2, magrittr, DT, lubridate, lazyeval, prettydoc, ShortRead
 Suggests: knitr,
     rmarkdown,
     testthat
