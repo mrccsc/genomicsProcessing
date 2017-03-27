@@ -9,7 +9,7 @@
 #'
 #' @author Thomas Carroll
 #'
-#' @param Projects Demultiplex locations.
+#' @param demuxStatsXML Demultiplex locations.
 #' @return A datatable of XML results.
 #' @import stringr DT XML RColorBrewer methods raster dplyr magrittr tidyr reshape2 ggplot2 lubridate
 #' @examples
@@ -21,12 +21,12 @@
 #'
 #' @export
 processDemultiplex <- function(demuxStatsXML){
-  if(is.null(demuxStatsXML)){
-    demuxStatsXML <- dir(fileLocations,
-        pattern="DemultiplexingStats.xml",
-        full.names=TRUE,
-        recursive = T)
-  }
+  # if(is.null(demuxStatsXML)){
+  #   demuxStatsXML <- dir(fileLocations,
+  #       pattern="DemultiplexingStats.xml",
+  #       full.names=TRUE,
+  #       recursive = T)
+  # }
   if(file.exists(demuxStatsXML)){
 
   demuxStatsXMLparse <- xmlTreeParse(demuxStatsXML)
@@ -91,7 +91,7 @@ processDemultiplex <- function(demuxStatsXML){
 #'
 #' @author Thomas Carroll
 #'
-#' @param Projects ConversionStats locations.
+#' @param ConvStatsXML ConversionStats locations.
 #' @return A datatable of XML results.
 #' @import stringr XML RColorBrewer methods raster
 #' @examples
@@ -105,12 +105,12 @@ processDemultiplex <- function(demuxStatsXML){
 
 processConvStats <- function(ConvStatsXML){
 
-  if(is.null(ConvStatsXML)){
-    ConvStatsXML <- dir(fileLocations,
-                         pattern="ConversionStats.xml",
-                         full.names=TRUE,
-                         recursive = T)
-  }
+  # if(is.null(ConvStatsXML)){
+  #   ConvStatsXML <- dir(fileLocations,
+  #                        pattern="ConversionStats.xml",
+  #                        full.names=TRUE,
+  #                        recursive = T)
+  # }
   if(file.exists(ConvStatsXML)){
   convStatsXMLparse <- xmlTreeParse(ConvStatsXML)
   convStatsXML_root <- xmlRoot(convStatsXMLparse)
@@ -211,8 +211,8 @@ processConvStats <- function(ConvStatsXML){
 #'
 #' @author Thomas Carroll
 #'
-#' @param DemuxStats Results from a call to processDemultiplex.
-#' @return A datatable of summarised per sample results.
+#' @param demuxProcessed Results from a call to processDemultiplex.
+#' @return summarisedDemuxStats A datatable of summarised per sample results.
 #' @import stringr XML RColorBrewer methods raster
 #' @examples
 #'
@@ -223,7 +223,7 @@ processConvStats <- function(ConvStatsXML){
 #' samplesDemuxStats <- summariseDemuxStats(demuxProcessed)
 #'
 #' @export
-summariseDemuxStats <- function(demuxProcessed, plot=T){
+summariseDemuxStats <- function(demuxProcessed){
   #Lane_Stats4 <- Test %>% filter(Sample != "all" & BarcodeStat == "BarcodeCount") %>% group_by(Project,Sample) %>% summarise(Count=sum(as.numeric(Count)))
   #Lane_Stats <- Projects_DF %>% filter(Sample == "all") %>% group_by(Lane,Filter) %>% summarise(sum(Yield))
 
@@ -262,8 +262,8 @@ summariseDemuxStats <- function(demuxProcessed, plot=T){
 #'
 #' @author Thomas Carroll
 #'
-#' @param ConvStats Results from a call to processConvStats.
-#' @return A datatable of summarised per sample results.
+#' @param convStatsProcessed Results from a call to processConvStats.
+#' @return summarisedDemuxStats A datatable of summarised per sample results.
 #' @import stringr XML RColorBrewer methods raster
 #' @examples
 #'
@@ -274,7 +274,7 @@ summariseDemuxStats <- function(demuxProcessed, plot=T){
 #' summarisedConvStats <- summariseConvStats(convStatsProcessed)
 #'
 #' @export
-summariseConvStats <- function(convStatsProcessed, plot=T){
+summariseConvStats <- function(convStatsProcessed){
   #Lane_Stats4 <- Test %>% filter(Sample != "all" & BarcodeStat == "BarcodeCount") %>% group_by(Project,Sample) %>% summarise(Count=sum(as.numeric(Count)))
   #Lane_Stats <- Projects_DF %>% filter(Sample == "all") %>% group_by(Lane,Filter) %>% summarise(sum(Yield))
   if(!is.null(convStatsProcessed)){
@@ -308,7 +308,7 @@ summariseConvStats <- function(convStatsProcessed, plot=T){
 #'
 #' @author Thomas Carroll
 #'
-#' @param paramXML file path to runParameters.xml .
+#' @param runParameters file path to runParameters.xml .
 #' @return A datatable of run parameter.
 #' @import stringr XML RColorBrewer methods raster dplyr data.table stringr
 #' @examples
@@ -320,10 +320,10 @@ summariseConvStats <- function(convStatsProcessed, plot=T){
 #'
 #' @export
 runParameters <- function(runParameters = NULL){
-  if(is.null(runParameters)){
-    runParameters = dir(pattern="runParameters.xml",
-                        full.names=T)
-  }
+  # if(is.null(runParameters)){
+  #   runParameters = dir(pattern="runParameters.xml",
+  #                       full.names=T)
+  # }
   xmlFromRunParameters <- xmlParse(runParameters)
   currentRunParameters <- xmlToDataFrame(xmlFromRunParameters)
   currentRunParameters <- currentRunParameters[!is.na(currentRunParameters$ExperimentName),,drop=F]

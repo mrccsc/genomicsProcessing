@@ -5,13 +5,13 @@
 \alias{summariseDemuxStats}
 \title{Generate per sample summary statistics}
 \usage{
-summariseDemuxStats(demuxProcessed, plot = T)
+summariseDemuxStats(demuxProcessed)
 }
 \arguments{
-\item{DemuxStats}{Results from a call to processDemultiplex.}
+\item{demuxProcessed}{Results from a call to processDemultiplex.}
 }
 \value{
-A datatable of summarised per sample results.
+summarisedDemuxStats A datatable of summarised per sample results.
 }
 \description{
 Creates per sample summary statistics from demultiplex results

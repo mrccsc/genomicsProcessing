@@ -10,11 +10,7 @@
 A BCL2FastQparams object.
 }
 \description{
-Parameter class and accessors
-}
-\examples{
-
-warning("Put example here!")
+Parameter class and accessors for use with basecallQC
 }
 \references{
 See \url{http://mrccsc.github.io} for more details on soGGi workflows

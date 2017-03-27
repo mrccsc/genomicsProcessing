@@ -8,7 +8,7 @@
 processDemultiplex(demuxStatsXML)
 }
 \arguments{
-\item{Projects}{Demultiplex locations.}
+\item{demuxStatsXML}{Demultiplex locations.}
 }
 \value{
 A datatable of XML results.

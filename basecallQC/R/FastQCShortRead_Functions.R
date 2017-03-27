@@ -1,6 +1,3 @@
-
-#fastqs <- dir("~/Documents/test2/fastq2/",pattern="*.fastq.gz",full.names=T)[1:2]
-#' @export
 qcShortRead <- function(fastqs,reportOutDir=getwd()){
   #qaSamples <- lapply(fastqs,ShortRead::qa)
   load("~/Documents/test2/tesr.RData")
@@ -16,12 +13,6 @@ qcShortRead <- function(fastqs,reportOutDir=getwd()){
   fqQCTable <- data.frame(SampleNames=links,
                           as.data.frame(qaSampleFrame@.srlist$readCounts,
                           ))
-  # if(output=="static"){
-  #   table <- kable(fqQCTable,escape = F)
-  # }
-  # if(output=="html"){
-  #   table <- DT:::datatable(fqQCTable,escape=F)
-  # }
   return(list(FQQC_Table = fqQCTable,ShortReadQC=qaSampleFrame))
 }
 

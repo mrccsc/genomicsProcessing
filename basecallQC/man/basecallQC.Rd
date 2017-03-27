@@ -9,38 +9,30 @@
 \title{The basecallQC object.}
 \usage{
 basecallQC(bcl2fastqparams, RunMetaData = NULL, sampleSheet = NULL,
-  baseCallMetrics = NULL, demultiplexMetrics = NULL, doFQMetric = FALSE)
+  doFQMetric = FALSE)
 }
 \arguments{
-\item{sampleSheet}{fr}
+\item{bcl2fastqparams}{A BCL2FastQparams object as created by setBCL2FastQparams.}
 
-\item{baseCallMetrics}{directory of illumina runfolder.}
+\item{RunMetaData}{Any run metadata to attach (data.frame)}
 
-\item{demultiplexMetrics}{lr.}
+\item{sampleSheet}{The samplesheet for basecalling}
 
-\item{BCL2FastQparams}{Parameters for BCL2FastQC program
-and current analysis Run.}
-
-\item{RunMetadata}{Dataframe containing Sample_ID column and user-defined metadata.}
-
-\item{Run}{The pun to process}
-
-\item{RunMetadata}{Any run metadata to attach (sata.frame)}
+\item{doFQMetric}{TRUE or FALSE. Perform ShortRead FastQ quality assessment
+using ShortRead's qa and report function}
 }
 \value{
 A basecallQC object.
 
-A basecallQC object.
+basecallQC a basecallQC object
 }
 \description{
 Objects and methods to handle Illumina BCL inputs and output files.
-Provides summary QC statistics for basecalling
+Provides sample sheet cleanup, basecall command summary QC statistics for basecalling.
 
 The bclCall function is a constructor for basecallQC objects.
 }
 \examples{
-
-warning("Put example here!")
 fileLocations <- system.file("extdata",package="basecallQC")
 runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
 config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)

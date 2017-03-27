@@ -1,7 +1,7 @@
 
-#' Functions to create basemasks for basecalling from Illumina samplesheet.
+#' Barplot of Illumina basecalling statistics for reads passing filter.
 #'
-#' Parses the Illumina samplesheet from run folders to create standardised
+#' Produces a barplot of basecalling statistics for reads passing filter.
 #'
 #'
 #' @docType methods
@@ -10,7 +10,8 @@
 #'
 #' @author Thomas Carroll and Marian Dore
 #' @param BCLQC baseCallQC A  basecall QC object
-#' @param groupBy Character vector of lane and/or Sample
+#' @param groupBy Character vector defining how plot will be grouped
+#' @param metricToPlot Character vector defining which metric will be displayed in plot.
 #' @return ggPlotObject A ggplot2 object.
 #' @import stringr XML RColorBrewer methods raster BiocStyle
 #' @examples
@@ -43,9 +44,10 @@ passFilterBar <- function(BCLQC,groupBy=c("Lane"),metricToPlot="Yield"){
   return(p)
 }
 
-#' Functions to create basemasks for basecalling from Illumina samplesheet.
+
+#' Boxplot of Illumina basecalling statistics for reads passing filter.
 #'
-#' Parses the Illumina samplesheet from run folders to create standardised
+#' Produces a boxplot of basecalling statistics for reads passing filter.
 #'
 #'
 #' @docType methods
@@ -55,6 +57,7 @@ passFilterBar <- function(BCLQC,groupBy=c("Lane"),metricToPlot="Yield"){
 #' @author Thomas Carroll and Marian Dore
 #' @param BCLQC baseCallQC A  basecall QC object
 #' @param groupBy Character vector of lane and/or Sample
+#' @param metricToPlot Character vector defining which metric will be displayed in plot.
 #' @return ggPlotObject A ggplot2 object.
 #' @import stringr XML RColorBrewer methods raster BiocStyle
 #' @examples
@@ -87,18 +90,18 @@ passFilterBoxplot <- function(BCLQC,groupBy=c("Lane"),metricToPlot="Yield"){
   return(p)
 }
 
-#' Functions to create basemasks for basecalling from Illumina samplesheet.
+#' Tile plot of Illumina basecalling statistics for reads passing filter.
 #'
-#' Parses the Illumina samplesheet from run folders to create standardised
+#' Produces a plot of Tiles for basecalling statistics of reads passing/failing filter.
 #'
 #'
 #' @docType methods
-#' @name passFilterBoxplot
-#' @rdname passFilterBoxplot
+#' @name passFilterTileplot
+#' @rdname passFilterTileplot
 #'
 #' @author Thomas Carroll and Marian Dore
 #' @param BCLQC baseCallQC A  basecall QC object
-#' @param groupBy Character vector of lane and/or Sample
+#' @param metricToPlot Character vector defining which metric will be displayed in plot.
 #' @return ggPlotObject A ggplot2 object.
 #' @import stringr XML RColorBrewer methods raster BiocStyle
 #' @examples
@@ -109,7 +112,7 @@ passFilterBoxplot <- function(BCLQC,groupBy=c("Lane"),metricToPlot="Yield"){
 #' outDir <- file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/C9L0AANXX/")
 #' bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
 #' bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
-#' plots <- passFilterTilePlot(bclQC,metricToPlot="Yield")
+#' plot <- passFilterTilePlot(bclQC,metricToPlot="Yield")
 #' @export
 passFilterTilePlot <- function(BCLQC,metricToPlot="Yield"){
   groupByS <- unique(c("Lane","Sample","Tile","Filter"))
@@ -134,23 +137,29 @@ passFilterTilePlot <- function(BCLQC,metricToPlot="Yield"){
   return(list(PassFilter=pPf,FailFilter=pFf))
 }
 
-# tom <- qa("~/Documents/test2/fastq/",pattern="*.fastq.gz")[1:3]
-# qaSummary[[8]]
-
-#' Functions to create basemasks for basecalling from Illumina samplesheet.
+#' Boxplot of Illumina demultiplexing statistics.
 #'
-#' Parses the Illumina samplesheet from run folders to create standardised
+#' Produces a boxplot of for demultiplexing statistics of reads with perfect/mismatched barcode.
 #'
 #'
 #' @docType methods
-#' @name passFilterBoxplot
-#' @rdname passFilterBoxplot
+#' @name demuxBoxplot
+#' @rdname demuxBoxplot
 #'
 #' @author Thomas Carroll and Marian Dore
 #' @param BCLQC baseCallQC A  basecall QC object
 #' @param groupBy Character vector of lane and/or Sample
 #' @return ggPlotObject A ggplot2 object.
 #' @import stringr XML RColorBrewer methods raster BiocStyle
+#' @examples
+#' fileLocations <- system.file("extdata",package="basecallQC")
+#' runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+#' config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
+#' sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
+#' outDir <- file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/C9L0AANXX/")
+#' bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
+#' bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
+#' plot <- demuxBoxplot(bclQC)
 #' @export
 demuxBoxplot <- function(BCLQC,groupBy=c("Lane")){
   metricToPlot <- "Count"
@@ -173,20 +182,29 @@ demuxBoxplot <- function(BCLQC,groupBy=c("Lane")){
   return(p)
 }
 
-#' Functions to create basemasks for basecalling from Illumina samplesheet.
+#' Barplot of Illumina demultiplexing statistics.
 #'
-#' Parses the Illumina samplesheet from run folders to create standardised
+#' Produces a barplot of for demultiplexing statistics of reads with perfect/mismatched barcode.
 #'
 #'
 #' @docType methods
-#' @name passFilterBarplot
-#' @rdname passFilterBarplot
+#' @name demuxBarplot
+#' @rdname demuxBarplot
 #'
 #' @author Thomas Carroll and Marian Dore
 #' @param BCLQC baseCallQC A  basecall QC object
 #' @param groupBy Character vector of lane and/or Sample
 #' @return ggPlotObject A ggplot2 object.
 #' @import stringr XML RColorBrewer methods raster BiocStyle
+#' @examples
+#' fileLocations <- system.file("extdata",package="basecallQC")
+#' runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+#' config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
+#' sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
+#' outDir <- file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/C9L0AANXX/")
+#' bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
+#' bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
+#' plot <- demuxBarplot(bclQC)
 #' @export
 demuxBarplot <- function(BCLQC,groupBy=c("Lane")){
   metricToPlot <- "Count"
@@ -208,109 +226,3 @@ demuxBarplot <- function(BCLQC,groupBy=c("Lane")){
   p <- ggplot(data=toPlot,aes_string(x=groupByG,y=metricToPlot,fill=groupByG))+geom_bar(stat="identity")+ coord_flip()+facet_grid(BarcodeCount~.)
   return(p)
 }
-
-
-# fileLocations <- system.file("extdata",package="basecallQC")
-# runXML <- dir(file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/"),pattern="runParameters.xml",full.names=TRUE)
-# config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
-# sampleSheet <- dir(file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/"),pattern="*\\.csv",full.names=TRUE)
-# outDir <- file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/C9L0AANXX/")
-# bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
-# bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
-# plot <- passFilterBar(bclQC,groupBy = "Lane")
-# plot <- passFilterBoxplot(bclQC,groupBy = "Sample")
-#
-# fileLocations <- system.file("extdata",package="basecallQC")
-# runXML <- dir(file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/"),pattern="runParameters.xml",full.names=TRUE)
-# config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
-# sampleSheet <- dir(file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/"),pattern="*\\.csv",full.names=TRUE)
-# outDir <- file.path(fileLocations,"/Users/tcarroll/genomicsProcessing/old/Stats1/")
-# bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
-# bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
-
-
-# fileLocations <- system.file("extdata",package="basecallQC")
-# runXML <- dir(file.path(fileLocations,"Runs/170217_D00467_0227_ACADN3ANXX/"),pattern="runParameters.xml",full.names=TRUE)
-# config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
-# sampleSheet <- dir(file.path(fileLocations,"Runs/170217_D00467_0227_ACADN3ANXX/"),pattern="*\\.csv",full.names=TRUE)
-# bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
-# bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
-#
-# fileLocations <- system.file("extdata",package="basecallQC")
-# runXML <- dir(file.path(fileLocations,"Runs/170222_D00467_0228_ACAL6PANXX/"),pattern="runParameters.xml",full.names=TRUE)
-# config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
-# sampleSheet <- dir(file.path(fileLocations,"Runs/170222_D00467_0228_ACAL6PANXX/"),pattern="*\\.csv",full.names=TRUE)
-# bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
-# bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
-#
-#
-# fileLocations <- system.file("extdata",package="basecallQC")
-# runXML <- dir(file.path(fileLocations,"Runs/170303_D00467_0230_BCA7RDANXX/"),pattern="runParameters.xml",full.names=TRUE)
-# config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
-# sampleSheet <- dir(file.path(fileLocations,"Runs/170303_D00467_0230_BCA7RDANXX/"),pattern="*\\.csv",full.names=TRUE)
-# bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
-# bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
-#
-# fileLocations <- system.file("extdata",package="basecallQC")
-# runXML <- dir(file.path(fileLocations,"Runs/170303_D00467_0231_ACAK02ANXX/"),pattern="runParameters.xml",full.names=TRUE)
-# config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
-# sampleSheet <- dir(file.path(fileLocations,"Runs/170303_D00467_0231_ACAK02ANXX/"),pattern="*\\.csv",full.names=TRUE)
-# bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
-# bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
-
-#
-#
-# testBeBY <- function(BCLQC,groupBy=c("Lane"),metricToPlot="Yield"){
-#   groupByS <- unique(c(groupBy,"Filter"))
-#   groupByG <- unique(c(groupBy))
-#   toPlot <- BCLQC@baseCallMetrics$convStatsProcessed %>%
-#     group_by_(.dots=as.list(groupByS)) %>%
-#     filter(Sample != "all") %>%
-#     summarise_(.dots = setNames(list(interp( ~sum(as.numeric(var)),
-#                                              var=as.name(metricToPlot))
-#                                      )
-#                                 ,metricToPlot)) %>%
-#     spread_("Filter",metricToPlot) %>%
-#     mutate(Ff=Raw-Pf) %>%
-#     dplyr:::select(-Raw) %>%
-#     tbl_df %>%
-#     gather_(key="PassFilter",value=as.name(metricToPlot),c("Ff","Pf"))
-#   p <- ggplot(data=toPlot,aes_string(x=groupByG,y=metricToPlot,fill="PassFilter"))+geom_bar(stat = "identity")+ coord_flip()
-#   return(p)
-# }
-#
-#
-# gather_(key="PassFilter",value=as.name(name),Ff,Pf)
-#
-#
-# df <- data_frame(v1 = 1:5, v2 = 6:10, v3 = c(rep("A", 3), rep("B", 2)))
-# library(lazyeval)
-# df %>%
-# select(-matches(drp)) %>%
-# group_by_(key) %>%
-# summarise_(sum_val = interp(~sum(var, na.rm = TRUE), var = as.name(val)))
-#
-# group_by_(.dots=as.list(groupByS)) %>%
-#   filter(Sample != "all") %>%
-#   summarise_(name=interp(~sum(as.numeric(var)),var=as.name(name)))
-#
-# select_(iris, lazyeval::interp(~matches(x), x = ".t."))
-# select_(iris, quote(-Petal.Length), quote(-Petal.Width))
-# select_(iris, .dots = list(quote(-Petal.Length), quote(-Petal.Width)))
-#
-# groupByS <- unique(c(groupBy,"Filter"))
-# groupByG <- unique(c(groupBy))
-# name="Yield"
-# toPlot <- BCLQC@baseCallMetrics$convStatsProcessed %>%
-#   group_by_(.dots=as.list(groupByS)) %>%
-#   filter(Sample != "all") %>%
-#   summarise_(list(interp(~sum(as.numeric(var)),
-#                          var=as.name(name))),
-#              .dots = setNames(dots,name)
-#              )
-#
-# dots <- list(str_c("~sum(as.numeric("var")))
-# group_by_(.dots=as.list(groupByS)) %>%
-#   filter(Sample != "all") %>%
-#   summarise_(
-#

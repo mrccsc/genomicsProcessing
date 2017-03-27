@@ -8,7 +8,7 @@
 processConvStats(ConvStatsXML)
 }
 \arguments{
-\item{Projects}{ConversionStats locations.}
+\item{ConvStatsXML}{ConversionStats locations.}
 }
 \value{
 A datatable of XML results.

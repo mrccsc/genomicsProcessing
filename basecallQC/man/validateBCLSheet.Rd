@@ -3,20 +3,20 @@
 \docType{methods}
 \name{validateBCLSheet}
 \alias{validateBCLSheet}
-\title{Illumina Basecalling functions.}
+\title{Illumina samplesheet cleaning}
 \usage{
 validateBCLSheet(sampleSheet, param = bcl2fastqparams)
 }
 \arguments{
-\item{sampleSheet}{mm}
+\item{sampleSheet}{Data.frame of samplesheet for Illumina basecalling (see vignette for more details)}
 
-\item{param}{mn}
+\item{param}{A BCL2FastQparams object}
 }
 \value{
-Cleaned samplesheet.
+cleanedSampleSheet A cleaned samplesheet.
 }
 \description{
-Parses the Illumina samplesheet from run folders to create standardised
+Parses the Illumina samplesheet from run folders to create standardised samplesheet for BCL2Fastq > Version 2.18
 }
 \examples{
 
@@ -25,7 +25,6 @@ runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
 config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
 sampleSheet <- dir(fileLocations,pattern="*\\\\.csv",full.names=TRUE)
 bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
-
 cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=bcl2fastqparams)
 
 }

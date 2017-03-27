@@ -1,16 +1,21 @@
-#' Generate per sample summary statistics
+#' Generate basecallQC report
 #'
-#' Creates per sample summary statistics from demultiplex results
+#' Creates a summary report for basecalling and demultiplexing statistics.
 #'
 #'
 #' @docType methods
-#' @name summaryDemuxTable
-#' @rdname summaryDemuxTable
+#' @name reportBCL
+#' @rdname reportBCL
 #'
 #' @author Thomas Carroll
 #'
-#' @param ConvStats Results from a call to processConvStats.
-#' @return A datatable of summarised per sample results.
+#' @param BCLQC A basecall QC object as returned from basecallQC function
+#' @param reportOut Name of report file
+#' @param reportOutDir Directory for the report file
+#' @param output Whether the report contains frozen or sortable tables. Options are "static" and "html"
+#' @param reportRMDfile RMD to be used for reporting. (Default uses standard report template)
+#' @param FQQC TRUE or FALSE, whether to run ShortRead fastq QC.
+#' @return RenderedReport A rendered report.
 #' @import stringr XML RColorBrewer methods raster ShortRead prettydoc
 #' @examples
 #'

@@ -5,13 +5,13 @@
 \alias{summariseConvStats}
 \title{Generate per sample summary statistics}
 \usage{
-summariseConvStats(convStatsProcessed, plot = T)
+summariseConvStats(convStatsProcessed)
 }
 \arguments{
-\item{ConvStats}{Results from a call to processConvStats.}
+\item{convStatsProcessed}{Results from a call to processConvStats.}
 }
 \value{
-A datatable of summarised per sample results.
+summarisedDemuxStats A datatable of summarised per sample results.
 }
 \description{
 Creates per sample summary statistics from demultiplex results

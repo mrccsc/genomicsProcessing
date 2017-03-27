@@ -1,7 +1,7 @@
 
-#' Illumina Basecalling functions.
+#' Illumina samplesheet cleaning
 #'
-#' Parses the Illumina samplesheet from run folders to create standardised
+#' Parses the Illumina samplesheet from run folders to create standardised samplesheet for BCL2Fastq > Version 2.18
 #'
 #'
 #' @docType methods
@@ -9,9 +9,9 @@
 #' @rdname validateBCLSheet
 #'
 #' @author Thomas Carroll and Marian Dore
-#' @param sampleSheet mm
-#' @param param mn
-#' @return Cleaned samplesheet.
+#' @param sampleSheet Data.frame of samplesheet for Illumina basecalling (see vignette for more details)
+#' @param param A BCL2FastQparams object
+#' @return cleanedSampleSheet A cleaned samplesheet.
 #' @import stringr XML RColorBrewer methods raster BiocStyle lazyeval
 #' @examples
 #'
@@ -20,7 +20,6 @@
 #' config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
 #' sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
 #' bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
-#'
 #' cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=bcl2fastqparams)
 #'
 #' @export
@@ -53,7 +52,7 @@ validateBCLSheet <- function(sampleSheet,param=bcl2fastqparams){
 
 #' Functions to create basemasks for basecalling from Illumina samplesheet.
 #'
-#' Parses the Illumina samplesheet from run folders to create standardised
+#' Parses the Illumina samplesheet for versions > 2.18 and creates basemasks.
 #'
 #'
 #' @docType methods
@@ -61,9 +60,9 @@ validateBCLSheet <- function(sampleSheet,param=bcl2fastqparams){
 #' @rdname createBasemasks
 #'
 #' @author Thomas Carroll and Marian Dore
-#' @param sampleSheet mm
-#' @param param mn
-#' @return basemasks Basemasks.
+#' @param cleanedSampleSheet Data.frame of cleaned samplesheet for Illumina basecalling (see vignette for more details)
+#' @param param A BCL2FastQparams object
+#' @return basemasks A data.frame containing basecall masks for reads and indexes.
 #' @import stringr XML RColorBrewer methods raster BiocStyle
 #' @examples
 #'
@@ -102,19 +101,20 @@ createBasemasks <- function(cleanedSampleSheet,param){
       }
 }
 
-#' Functions to create basemasks for basecalling from Illumina samplesheet.
+#' Functions to create command for Illumina demultiplexing using fastq2BCL versions > 2.18 .
 #'
-#' Parses the Illumina samplesheet from run folders to create standardised
+#' Creates the command to be used for demultiplexing with fastq2BCL versions > 2.18
 #'
 #'
 #' @docType methods
-#' @name createBasemasks
-#' @rdname createBasemasks
+#' @name createBCLcommand
+#' @rdname createBCLcommand
 #'
 #' @author Thomas Carroll and Marian Dore
-#' @param sampleSheet mm
-#' @param param mn
-#' @return basemasks Basemasks.
+#' @param bcl2fastqparams A BCL2FastQparams object
+#' @param cleanedSampleSheet Data.frame of cleaned samplesheet for Illumina basecalling (see vignette for more details)
+#' @param baseMasks A data.frame of basemasks as created by createBasemasks function
+#' @return bclCommand A character vector containing the command for Illumina basecalling
 #' @import stringr XML RColorBrewer methods raster BiocStyle
 #' @examples
 #'

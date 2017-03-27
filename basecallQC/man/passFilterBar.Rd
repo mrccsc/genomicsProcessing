@@ -3,20 +3,22 @@
 \docType{methods}
 \name{passFilterBar}
 \alias{passFilterBar}
-\title{Functions to create basemasks for basecalling from Illumina samplesheet.}
+\title{Barplot of Illumina basecalling statistics for reads passing filter.}
 \usage{
 passFilterBar(BCLQC, groupBy = c("Lane"), metricToPlot = "Yield")
 }
 \arguments{
 \item{BCLQC}{baseCallQC A  basecall QC object}
 
-\item{groupBy}{Character vector of lane and/or Sample}
+\item{groupBy}{Character vector defining how plot will be grouped}
+
+\item{metricToPlot}{Character vector defining which metric will be displayed in plot.}
 }
 \value{
 ggPlotObject A ggplot2 object.
 }
 \description{
-Parses the Illumina samplesheet from run folders to create standardised
+Produces a barplot of basecalling statistics for reads passing filter.
 }
 \examples{
 fileLocations <- system.file("extdata",package="basecallQC")

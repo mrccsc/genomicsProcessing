@@ -1,6 +1,6 @@
 #' The Parameters for BCL2FastQparamters object.
 #'
-#' Parameter class and accessors
+#' Parameter class and accessors for use with basecallQC
 #'
 #' @aliases BCL2FastQparams BCL2FastQparams-BCL2FastQparams
 #'
@@ -8,9 +8,6 @@
 #' @rdname BCL2FastQparams
 #' @docType class
 #' @return A BCL2FastQparams object.
-#' @examples
-#'
-#' warning("Put example here!")
 #' @export
 #'
 setClass("BCL2FastQparams", representation(RunDir="character",OutDir="character",RunParameters = "list"))
@@ -18,23 +15,14 @@ setClass("BCL2FastQparams", representation(RunDir="character",OutDir="character"
 #' The basecallQC object.
 #'
 #' Objects and methods to handle Illumina BCL inputs and output files.
-#' Provides summary QC statistics for basecalling
+#' Provides sample sheet cleanup, basecall command summary QC statistics for basecalling.
 #'
 #' @aliases basecallQC basecallQC-basecallQC
 #'
 #' @references See \url{http://mrccsc.github.io} for more details on soGGi workflows
 #' @rdname basecallQC
 #' @docType class
-#' @param BCL2FastQparams Parameters for BCL2FastQC program
-#' and current analysis Run.
-#' @param RunMetadata Dataframe containing Sample_ID column and user-defined metadata.
-#' @param baseCallMetrics directory of illumina runfolder.
-#' @param demultiplexMetrics lr.
-#' @param sampleSheet fr
 #' @return A basecallQC object.
-#' @examples
-#'
-#' warning("Put example here!")
 #' @export
 
 setClass("basecallQC", representation(BCL2FastQparams="BCL2FastQparams",RunMetadata = "data.frame",
@@ -97,9 +85,12 @@ setBCL2FastQparams <- function(runXML=NULL,config=NULL,runDir=NULL,outDir=NULL,v
 #'
 #' @name basecallQC
 #' @rdname basecallQC
-#' @param Run The pun to process
-#' @param RunMetadata Any run metadata to attach (sata.frame)
-#' @return A basecallQC object.
+#' @param bcl2fastqparams A BCL2FastQparams object as created by setBCL2FastQparams.
+#' @param RunMetaData Any run metadata to attach (data.frame)
+#' @param sampleSheet The samplesheet for basecalling
+#' @param doFQMetric TRUE or FALSE. Perform ShortRead FastQ quality assessment
+#' using ShortRead's qa and report function
+#' @return basecallQC a basecallQC object
 #' @examples
 #' fileLocations <- system.file("extdata",package="basecallQC")
 #' runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
@@ -109,8 +100,7 @@ setBCL2FastQparams <- function(runXML=NULL,config=NULL,runDir=NULL,outDir=NULL,v
 #' bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
 #' bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
 #' @export
-basecallQC <- function(bcl2fastqparams,RunMetaData=NULL,sampleSheet=NULL,
-                       baseCallMetrics=NULL,demultiplexMetrics=NULL,doFQMetric=FALSE){
+basecallQC <- function(bcl2fastqparams,RunMetaData=NULL,sampleSheet=NULL,doFQMetric=FALSE){
 
   cleanedSampleSheet <- validateBCLSheet(sampleSheet,bcl2fastqparams)
   baseMasks <- createBasemasks(cleanedSampleSheet,bcl2fastqparams)
@@ -140,7 +130,6 @@ runParams <- function(runXML=NULL,config=NULL){
   return(list(runParams=runParams,configParams=configParams))
 }
 
-#' @export
 baseCallMetrics <- function(bcl2fastqparams){
   convStatsXML <- file.path(bcl2fastqparams@OutDir,"Stats","ConversionStats.xml")
   if(!file.exists(convStatsXML)) return(list(convStatsProcessed=NULL,summarisedConvStats=NULL))
@@ -150,7 +139,7 @@ baseCallMetrics <- function(bcl2fastqparams){
                        summarisedConvStats=summarisedConvStats))
 }
 
-#' @export
+
 demultiplexMetrics <- function(bcl2fastqparams){
   demuxStatsXML <- file.path(bcl2fastqparams@OutDir,"Stats","DemultiplexingStats.xml")
   if(!file.exists(demuxStatsXML)) return(list(demuxStatsProcessed=NULL,summarisedDemuxStats=NULL))

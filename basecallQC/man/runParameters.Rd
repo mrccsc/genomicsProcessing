@@ -8,7 +8,7 @@
 runParameters(runParameters = NULL)
 }
 \arguments{
-\item{paramXML}{file path to runParameters.xml .}
+\item{runParameters}{file path to runParameters.xml .}
 }
 \value{
 A datatable of run parameter.
