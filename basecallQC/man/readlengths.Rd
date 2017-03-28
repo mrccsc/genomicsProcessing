@@ -6,8 +6,7 @@
 \alias{readlengths.bcl2fastqparams}
 \alias{readlengths,BCL2FastQparams-method,}
 \alias{readlengths,BCL2FastQparams-method}
-\title{Read lengths
-Readlengths as defined runParameters.xml}
+\title{Read lengths}
 \usage{
 \S4method{readlengths}{BCL2FastQparams}(object)
 
@@ -17,11 +16,10 @@ Readlengths as defined runParameters.xml}
 \item{object}{A BCL2FastQparams object}
 }
 \value{
-readlengths <- Readlengths as defined runParamaeters.xml
+readlengths. Readlengths as defined runParamaeters.xml
 }
 \description{
-Read lengths
-Readlengths as defined runParameters.xml
+Readlengths as defined by runParameters.xml
 }
 \examples{
 fileLocations <- system.file("extdata",package="basecallQC")

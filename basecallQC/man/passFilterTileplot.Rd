@@ -17,7 +17,7 @@ passFilterTilePlot(BCLQC, metricToPlot = "Yield")
 ggPlotObject A ggplot2 object.
 }
 \description{
-Produces a plot of Tiles for basecalling statistics of reads passing/failing filter.
+Produces a plot of metrics per Tile for basecalling statistics of reads passing/failing filter.
 }
 \examples{
 fileLocations <- system.file("extdata",package="basecallQC")

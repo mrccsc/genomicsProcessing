@@ -1,0 +1,200 @@
+---
+title: "Working with Illumina basecalling and demultiplexing data using the basecallQC package"
+author:
+- name: Thomas Carroll
+  affiliation: MRC LMS
+  email: tc.infomatics@gmail.com
+- name: Marian Dore
+  affiliation: MRC LMS
+package: basecallQC
+output:
+  BiocStyle::html_document2
+abstract: |
+  The basecallQC package provides tools to work with input and output files from Illumina basecalling and demultiplexing software, bcl2fastq (versions >= 2.1.7) 
+vignette: |
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+# The basecallQC package
+
+The **basecallQC** package provides a set of tools to streamline basecalling and demultiplexing using the Illumina bcl2fastq software (versions >= 2.1.7).
+
+The **basecallQC** package includes functions to:- 
+
+- "Clean" Illumina bcl2fastq (versions >= 2.1.7) samplesheets e.g. Remove invalid sample names/IDs, whitespaces, correct column headers
+- Convert Samplesheets from Illumina bcl2fastq versions <= 1.8.9 to be compatable to Illumina bcl2fastq versions >= 2.1.7.
+- Create base masks for use with the Illumina basecalling/demultiplexing software bcl2fastq (versions >= 2.1.7).
+- Create summary tables and plots from Illumina basecalling/demultiplexing with bcl2fastq (versions >= 2.1.7).
+
+
+# Cleaning and updating the Sample Sheet
+
+The Illumina bcl2fastq program requires a sample sheet to dictate sample names/IDs, indexes and parameters for basecalling and demultiplexing. 
+
+The construction of sample sheets for basecalling and demultiplexing requires specific column names,valid Sample names/IDs and correct indexes. The complexity of working with Illumina sample sheets is compounded by the use of different sample sheet specifications before and after version 1.8.9 of the bcl2fastq program.
+
+The **basecallQC** package uses the **validateBCLSheet** function to both "clean" sample sheets to have valid column and sample names as well as to update sample sheets for versions <= 1.8.9 to be compatable with version >= 2.1.7   
+
+To update or clean a sample sheet, first the parameters for the Run must be captured using the **setBCL2FastQparams** command. The resulting  **BCL2FastQparams** object contains information on the Run parsed from the runParameters.xml file such as the actual index length (often required to correct the sample sheet specified lengths). 
+
+Once the **BCL2FastQparams** object has been created, a sample sheet file name can be passed to the **validateBCLSheet** alongside the **BCL2FastQparams** object to create a valid sample sheet object,  which may then be written to file.
+
+## Cleaning a sample sheet.
+
+In this first example we use the **validateBCLSheet** function to clean a sample sheet to be valid with bcl2Fastq versions >= 2.1.7.
+
+```{r, cleaning, fig.show='hold',warning=FALSE,message=FALSE}
+library(basecallQC)
+fileLocations <- system.file("extdata",package="basecallQC")
+config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
+fileLocations <- system.file(file.path("extdata","testSampleSheets"),package="basecallQC")
+runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
+read.delim(sampleSheet[1],sep=",",header = TRUE,comment.char = "[")
+
+```
+
+This sample sheet contains invalid Sample names e.g. A 1 (whitespace) and 08.HDOX37 (starts with numeric) as well as invalid column headers such as "Name". 
+
+```{r, cleaning2, fig.show='hold',warning=FALSE,message=FALSE}
+
+bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
+cleanedSampleSheet <- validateBCLSheet(sampleSheet[1],param=bcl2fastqparams)
+head(cleanedSampleSheet)
+
+```
+
+In the cleaned samplesheet the column headers have been corrected and invalid Sample IDs converted to valid IDs e.g.  08.HDOX37 has been converted to Sample_HDOX37
+
+## Updating a sample sheet.
+
+Updating a sample sheet from those used with versions <= 1.8.9 to one compatable with versions >= 2.1.7 is done following the same procedure as cleaning a sample sheet.
+
+
+```{r, updating, fig.show='hold',warning=FALSE,message=FALSE}
+library(basecallQC)
+fileLocations <- system.file("extdata",package="basecallQC")
+config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
+fileLocations <- system.file(file.path("extdata","testSampleSheets"),package="basecallQC")
+runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
+read.delim(sampleSheet[2],sep=",",header = TRUE,comment.char = "[")
+
+```
+
+The sample sheet from versions <= 1.8.9 contains many headers which will need to be updated to those used in versions >= 2.1.7 as well as unrequired headers which are maintained as metadata.
+
+The specification of indexes in sample sheets from versions <= 1.8.9 were in a single column with indexes separated by a hyphon. This specification has changed to the explicit inclusion of an Index2 column when using dual indexes, so this to must be updated too.
+
+```{r, updating2, fig.show='hold',warning=FALSE,message=FALSE}
+
+bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
+cleanedSampleSheet <- validateBCLSheet(sampleSheet[2],param=bcl2fastqparams)
+head(cleanedSampleSheet)
+
+```
+
+In the resulting updated sample sheet we can see column names have been updated e.g.  "SampleID" to "Sample_ID",  and the index column has been automatically split into Index and Index2 columns.
+
+# Base masking and the bcl2fastq command.
+
+The **basecallQC** package can also provide the base masks and basecalling/demultiplexing command for bcl2fastq versions >= 2.1.7 from the cleaned sample sheet and the **BCL2FastQparams** object.
+
+The **createBaseMasks** function creates a data.frame of basemasks per lane from a cleaned sample sheet,as generated by the **validateBCLsheet** function, and a **BCL2FastQparams** object.
+
+```{r, basemasks, fig.show='hold',warning=FALSE,message=FALSE}
+fileLocations <- system.file("extdata",package="basecallQC")
+runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
+sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
+bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
+cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=bcl2fastqparams)
+baseMasks <- createBasemasks(cleanedSampleSheet,param=bcl2fastqparams)
+baseMasks$index1Mask
+```
+
+Following the creation of a base masks data.frame, the **createBCLcommand** function takes the cleaned sample sheet, a **BCL2FastQparams** object and the base masks data.frame to create the command to be used for Illumina basecalling/demultiplexing using  bcl2fastq versions >= 2.1.7.
+
+The command is returned as a character string to allow the user to control submission of the command to best fit the user's system.
+
+```{r, submitCommand, fig.show='hold',warning=FALSE,message=FALSE}
+toSubmit <- createBCLcommand(bcl2fastqparams,cleanedSampleSheet,baseMasks)
+toSubmit
+```
+
+
+# Running the basecallQC pipeline
+
+The **basecallQC** package provides a pipeline function, **basecallQC**, to allow the user to clean/convert the samplesheet, create the bcl2fastq command and parse any basecalling/demultiplexing results. The resulting **basecallQC** object can then be used to produce summary tables, plots and a report.
+
+The **basecallQC** function takes a **BCL2FastQparams** object for the Run, a cleaned sample sheet and any Run metadata that the user wishes to attach to their experiment and returns a **basecallQC** object.
+
+The resulting **basecallQC** object can be used with **basecallQC**'s plotting and reporting functions.
+
+```{r, basecallQC, fig.show='hold',warning=FALSE,message=FALSE}
+fileLocations <- system.file("extdata",package="basecallQC")
+runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
+config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
+sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
+outDir <- file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/C9L0AANXX/")
+bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
+bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
+class(bclQC)
+```
+
+# Plots, tables and reports from the basecallQC pipeline. 
+
+## Plotting and Tables.
+
+The **basecallQC** object contains information on demultiplexing, basecalling and run parameters.
+
+Summary HTML tables from demultiplexing and basecalling results can be generated using the **summaryDemuxTable** and **summaryConvStatsTable** respectively. The output argument can be set to "static" or "html" to allow for tables for use in non-interactive and interactive modes.
+
+
+```{r, tables, fig.show='hold',warning=FALSE,message=FALSE}
+summaryConvStatsTable(bclQC,output = "html")
+summaryDemuxTable(bclQC,output = "html")
+```
+
+The user may also visualise the results using **basecallQC**'s plotting functions for basecalling and demultiplexing summary metrics.
+
+The **passFilterBar** function produces a bar plot of yields per sample. The metric to plot and how to summarise data for plotting are controlled by the *metricToPlot* and *groupBy* arguments.
+
+```{r, plots1, fig.show='hold',warning=FALSE,message=FALSE, fig.width=5, fig.height=5}
+passFilterBar(bclQC,groupBy="Sample",metricToPlot = "Yield")
+
+```
+
+The **passFilterTilePlot** produces a plot of the specified metric across the Lanes and Tiles of the investigated Run.
+
+```{r, plots2, fig.show='hold',warning=FALSE,message=FALSE, fig.width=5, fig.height=5}
+
+passFilterTilePlot(bclQC,metricToPlot = "Yield")
+
+```
+
+The **demuxBarplot** function produces a bar plot of yield from demultiplexing. For demultiplexing statistics only the *groupBy* arguments can be used.
+
+```{r, plots3, fig.show='hold',warning=FALSE,message=FALSE, fig.width=5, fig.height=5}
+
+demuxBarplot(bclQC,groupBy="Sample")
+```
+
+## Producing an HTML report.
+
+The **basecallQC** package allows the user to generate a report per Illumina Run from the **basecallQC** object containing the most important demultiplexing and basecalling metrics using the **reportBCL** function. 
+
+This report may be customised and the resulting RMD passed to the **reportBCL** function's *reportRMDfile* argument. This RMD will then be used in place of the standard basecallQC report.
+
+```{r, plots4, eval=F, warning=FALSE,message=FALSE}
+reportBCL(bclQC)
+```
+
+# Session Info
+
+```{r sessionInfo,echo=F,fig.height=30,fig.width=15}
+sessionInfo()
+```

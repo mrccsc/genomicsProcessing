@@ -3,7 +3,7 @@
 \docType{methods}
 \name{createBCLcommand}
 \alias{createBCLcommand}
-\title{Functions to create command for Illumina demultiplexing using fastq2BCL versions > 2.18 .}
+\title{Functions to create command for Illumina demultiplexing using bcl2fastq versions > 2.1.7.}
 \usage{
 createBCLcommand(bcl2fastqparams, cleanedSampleSheet, baseMasks)
 }
@@ -18,7 +18,7 @@ createBCLcommand(bcl2fastqparams, cleanedSampleSheet, baseMasks)
 bclCommand A character vector containing the command for Illumina basecalling
 }
 \description{
-Creates the command to be used for demultiplexing with fastq2BCL versions > 2.18
+Creates the command to be used for demultiplexing with bcl2fastq versions > 2.1.7
 }
 \examples{
 

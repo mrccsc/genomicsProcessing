@@ -16,7 +16,7 @@ createBasemasks(cleanedSampleSheet, param)
 basemasks A data.frame containing basecall masks for reads and indexes.
 }
 \description{
-Parses the Illumina samplesheet for versions > 2.18 and creates basemasks.
+Parses the Illumina samplesheet for versions >= 2.1.7 and creates basemasks.
 }
 \examples{
 

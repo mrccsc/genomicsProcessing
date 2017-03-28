@@ -86,7 +86,7 @@ summaryConvStatsTable <- function(BCLQC,output="static"){
 #'
 #' @param BCLQC A basecall QC object as returned from basecallQC function
 #' @param output Whether the report contains frozen or sortable tables. Options are "static" and "html"
-#' @return Table A table for reporting demultiplexing results in an HTML.
+#' @return Table A table for reporting fastq QC results from ShortRead in an HTML report.
 #' @import stringr XML RColorBrewer methods raster
 #' @examples
 #'

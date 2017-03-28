@@ -6,8 +6,7 @@
 \alias{indexlengths.bcl2fastqparams}
 \alias{indexlengths,BCL2FastQparams-method,}
 \alias{indexlengths,BCL2FastQparams-method}
-\title{Index lengths
-Indexlengths as defined runParameters.xml}
+\title{Index lengths}
 \usage{
 \S4method{indexlengths}{BCL2FastQparams}(object)
 
@@ -17,10 +16,9 @@ Indexlengths as defined runParameters.xml}
 \item{object}{A BCL2FastQparams object}
 }
 \value{
-readlengths <- Readlengths as defined runParamaeters.xml
+indexlengths. Index lengths as defined runParamaeters.xml
 }
 \description{
-Index lengths
 Indexlengths as defined runParameters.xml
 }
 \examples{

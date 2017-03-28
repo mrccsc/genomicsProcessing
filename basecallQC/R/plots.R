@@ -56,7 +56,7 @@ passFilterBar <- function(BCLQC,groupBy=c("Lane"),metricToPlot="Yield"){
 #'
 #' @author Thomas Carroll and Marian Dore
 #' @param BCLQC baseCallQC A  basecall QC object
-#' @param groupBy Character vector of lane and/or Sample
+#' @param groupBy Character vector of how data is grouped for plotting.
 #' @param metricToPlot Character vector defining which metric will be displayed in plot.
 #' @return ggPlotObject A ggplot2 object.
 #' @import stringr XML RColorBrewer methods raster BiocStyle
@@ -92,7 +92,7 @@ passFilterBoxplot <- function(BCLQC,groupBy=c("Lane"),metricToPlot="Yield"){
 
 #' Tile plot of Illumina basecalling statistics for reads passing filter.
 #'
-#' Produces a plot of Tiles for basecalling statistics of reads passing/failing filter.
+#' Produces a plot of metrics per Tile for basecalling statistics of reads passing/failing filter.
 #'
 #'
 #' @docType methods

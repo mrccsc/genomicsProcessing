@@ -5,13 +5,10 @@
 \alias{BCL2FastQparams-class}
 \alias{BCL2FastQparams}
 \alias{BCL2FastQparams-BCL2FastQparams}
-\title{The Parameters for BCL2FastQparamters object.}
+\title{The Parameters for BCL2FastQparameters object.}
 \value{
 A BCL2FastQparams object.
 }
 \description{
 Parameter class and accessors for use with basecallQC
-}
-\references{
-See \url{http://mrccsc.github.io} for more details on soGGi workflows
 }

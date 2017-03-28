@@ -1,38 +1,38 @@
-## ---- cleaning, fig.show='hold',warning=FALSE,message=FALSE--------------
+## ---- cleaning, fig.show='hold',warning=FALSE,message=FALSE----------------
 library(basecallQC)
 fileLocations <- system.file("extdata",package="basecallQC")
 config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
 fileLocations <- system.file(file.path("extdata","testSampleSheets"),package="basecallQC")
 runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
 sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
-read.delim(sampleSheet[1],sep=",",header = T,comment.char = "[")
+read.delim(sampleSheet[1],sep=",",header = TRUE,comment.char = "[")
 
 
-## ---- cleaning2, fig.show='hold',warning=FALSE,message=FALSE-------------
+## ---- cleaning2, fig.show='hold',warning=FALSE,message=FALSE---------------
 
 bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
 cleanedSampleSheet <- validateBCLSheet(sampleSheet[1],param=bcl2fastqparams)
 head(cleanedSampleSheet)
 
 
-## ---- updating, fig.show='hold',warning=FALSE,message=FALSE--------------
+## ---- updating, fig.show='hold',warning=FALSE,message=FALSE----------------
 library(basecallQC)
 fileLocations <- system.file("extdata",package="basecallQC")
 config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
 fileLocations <- system.file(file.path("extdata","testSampleSheets"),package="basecallQC")
 runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
 sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
-read.delim(sampleSheet[2],sep=",",header = T,comment.char = "[")
+read.delim(sampleSheet[2],sep=",",header = TRUE,comment.char = "[")
 
 
-## ---- updating2, fig.show='hold',warning=FALSE,message=FALSE-------------
+## ---- updating2, fig.show='hold',warning=FALSE,message=FALSE---------------
 
 bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
 cleanedSampleSheet <- validateBCLSheet(sampleSheet[2],param=bcl2fastqparams)
 head(cleanedSampleSheet)
 
 
-## ---- basemasks, fig.show='hold',warning=FALSE,message=FALSE-------------
+## ---- basemasks, fig.show='hold',warning=FALSE,message=FALSE---------------
 fileLocations <- system.file("extdata",package="basecallQC")
 runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
 config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
@@ -42,11 +42,11 @@ cleanedSampleSheet <- validateBCLSheet(sampleSheet,param=bcl2fastqparams)
 baseMasks <- createBasemasks(cleanedSampleSheet,param=bcl2fastqparams)
 baseMasks$index1Mask
 
-## ---- submitCommand, fig.show='hold',warning=FALSE,message=FALSE---------
+## ---- submitCommand, fig.show='hold',warning=FALSE,message=FALSE-----------
 toSubmit <- createBCLcommand(bcl2fastqparams,cleanedSampleSheet,baseMasks)
 toSubmit
 
-## ---- basecallQC, fig.show='hold',warning=FALSE,message=FALSE------------
+## ---- basecallQC, fig.show='hold',warning=FALSE,message=FALSE--------------
 fileLocations <- system.file("extdata",package="basecallQC")
 runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
 config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
@@ -56,7 +56,7 @@ bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbos
 bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
 class(bclQC)
 
-## ---- tables, fig.show='hold',warning=FALSE,message=FALSE----------------
+## ---- tables, fig.show='hold',warning=FALSE,message=FALSE------------------
 summaryConvStatsTable(bclQC,output = "html")
 summaryDemuxTable(bclQC,output = "html")
 
@@ -73,9 +73,9 @@ passFilterTilePlot(bclQC,metricToPlot = "Yield")
 
 demuxBarplot(bclQC,groupBy="Sample")
 
-## ---- plots4, eval=F, warning=FALSE,message=FALSE------------------------
+## ---- plots4, eval=F, warning=FALSE,message=FALSE--------------------------
 #  reportBCL(bclQC)
 
-## ----sessionInfo,echo=F,fig.height=30,fig.width=15-----------------------
+## ----sessionInfo,echo=F,fig.height=30,fig.width=15-------------------------
 sessionInfo()
 

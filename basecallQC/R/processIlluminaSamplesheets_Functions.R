@@ -1,7 +1,9 @@
 
-#' Illumina samplesheet cleaning
+#' Illumina samplesheet cleaning and updating for
+#' bcl2Fastq versions >= 2.1.7
 #'
-#' Parses the Illumina samplesheet from run folders to create standardised samplesheet for BCL2Fastq > Version 2.18
+#' Parses an Illumina sample sheet  to create
+#' standardised/updated samplesheet for bcl2Fastq >= Version 2.1.7
 #'
 #'
 #' @docType methods
@@ -9,9 +11,9 @@
 #' @rdname validateBCLSheet
 #'
 #' @author Thomas Carroll and Marian Dore
-#' @param sampleSheet Data.frame of samplesheet for Illumina basecalling (see vignette for more details)
+#' @param sampleSheet File location of samplesheet for Illumina basecalling (see vignette for more details)
 #' @param param A BCL2FastQparams object
-#' @return cleanedSampleSheet A cleaned samplesheet.
+#' @return cleanedSampleSheet A data.frame containing cleaned samplesheet.
 #' @import stringr XML RColorBrewer methods raster BiocStyle lazyeval
 #' @examples
 #'
@@ -53,7 +55,7 @@ validateBCLSheet <- function(sampleSheet,param=bcl2fastqparams){
 
 #' Functions to create basemasks for basecalling from Illumina samplesheet.
 #'
-#' Parses the Illumina samplesheet for versions > 2.18 and creates basemasks.
+#' Parses the Illumina samplesheet for versions >= 2.1.7 and creates basemasks.
 #'
 #'
 #' @docType methods
@@ -102,9 +104,9 @@ createBasemasks <- function(cleanedSampleSheet,param){
       }
 }
 
-#' Functions to create command for Illumina demultiplexing using fastq2BCL versions > 2.18 .
+#' Functions to create command for Illumina demultiplexing using bcl2fastq versions > 2.1.7.
 #'
-#' Creates the command to be used for demultiplexing with fastq2BCL versions > 2.18
+#' Creates the command to be used for demultiplexing with bcl2fastq versions > 2.1.7
 #'
 #'
 #' @docType methods

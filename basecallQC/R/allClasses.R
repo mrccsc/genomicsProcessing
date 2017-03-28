@@ -1,10 +1,9 @@
-#' The Parameters for BCL2FastQparamters object.
+#' The Parameters for BCL2FastQparameters object.
 #'
 #' Parameter class and accessors for use with basecallQC
 #'
 #' @aliases BCL2FastQparams BCL2FastQparams-BCL2FastQparams
 #'
-#' @references See \url{http://mrccsc.github.io} for more details on soGGi workflows
 #' @rdname BCL2FastQparams
 #' @docType class
 #' @return A BCL2FastQparams object.
@@ -14,12 +13,13 @@ setClass("BCL2FastQparams", representation(RunDir="character",OutDir="character"
 
 #' The basecallQC object.
 #'
-#' Objects and methods to handle Illumina BCL inputs and output files.
-#' Provides sample sheet cleanup, basecall command summary QC statistics for basecalling.
+#' Objects and methods to handle Illumina basecalling/demultiplexing
+#' inputs and output files.
+#' Provides sample sheet cleanup, basecall command and
+#' summary QC statistics for basecalling/demultiplexing.
 #'
 #' @aliases basecallQC basecallQC-basecallQC
 #'
-#' @references See \url{http://mrccsc.github.io} for more details on soGGi workflows
 #' @rdname basecallQC
 #' @docType class
 #' @return A basecallQC object.
@@ -30,13 +30,12 @@ setClass("basecallQC", representation(BCL2FastQparams="BCL2FastQparams",RunMetad
                                       baseCallMetrics="list",demultiplexMetrics="list",fqQCmetrics="list"))
 
 
-#' Set Parameters for BCL2FastQparamters object.
+#' Set Parameters for BCL2FastQparameters object.
 #'
 #' Parameter class and accessors
 #'
 #' @aliases setBCL2FastQparams setBCL2FastQparams-setBCL2FastQparams
 #'
-#' @references See \url{http://mrccsc.github.io} for more details on soGGi workflows
 #' @rdname setBCL2FastQparams
 #' @docType methods
 #' @param runXML file path to runParameters.xml ,if not specified
@@ -81,7 +80,7 @@ setBCL2FastQparams <- function(runXML=NULL,config=NULL,runDir=NULL,outDir=NULL,v
   )
 
 }
-#' The bclCall function is a constructor for basecallQC objects.
+#' The basecallQC function is a constructor for basecallQC objects.
 #'
 #' @name basecallQC
 #' @rdname basecallQC

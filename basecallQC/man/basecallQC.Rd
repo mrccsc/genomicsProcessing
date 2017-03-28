@@ -27,10 +27,12 @@ A basecallQC object.
 basecallQC a basecallQC object
 }
 \description{
-Objects and methods to handle Illumina BCL inputs and output files.
-Provides sample sheet cleanup, basecall command summary QC statistics for basecalling.
+Objects and methods to handle Illumina basecalling/demultiplexing
+inputs and output files.
+Provides sample sheet cleanup, basecall command and
+summary QC statistics for basecalling/demultiplexing.
 
-The bclCall function is a constructor for basecallQC objects.
+The basecallQC function is a constructor for basecallQC objects.
 }
 \examples{
 fileLocations <- system.file("extdata",package="basecallQC")
@@ -40,7 +42,4 @@ sampleSheet <- dir(fileLocations,pattern="*\\\\.csv",full.names=TRUE)
 outDir <- file.path(fileLocations,"Runs/161105_D00467_0205_AC9L0AANXX/C9L0AANXX/")
 bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),outDir,verbose=FALSE)
 bclQC <- basecallQC(bcl2fastqparams,RunMetaData=NULL,sampleSheet)
-}
-\references{
-See \url{http://mrccsc.github.io} for more details on soGGi workflows
 }

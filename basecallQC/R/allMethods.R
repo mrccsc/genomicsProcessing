@@ -1,5 +1,6 @@
 #' Read lengths
-#' Readlengths as defined runParameters.xml
+#'
+#' Readlengths as defined by runParameters.xml
 #'
 #' @usage
 #' \S4method{readlengths}{BCL2FastQparams}(object)
@@ -17,7 +18,7 @@
 #' bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
 #' readlength <- readlengths(bcl2fastqparams)
 #' @param object A BCL2FastQparams object
-#' @return readlengths <- Readlengths as defined runParamaeters.xml
+#' @return readlengths. Readlengths as defined runParamaeters.xml
 #' @export
 readlengths.bcl2fastqparams <-  function (object)
 {
@@ -31,6 +32,7 @@ setGeneric("readlengths", function(object="BCL2FastQparams") standardGeneric("re
 setMethod("readlengths", signature(object="BCL2FastQparams"), readlengths.bcl2fastqparams)
 
 #' Index lengths
+#'
 #' Indexlengths as defined runParameters.xml
 #'
 #' @usage
@@ -49,7 +51,7 @@ setMethod("readlengths", signature(object="BCL2FastQparams"), readlengths.bcl2fa
 #' bcl2fastqparams <- setBCL2FastQparams(runXML,config,runDir=getwd(),verbose=FALSE)
 #' indexlength <- indexlengths(bcl2fastqparams)
 #' @param object A BCL2FastQparams object
-#' @return readlengths <- Readlengths as defined runParamaeters.xml
+#' @return indexlengths. Index lengths as defined runParamaeters.xml
 #' @export
 indexlengths.bcl2fastqparams <-  function (object)
 {

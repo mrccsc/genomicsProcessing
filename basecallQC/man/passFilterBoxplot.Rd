@@ -10,7 +10,7 @@ passFilterBoxplot(BCLQC, groupBy = c("Lane"), metricToPlot = "Yield")
 \arguments{
 \item{BCLQC}{baseCallQC A  basecall QC object}
 
-\item{groupBy}{Character vector of lane and/or Sample}
+\item{groupBy}{Character vector of how data is grouped for plotting.}
 
 \item{metricToPlot}{Character vector defining which metric will be displayed in plot.}
 }

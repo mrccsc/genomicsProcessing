@@ -13,7 +13,7 @@ makeFQTable(BCLQC, output = "static")
 \item{output}{Whether the report contains frozen or sortable tables. Options are "static" and "html"}
 }
 \value{
-Table A table for reporting demultiplexing results in an HTML.
+Table A table for reporting fastq QC results from ShortRead in an HTML report.
 }
 \description{
 Creates a table of per sample summary statistics from fastq QC statistics from ShortRead
