@@ -12,11 +12,11 @@ vignette: >
 
 ## The basecallQC package
 
-The basecallQC package provides a set of tools to streamline basecalling and demultiplexing using the Illumina bcl2Fastq software.
+The basecallQC package provides a set of tools to streamline basecalling and demultiplexing using the Illumina bcl2Fastq software (versions > 2.1.8).
 
-The basecall package includes functions too:- 
+The basecallQC package includes functions too:- 
 
-- "Clean" Illumina bcl2Fastq versions > 2.1.8 samplesheets e.g. Remove invalid sample names, whitespaces, correct column headers
+- "Clean" Illumina bcl2Fastq (versions > 2.1.8) samplesheets e.g. Remove invalid sample names, whitespaces, correct column headers
 - Convert Samplesheets from Illumina bcl2Fastq versions < 1.8.9 to be compatable to Illumina bcl2Fastq versions > 2.1.8.
 - Create base masks to used for Illumina basecalling with bcl2Fastq versions > 2.1.8.
 - Create summary tables and plots from Illumina basecalling with bcl2Fastq versions > 2.1.8.
@@ -30,9 +30,9 @@ The construction of sample sheets for basecalling and demultiplexing requires sp
 
 The basecallQC package uses the **validateBCLSheet** function to both "clean" sample sheets to have valid column and sample names as well as to update sample sheets for versions < 1.8.9 to be compatable with version > 2.18   
 
-To update a samplesheet, first the parameters for the Run must be captured using the **setBCL2FastQparams** command. The resulting  BCL2FastQparams object contains information on the Run parsed from the RunParameters.xml such as the expected index length. 
+To update a samplesheet, first the parameters for the Run must be captured using the **setBCL2FastQparams** command. The resulting  BCL2FastQparams object contains information on the Run parsed from the RunParameters.xml such as the actual index length which may be required to correct the sample sheet. 
 
-Once the BCL2FastQparams object has been created, a data.frame or matrix can be passed to the **validateBCLSheet** alongside the BCL2FastQparams object to create a valid sample sheet object, as illustrated in Figure 1. which may be written to file.
+Once the BCL2FastQparams object has been created, a data.frame or matrix can be passed to the **validateBCLSheet** alongside the BCL2FastQparams object to create a valid sample sheet object,  which may then be written to file.
 
 ```{r, cleaning, fig.show='hold',warning=FALSE,message=FALSE}
 library(basecallQC)
