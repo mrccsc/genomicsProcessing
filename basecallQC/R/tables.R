@@ -104,10 +104,10 @@ makeFQTable <- function(BCLQC,output="static"){
   fqQCTable <- BCLQC@fqQCmetrics$FQQC_Table
     if(!is.null(fqQCTable)){
       if(output=="static"){
-        table <- kable(fqQCTable,escape = F)
+        table <- kable(fqQCTable,escape = FALSE)
       }
       if(output=="html"){
-        table <- DT:::datatable(fqQCTable,escape=F)
+        table <- DT:::datatable(fqQCTable,escape=FALSE)
       }
       return(table)
     }else{

@@ -12,31 +12,31 @@ vignette: >
 
 ## The basecallQC package
 
-The basecallQC package provides a set of tools to streamline basecalling and demultiplexing using the Illumina bcl2Fastq software (versions > 2.1.8).
+The basecallQC package provides a set of tools to streamline basecalling and demultiplexing using the Illumina bcl2Fastq software (versions > 2.1.7).
 
 The basecallQC package includes functions too:- 
 
-- "Clean" Illumina bcl2Fastq (versions > 2.1.8) samplesheets e.g. Remove invalid sample names, whitespaces, correct column headers
-- Convert Samplesheets from Illumina bcl2Fastq versions < 1.8.9 to be compatable to Illumina bcl2Fastq versions > 2.1.8.
-- Create base masks to used for Illumina basecalling with bcl2Fastq versions > 2.1.8.
-- Create summary tables and plots from Illumina basecalling with bcl2Fastq versions > 2.1.8.
+- "Clean" Illumina bcl2Fastq (versions > 2.1.7) samplesheets e.g. Remove invalid sample names/IDs, whitespaces, correct column headers
+- Convert Samplesheets from Illumina bcl2Fastq versions < 1.8.9 to be compatable to Illumina bcl2Fastq versions > 2.1.7.
+- Create base masks to used for Illumina basecalling with bcl2Fastq versions > 2.1.7.
+- Create summary tables and plots from Illumina basecalling with bcl2Fastq versions > 2.1.7.
 
 
 ## Cleaning and updating the Sample Sheet
 
-The Illumina bcl2Fastq program requires a sample sheet to dictate sample names, indexes and parameters for basecalling and demultiplexing. 
+The Illumina bcl2Fastq program requires a sample sheet to dictate sample names/IDs, indexes and parameters for basecalling and demultiplexing. 
 
-The construction of sample sheets for basecalling and demultiplexing requires specific column names,valid names Sample IDs and correct indexes. The complexity of working with Illumina sample sheets is compounded by the use of different sample sheet specifications before and after version 1.8.9 of the bcl2Fastq program.
+The construction of sample sheets for basecalling and demultiplexing requires specific column names,valid Sample names/IDs and correct indexes. The complexity of working with Illumina sample sheets is compounded by the use of different sample sheet specifications before and after version 1.8.9 of the bcl2Fastq program.
 
-The basecallQC package uses the **validateBCLSheet** function to both "clean" sample sheets to have valid column and sample names as well as to update sample sheets for versions < 1.8.9 to be compatable with version > 2.18   
+The basecallQC package uses the **validateBCLSheet** function to both "clean" sample sheets to have valid column and sample names as well as to update sample sheets for versions < 1.8.9 to be compatable with version > 2.1.7   
 
-To update a samplesheet, first the parameters for the Run must be captured using the **setBCL2FastQparams** command. The resulting  BCL2FastQparams object contains information on the Run parsed from the RunParameters.xml such as the actual index length which may be required to correct the sample sheet. 
+To update a sample sheet, first the parameters for the Run must be captured using the **setBCL2FastQparams** command. The resulting  BCL2FastQparams object contains information on the Run parsed from the runParameters.xml such as the actual index length which may be required to correct the sample sheet. 
 
 Once the BCL2FastQparams object has been created, a data.frame or matrix can be passed to the **validateBCLSheet** alongside the BCL2FastQparams object to create a valid sample sheet object,  which may then be written to file.
 
 ### Cleaning a sample sheet.
 
-In this first example we pass the **validateBCLSheet** function a sample sheets for versions < 1.8.9 and update it to be compatable with version > 2.18
+In this first example we pass the **validateBCLSheet** function a sample sheets for versions < 1.8.9 and update it to be compatable with version > 2.1.7
 
 ```{r, cleaning, fig.show='hold',warning=FALSE,message=FALSE}
 library(basecallQC)
@@ -45,7 +45,7 @@ config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
 fileLocations <- system.file(file.path("extdata","testSampleSheets"),package="basecallQC")
 runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
 sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
-read.delim(sampleSheet[1],sep=",",header = T,comment.char = "[")
+read.delim(sampleSheet[1],sep=",",header = TRUE,comment.char = "[")
 
 ```
 
@@ -63,7 +63,7 @@ In the cleaned samplesheet the column headers have been corrected and invalid Sa
 
 ### Updating a sample sheet.
 
-Updating a sample sheet from those used with versions <= 1.8.9 to one compatable with versions >= 2.1.8 is done following the same procedure as cleaning a sample sheet.
+Updating a sample sheet from those used with versions <= 1.8.9 to one compatable with versions >= 2.1.7 is done following the same procedure as cleaning a sample sheet.
 
 
 ```{r, updating, fig.show='hold',warning=FALSE,message=FALSE}
@@ -73,11 +73,11 @@ config <- dir(fileLocations,pattern="config.ini",full.names=TRUE)
 fileLocations <- system.file(file.path("extdata","testSampleSheets"),package="basecallQC")
 runXML <- dir(fileLocations,pattern="runParameters.xml",full.names=TRUE)
 sampleSheet <- dir(fileLocations,pattern="*\\.csv",full.names=TRUE)
-read.delim(sampleSheet[2],sep=",",header = T,comment.char = "[")
+read.delim(sampleSheet[2],sep=",",header = TRUE,comment.char = "[")
 
 ```
 
-The sample sheet from versions <= 1.8.9 contains many header which will need to be updated to those used versions >= 2.1.8 as well as superflous header which are maintained as metadata.
+The sample sheet from versions <= 1.8.9 contains many header which will need to be updated to those used versions >= 2.1.7 as well as superflous header which are maintained as metadata.
 
 The specification of indexes in sample sheets from versions <= 1.8.9 were in a single column with indexes separated by a hyphon. This specification has changed to the explicit inclusion of an index2 column when using dual indexes so this to must be udpated.
 
@@ -93,7 +93,7 @@ In the resulting updated sample sheet we can see column names have been updated,
 
 ## Base masking and the bcl2Fastq2 command.
 
-The basecallQC package can also provide the base masks and basecalling command for bcl2Fastq2 versions > 2.1.8 from the cleaned sample sheet and the BCL2FastQparams object.
+The basecallQC package can also provide the base masks and basecalling command for bcl2Fastq2 versions > 2.1.7 from the cleaned sample sheet and the BCL2FastQparams object.
 
 The **createBaseMasks** function creates a tibble data.frame of basemasks per lane from a cleaned sample sheet, as from validateBCLsheet, and a BCL2FastQparams object.
 
@@ -108,7 +108,7 @@ baseMasks <- createBasemasks(cleanedSampleSheet,param=bcl2fastqparams)
 baseMasks$index1Mask
 ```
 
-Following the creation of a base masks tibble data.frame, the **createBCLcommand** function takes the cleaned sample sheet, a BCL2FastQparams object and the base masks data.frame to create the command to be used for Illumina basecalling/demultiplexing using  bcl2Fastq2 versions > 2.1.8.
+Following the creation of a base masks tibble data.frame, the **createBCLcommand** function takes the cleaned sample sheet, a BCL2FastQparams object and the base masks data.frame to create the command to be used for Illumina basecalling/demultiplexing using  bcl2Fastq2 versions > 2.1.7.
 
 The command is returned as a character string to allow the user to control submission of command to best fit the user's system.
 
@@ -166,7 +166,7 @@ passFilterTilePlot(bclQC,metricToPlot = "Yield")
 
 ```
 
-The **demuxBarplot** function produces a bar plot of yield from demultiplexing. For demultiplexing statistics only the *groupBy* arguments cna be used.
+The **demuxBarplot** function produces a bar plot of yield from demultiplexing. For demultiplexing statistics only the *groupBy* arguments can be used.
 
 ```{r, plots3, fig.show='hold',warning=FALSE,message=FALSE, fig.width=5, fig.height=5}
 

@@ -76,3 +76,6 @@ demuxBarplot(bclQC,groupBy="Sample")
 ## ---- plots4, eval=F, warning=FALSE,message=FALSE------------------------
 #  reportBCL(bclQC)
 
+## ----sessionInfo,echo=F,fig.height=30,fig.width=15-----------------------
+sessionInfo()
+

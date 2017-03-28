@@ -25,7 +25,7 @@
 #' @export
 validateBCLSheet <- function(sampleSheet,param=bcl2fastqparams){
   #runParam <- runParameters(param)
-  fread(sampleSheet,sep=",",header=T,stringsAsFactors=F,skip="Sample") %>%
+  fread(sampleSheet,sep=",",header=TRUE,stringsAsFactors=FALSE,skip="Sample") %>%
     tbl_df %>%
   {if(exists('Project', where = .) & !exists('Sample_Project', where = .)) dplyr:::rename(.,Sample_Project = Project) else .} %>%
   {if(exists('SampleID', where = .) & !exists('Sample_ID', where = .)) dplyr:::rename(.,Sample_ID = SampleID) else .} %>%
@@ -133,8 +133,8 @@ createBasemasks <- function(cleanedSampleSheet,param){
 createBCLcommand <- function(bcl2fastqparams,cleanedSampleSheet,baseMasks){
   sampleSheetLocation <- paste0(file.path(bcl2fastqparams@RunDir,bcl2fastqparams@RunParameters$runParams$Barcode),".csv")
   bclPath <- bcl2fastqparams@RunParameters$configParams[bcl2fastqparams@RunParameters$configParams$name == "configureBclToFastq","value"]
-  write.table("[DATA]",file=sampleSheetLocation,sep="",quote=F,row.names=F)
-  write.table(cleanedSampleSheet,file=sampleSheetLocation,sep=",",quote=F,row.names=F,append = T)
+  write.table("[DATA]",file=sampleSheetLocation,sep="",quote=FALSE,row.names=FALSE)
+  write.table(cleanedSampleSheet,file=sampleSheetLocation,sep=",",quote=FALSE,row.names=FALSE,append = TRUE)
   baseMasksToUse <- str_c("--use-bases-mask ",dplyr:::select(tbl_df(baseMasks),basemask)$basemask,collapse = " ")
   bclcommand <- str_c(as.vector(bclPath$value),"--output-dir ",bcl2fastqparams@OutDir,"--sample-sheet",sampleSheetLocation,baseMasksToUse,sep=" ")
   return(bclcommand)

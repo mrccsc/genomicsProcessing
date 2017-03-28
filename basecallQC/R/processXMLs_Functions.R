@@ -21,19 +21,13 @@
 #'
 #' @export
 processDemultiplex <- function(demuxStatsXML){
-  # if(is.null(demuxStatsXML)){
-  #   demuxStatsXML <- dir(fileLocations,
-  #       pattern="DemultiplexingStats.xml",
-  #       full.names=TRUE,
-  #       recursive = T)
-  # }
+
   if(file.exists(demuxStatsXML)){
 
   demuxStatsXMLparse <- xmlTreeParse(demuxStatsXML)
   demuxStatsXML_root <- xmlRoot(demuxStatsXMLparse)
   Projects <- demuxStatsXML_root[[1]]
   flowcellID <- xmlAttrs(Projects)
-  library(dplyr)
   Projects_Info <- list()
   for(p in 1:length(Projects)){
     Project <- Projects[[p]]
@@ -105,12 +99,6 @@ processDemultiplex <- function(demuxStatsXML){
 
 processConvStats <- function(ConvStatsXML){
 
-  # if(is.null(ConvStatsXML)){
-  #   ConvStatsXML <- dir(fileLocations,
-  #                        pattern="ConversionStats.xml",
-  #                        full.names=TRUE,
-  #                        recursive = T)
-  # }
   if(file.exists(ConvStatsXML)){
   convStatsXMLparse <- xmlTreeParse(ConvStatsXML)
   convStatsXML_root <- xmlRoot(convStatsXMLparse)
@@ -118,7 +106,6 @@ processConvStats <- function(ConvStatsXML){
   flowcellID <- xmlAttrs(Projects)
 
   Projects <- Projects[names(Projects) == "Project"]
-  library(dplyr)
   Projects_Info <- list()
   for(p in 1:length(Projects)){
     Project <- Projects[[p]]
@@ -320,13 +307,10 @@ summariseConvStats <- function(convStatsProcessed){
 #'
 #' @export
 runParameters <- function(runParameters = NULL){
-  # if(is.null(runParameters)){
-  #   runParameters = dir(pattern="runParameters.xml",
-  #                       full.names=T)
-  # }
+
   xmlFromRunParameters <- xmlParse(runParameters)
   currentRunParameters <- xmlToDataFrame(xmlFromRunParameters)
-  currentRunParameters <- currentRunParameters[!is.na(currentRunParameters$ExperimentName),,drop=F]
+  currentRunParameters <- currentRunParameters[!is.na(currentRunParameters$ExperimentName),,drop=FALSE]
   currentRunParameters %>% tbl_df
 }
 
