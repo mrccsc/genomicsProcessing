@@ -1,13 +1,10 @@
 ---
-title: "Untitled"
-author: "tom carroll"
-date: "24 March 2017"
+title: "Basecalling and Demultiplexing Summary Report"
+author: "basecallQC"
 output:
   prettydoc::html_pretty:
     theme: leonids
     highlight: github
-    toc: true
-    toc_depth: 1
 ---
 
 
@@ -15,44 +12,61 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## BasecallQC
+## basecallQC Summary Report
 
-summaryConvStatsTable
-```{r LaneT,fig.height=10,fig.width=10}
+The basecallQC summary report contains summary metrics on demultiplexing and basecalling for an Illumina Run. 
+
+### Conversion Metrics
+
+The yield of all samples before and after passing filter are presented in the table below. 
+
+```{r LaneT,echo=F,fig.height=10,fig.width=10}
 summaryConvStatsTable(BCLQCreport,output="html")
 ```
 
-```{r Lane,fig.height=10,fig.width=10}
+The bar plot shown below illustrates  the total Yield of samples before and after passing filter.
+```{r Lane,echo=F,fig.height=10,fig.width=10}
 passFilterBar(BCLQCreport,groupBy = "Sample",
               metricToPlot = "Yield")+theme_bw()
 
 
 ```
 
-```{r Sample,fig.height=10,fig.width=10}
+The boxplot shows the distribution of Yield of samples before and after passing filter.
+
+```{r Sample,echo=F,fig.height=10,fig.width=10}
 passFilterBoxplot(BCLQCreport,groupBy = "Sample",
               metricToPlot = "Yield")+theme_bw()
 ```
 
-```{r Sample2,fig.height=10,fig.width=10}
+The below plot shows the Yield per Tile/Lane for the Illumina Run to allow for the identification of potentially problematic Tiles per lane. 
+
+```{r Sample2,echo=F,fig.height=10,fig.width=10}
 passFilterTilePlot(BCLQCreport,
               metricToPlot = "Yield")
 ```
 
-```{r table,fig.height=10,fig.width=10}
+### Demultiplexing Metrics
+
+
+The demultiplexing count for all samples are shown in the below table. 
+
+```{r table,echo=F,fig.height=10,fig.width=10}
 summaryDemuxTable(BCLQCreport,output="html")
 ```
 
-```{r tile,fig.height=10,fig.width=10}
+The below bar plot shows the results  per sample for demultiplexing of the Run and so should help visually identify any samples which are less represented than expected.
+
+```{r tile,echo=F,fig.height=10,fig.width=10}
 demuxBarplot(BCLQCreport,groupBy = "Sample")+theme_bw()
 ```
 
-```{r tile2,fig.height=10,fig.width=10}
-demuxBoxplot(BCLQCreport,groupBy = "Sample")+theme_bw()
-```
-
-```{r fastqc,fig.height=30,fig.width=15}
+```{r fastqc,echo=F,fig.height=30,fig.width=15}
 if(doFQQC==TRUE){
   makeFQTable(BCLQCreport)
 }
+```
+
+```{r sessionInfo,echo=F,fig.height=30,fig.width=15}
+sessionInfo()
 ```

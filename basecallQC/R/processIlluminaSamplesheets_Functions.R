@@ -25,7 +25,7 @@
 #' @export
 validateBCLSheet <- function(sampleSheet,param=bcl2fastqparams){
   #runParam <- runParameters(param)
-  fread(sampleSheet,sep=",",header=T,stringsAsFactors=F) %>%
+  fread(sampleSheet,sep=",",header=T,stringsAsFactors=F,skip="Sample") %>%
     tbl_df %>%
   {if(exists('Project', where = .) & !exists('Sample_Project', where = .)) dplyr:::rename(.,Sample_Project = Project) else .} %>%
   {if(exists('SampleID', where = .) & !exists('Sample_ID', where = .)) dplyr:::rename(.,Sample_ID = SampleID) else .} %>%
@@ -34,6 +34,7 @@ validateBCLSheet <- function(sampleSheet,param=bcl2fastqparams){
   {if(exists('Name', where = .) & !exists('Sample_Name', where = .)) dplyr:::rename(.,Sample_Name = Name) else .} %>%
   {if(exists('index', where = .) & !exists('Index', where = .)) dplyr:::rename(.,Index = index) else .} %>%
   {if(exists('index2', where = .) & !exists('Index2', where = .)) dplyr:::rename(.,Index2 = index2) else .} %>%
+  {if(!exists('Index2', where = .)) tidyr:::separate(.,Index, c("Index", "Index2"), "-",fill="right") else .} %>%
     mutate(Sample_Project = if (exists('Sample_Project', where = .)) Sample_Project else NA,
            Lane = if (exists('Lane', where = .)) Lane else NA,
            Sample_ID = if (exists('Sample_ID', where = .)) Sample_ID else NA,
